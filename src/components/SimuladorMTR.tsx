@@ -64,8 +64,8 @@ const CategoriasLegend = () => {
             <thead>
               <tr className="bg-stone-50 text-stone-500 border-b border-stone-200">
                 <th className="p-2 font-semibold">Categoría</th>
-                <th className="p-2 font-semibold text-center border-l border-stone-200">Hombres</th>
-                <th className="p-2 font-semibold text-center border-l border-stone-200">Mujeres</th>
+                <th className="p-2 font-semibold text-center border-l border-stone-200">Hombre</th>
+                <th className="p-2 font-semibold text-center border-l border-stone-200">Mujer</th>
               </tr>
             </thead>
             <tbody>
@@ -216,13 +216,13 @@ export default function SimuladorMTR() {
             onClick={() => setGender('H')}
             className={`px-3 py-1 text-[10px] font-bold uppercase rounded transition-colors ${gender === 'H' ? 'bg-white text-[#10A49B] shadow-sm' : 'text-stone-500 hover:text-stone-700'}`}
           >
-            Hombres
+            Hombre
           </button>
           <button
             onClick={() => setGender('M')}
             className={`px-3 py-1 text-[10px] font-bold uppercase rounded transition-colors ${gender === 'M' ? 'bg-white text-[#10A49B] shadow-sm' : 'text-stone-500 hover:text-stone-700'}`}
           >
-            Mujeres
+            Mujer
           </button>
         </div>
       </div>
