@@ -122,7 +122,7 @@ export default function SimuladorMTR() {
   }, [safeDistance, safeDPlus, safeDMinus, safeHours, safeMinutes, safeSeconds, safeTerrain, safeClimate, safeAltitude, safeNight]);
 
   const score = scoreData?.score || 0;
-  
+
   const totalSegundos = (safeHours * 3600) + (safeMinutes * 60) + safeSeconds;
   const rapResult = calcularRAP(safeDistance, safeDPlus, totalSegundos);
 
@@ -178,10 +178,10 @@ export default function SimuladorMTR() {
     A = Math.min(A, 1.30);
 
     const C = (targetScore / 1000) * vBaseIdeal / (M * A);
-    if (C <= 0) return; 
+    if (C <= 0) return;
 
     let N = 1.0;
-    let totalTime = (kmE * N) / C; 
+    let totalTime = (kmE * N) / C;
 
     for (let i = 0; i < 3; i++) {
       N = 1 + 0.02 * Math.min(1, safeNight / totalTime);
@@ -201,13 +201,13 @@ export default function SimuladorMTR() {
 
   const radius = 80;
   const strokeWidth = 14;
-  const circumference = Math.PI * radius; 
+  const circumference = Math.PI * radius;
   const clampedScore = Math.min(Math.max(score, 0), 1000);
   const dashOffset = circumference - (clampedScore / 1000) * circumference;
 
   return (
     <div className="w-full max-w-lg mx-auto bg-white rounded-xl overflow-hidden shadow-xl border border-stone-200 font-sans">
-      
+
       {/* Header Compact */}
       <div className="flex justify-between items-center p-4 border-b border-stone-200 bg-stone-50">
         <h2 className="text-sm font-black tracking-tight text-stone-800 uppercase">Simulador Puntos Andes</h2>
@@ -229,7 +229,7 @@ export default function SimuladorMTR() {
 
       {/* Sticky Score Area for Mobile/Desktop Compact */}
       <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-stone-200 p-4 shadow-sm flex flex-col items-center">
-        
+
         {/* Semi-circle Gauge */}
         <div className="relative w-[200px] h-[110px] flex flex-col items-center justify-end">
           <svg width="200" height="110" viewBox="0 0 200 110" className="absolute top-0 left-0 overflow-visible">
@@ -255,10 +255,10 @@ export default function SimuladorMTR() {
       </div>
 
       <div className="p-4 bg-stone-50">
-        
+
         {/* Inputs Grid */}
         <div className="flex flex-col gap-4">
-          
+
           {/* Recorrido */}
           <div className="bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
             <h3 className="text-[10px] font-black text-stone-400 mb-2 uppercase tracking-widest border-b border-stone-100 pb-1">Recorrido</h3>
@@ -299,7 +299,7 @@ export default function SimuladorMTR() {
               <NumberInput label="Altitud Media (m)" value={meanAltitude} max={6000} step={50} onChange={setMeanAltitude} />
               <NumberInput label="Horas Noche" value={nightHours} max={100} step={0.5} onChange={setNightHours} />
             </div>
-            
+
             <details className="mt-3 group text-[10px]">
               <summary className="cursor-pointer font-bold text-[#10A49B] uppercase tracking-wider flex items-center gap-1 hover:text-[#0c8a82] transition-colors">
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -321,9 +321,9 @@ export default function SimuladorMTR() {
               <span className="text-stone-500 text-[9px] font-bold uppercase tracking-wider mb-0.5">Ritmo Real (GPS)</span>
               <span className="text-stone-800 text-lg font-bold tabular-nums leading-none">{rapResult.ritmoRealStr} <span className="text-[10px] font-medium text-stone-500">/km</span></span>
             </div>
-            
+
             <div className="h-8 w-px bg-stone-300 mx-2"></div>
-            
+
             <div className="flex flex-col items-end">
               <div className="flex items-center gap-1 mb-0.5">
                 <span className="text-[#10A49B] text-[9px] font-bold uppercase tracking-wider">RAP Equivalente</span>
