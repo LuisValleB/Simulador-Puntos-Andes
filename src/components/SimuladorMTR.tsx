@@ -8,7 +8,7 @@ const NumberInput = ({ label, value, max, onChange, step = 1, min = 0 }: any) =>
   const displayValue = isNaN(value) ? '' : value;
   return (
     <div className="flex flex-col">
-      <label className="text-[9px] font-bold text-stone-500 uppercase mb-1 whitespace-nowrap overflow-hidden text-ellipsis" title={label}>{label}</label>
+      <label className="text-[9px] font-bold text-stone-500 uppercase mb-1 leading-tight min-h-[24px] flex items-end" title={label}>{label}</label>
       <input
         type="number"
         min={min}
@@ -293,12 +293,23 @@ export default function SimuladorMTR() {
           {/* Condiciones Especiales */}
           <div className="bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
             <h3 className="text-[10px] font-black text-stone-400 mb-2 uppercase tracking-widest border-b border-stone-100 pb-1">Condiciones (Penalizaciones)</h3>
-            <div className="grid grid-cols-4 gap-2">
-              <NumberInput label="Terr (1-5)" value={terrain} max={5} min={1} onChange={setTerrain} />
-              <NumberInput label="Clima(1-5)" value={climate} max={5} min={1} onChange={setClimate} />
-              <NumberInput label="Alt (m)" value={meanAltitude} max={6000} step={50} onChange={setMeanAltitude} />
-              <NumberInput label="Noche(hr)" value={nightHours} max={100} step={0.5} onChange={setNightHours} />
+            <div className="grid grid-cols-2 gap-3">
+              <NumberInput label="Terreno (1-5)" value={terrain} max={5} min={1} onChange={setTerrain} />
+              <NumberInput label="Clima (1-5)" value={climate} max={5} min={1} onChange={setClimate} />
+              <NumberInput label="Altitud Media (m)" value={meanAltitude} max={6000} step={50} onChange={setMeanAltitude} />
+              <NumberInput label="Horas Noche" value={nightHours} max={100} step={0.5} onChange={setNightHours} />
             </div>
+            
+            <details className="mt-3 group text-[10px]">
+              <summary className="cursor-pointer font-bold text-[#10A49B] uppercase tracking-wider flex items-center gap-1 hover:text-[#0c8a82] transition-colors">
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                ¿Qué significan los niveles 1 al 5?
+              </summary>
+              <div className="mt-2 p-2 bg-stone-50 border border-stone-200 rounded text-stone-600 leading-tight">
+                <p className="mb-1"><strong className="text-stone-800">Terreno:</strong> Nivel 1 es ideal (calle, pista) hasta Nivel 5 que es extremo (campo traviesa difícil, roca suelta, nieve profunda).</p>
+                <p><strong className="text-stone-800">Clima:</strong> Nivel 1 es ideal (templado, sin viento) hasta Nivel 5 que es extremo (calor/frío extremo, tormenta, vientos fuertes).</p>
+              </div>
+            </details>
           </div>
 
         </div>
