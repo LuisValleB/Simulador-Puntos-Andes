@@ -88,14 +88,14 @@ const CategoriasLegend = () => {
 };
 
 export default function SimuladorMTR() {
-  const [distance, setDistance] = useState<number>(174);
-  const [dPlus, setDPlus] = useState<number>(10200);
-  const [dMinus, setDMinus] = useState<number>(10200);
-  const [hours, setHours] = useState<number>(19);
-  const [minutes, setMinutes] = useState<number>(18);
-  const [seconds, setSeconds] = useState<number>(58);
-  const [terrain, setTerrain] = useState<number>(1);
-  const [climate, setClimate] = useState<number>(1);
+  const [distance, setDistance] = useState<number>(37.91);
+  const [dPlus, setDPlus] = useState<number>(2065);
+  const [dMinus, setDMinus] = useState<number>(2065);
+  const [hours, setHours] = useState<number>(3);
+  const [minutes, setMinutes] = useState<number>(31);
+  const [seconds, setSeconds] = useState<number>(16);
+  const [terrain, setTerrain] = useState<number>(2);
+  const [climate, setClimate] = useState<number>(3);
   const [meanAltitude, setMeanAltitude] = useState<number>(0);
   const [nightHours, setNightHours] = useState<number>(0);
   const [gender, setGender] = useState<'H' | 'M'>('H');
