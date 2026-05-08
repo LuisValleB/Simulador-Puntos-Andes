@@ -292,7 +292,7 @@ export default function SimuladorMTR() {
 
           {/* Condiciones Especiales */}
           <div className="bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
-            <h3 className="text-[10px] font-black text-stone-400 mb-2 uppercase tracking-widest border-b border-stone-100 pb-1">Condiciones (Penalizaciones)</h3>
+            <h3 className="text-[10px] font-black text-stone-400 mb-2 uppercase tracking-widest border-b border-stone-100 pb-1">CONDICIONES (FACTORES DE DIFICULTAD)</h3>
             <div className="grid grid-cols-2 gap-3">
               <NumberInput label="Terreno (1-5)" value={terrain} max={5} min={1} onChange={setTerrain} />
               <NumberInput label="Clima (1-5)" value={climate} max={5} min={1} onChange={setClimate} />
@@ -303,11 +303,53 @@ export default function SimuladorMTR() {
             <details className="mt-3 group text-[10px]">
               <summary className="cursor-pointer font-bold text-[#10A49B] uppercase tracking-wider flex items-center gap-1 hover:text-[#0c8a82] transition-colors">
                 <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                ¿Qué significan los niveles 1 al 5?
+                Guía de Condiciones y Factores Especiales
               </summary>
-              <div className="mt-2 p-2 bg-stone-50 border border-stone-200 rounded text-stone-600 leading-tight">
-                <p className="mb-1"><strong className="text-stone-800">Terreno:</strong> Nivel 1 es ideal (calle, pista) hasta Nivel 5 que es extremo (campo traviesa difícil, roca suelta, nieve profunda).</p>
-                <p><strong className="text-stone-800">Clima:</strong> Nivel 1 es ideal (templado, sin viento) hasta Nivel 5 que es extremo (calor/frío extremo, tormenta, vientos fuertes).</p>
+              <div className="mt-2 p-3 bg-stone-50 border border-stone-200 rounded text-stone-600 leading-relaxed max-h-[400px] overflow-y-auto">
+                <h4 className="font-bold text-stone-800 mb-1">TERRENO</h4>
+                <ul className="mb-3 space-y-1">
+                  <li><strong className="text-stone-700">1. Rápido</strong> — Camino liso de tierra compactada, ripio parejo o pavimento. Puedes correr sin mirar el suelo.</li>
+                  <li><strong className="text-stone-700">2. Fluido</strong> — Sendero con algunas raíces y piedras sueltas. Tienes que esquivar cosas pero sin frenar mucho.</li>
+                  <li><strong className="text-stone-700">3. Técnico</strong> — Rocas grandes, escalones de tierra, raíces que cruzan el camino, partes donde hay que mirar bien dónde pisas.</li>
+                  <li><strong className="text-stone-700">4. Pesado</strong> — Barro que te hunde, nieve blanda, arena volcánica suelta, o pasto alto que frena tus pasos.</li>
+                  <li><strong className="text-stone-700">5. Extremo</strong> — Piedras sueltas que ruedan, rocas mojadas resbalosas, hielo, o tienes que usar las manos para avanzar.</li>
+                </ul>
+
+                <h4 className="font-bold text-stone-800 mb-1">CLIMA</h4>
+                <ul className="mb-3 space-y-1">
+                  <li><strong className="text-stone-700">1. Ideal</strong> — Fresco pero no frío (8–15 °C), sin lluvia, viento suave. Perfecto para correr.</li>
+                  <li><strong className="text-stone-700">2. Leve</strong> — Un poco caluroso (16–23 °C) o un poco frío (4–7 °C); viento que se siente; lluvia de vez en cuando.</li>
+                  <li><strong className="text-stone-700">3. Moderado</strong> — Caluroso (24–28 °C) o helado (0–3 °C); lluvia que no para; aire húmedo que pesa; viento fuerte que te empuja.</li>
+                  <li><strong className="text-stone-700">4. Severo</strong> — Muy caluroso (más de 29 °C) o bajo cero; aire muy pesado; viento que casi no te deja avanzar; nieve cayendo.</li>
+                  <li><strong className="text-stone-700">5. Extremo</strong> — Calor que te quema (sensación de más de 34 °C) o frío que congela (sensación de -5 °C o menos); tormenta con rayos, ventisca de nieve, o viento huracanado.</li>
+                </ul>
+
+                <h4 className="font-bold text-stone-800 mt-5 mb-1">ALTITUD MEDIA (m)</h4>
+                <div className="space-y-2 mb-3 text-stone-700">
+                  <p><strong className="text-stone-800">Qué es:</strong> La elevación promedio (en metros sobre el nivel del mar) a la que se desarrolla toda la carrera.</p>
+                  <p><strong className="text-stone-800">Cómo calcularla:</strong></p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li><strong className="text-stone-800">Forma precisa (Recomendada):</strong> Si cuentas con el track GPS, busca el dato "Elevación media" o "Altitud promedio" en tu reloj o plataformas como Strava, Gear Tracker, Garmin o Suunto.</li>
+                    <li><strong className="text-stone-800">Forma rápida (Aproximación):</strong> Suma la cota más baja y la cota más alta del recorrido, y divide el resultado entre dos.</li>
+                  </ul>
+                  <p><strong className="text-stone-800">Ejemplo:</strong> Si partes a 800m y la cumbre está a 2.400m ➝ (800 + 2.400) ÷ 2 = 1.600m de altitud media.</p>
+                  <p><strong className="text-stone-800">Por qué importa:</strong> A mayor altitud, menor es la presión de oxígeno. Esto obliga a tu sistema cardiovascular a trabajar mucho más duro para mantener el esfuerzo, aumentando la dificultad de la ruta.</p>
+                  <p className="bg-white p-2 rounded border border-stone-200 shadow-sm mt-2">🏔️ <strong className="text-stone-800">Regla Puntos Andes:</strong> La altitud comienza a ser un factor de bonificación de manera progresiva. Ten en cuenta que los valores de altitud media inferiores a 1.500 metros no suman puntos extra en este indicador.</p>
+                </div>
+
+                <h4 className="font-bold text-stone-800 mt-5 mb-1">HORAS DE NOCHE</h4>
+                <div className="space-y-2 text-stone-700">
+                  <p><strong className="text-stone-800">Qué es:</strong> El tiempo total (en horas) de tu carrera que transcurre sin luz natural, ya sea corriendo de madrugada o después del anochecer.</p>
+                  <p><strong className="text-stone-800">Cómo calcularlo:</strong> Cruza tu hora de largada con tu tiempo estimado de llegada en meta, y cuenta exclusivamente las horas en las que estarás corriendo a oscuras.</p>
+                  <p><strong className="text-stone-800">Ejemplos prácticos</strong> (asumiendo que amanece a las 6:00 AM y oscurece a las 8:00 PM):</p>
+                  <ul className="list-disc pl-5 space-y-1">
+                    <li><strong className="text-stone-800">Todo de día:</strong> Largada 6:00 AM ➝ Meta 12:00 PM = 0 horas (corres solo de día).</li>
+                    <li><strong className="text-stone-800">Madrugada:</strong> Largada 5:00 AM ➝ Meta 2:00 PM = 1 hora (corres a oscuras de 5:00 AM a 6:00 AM).</li>
+                    <li><strong className="text-stone-800">Ultra:</strong> Largada 00:00 (medianoche) ➝ Meta 12:00 PM = 6 horas (corres a oscuras desde las 00:00 hasta las 6:00 AM).</li>
+                  </ul>
+                  <p><strong className="text-stone-800">Por qué importa:</strong> Correr de noche exige mayor concentración, disminuye la visibilidad en terrenos técnicos, suele traer bajas temperaturas y acelera la fatiga mental. Todo este esfuerzo extra hace que tu carrera tenga una mayor valoración en el algoritmo de puntos.</p>
+                  <p className="bg-white p-2 rounded border border-stone-200 shadow-sm mt-2">💡 <strong className="text-stone-800">Tip:</strong> Si tienes dudas o el tramo oscuro es insignificante, ingresa 0. Para carreras largas, simplemente calcula todo el tiempo en el que dependerás de tu linterna frontal.</p>
+                </div>
               </div>
             </details>
           </div>
