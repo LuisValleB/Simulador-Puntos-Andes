@@ -204,6 +204,8 @@ export default function SimuladorMTR() {
   const circumference = Math.PI * radius;
   const clampedScore = Math.min(Math.max(score, 0), 1000);
   const dashOffset = circumference - (clampedScore / 1000) * circumference;
+  
+  const gradientVal = safeDistance > 0 ? (safeDPlus / (safeDistance * 10)) : 0;
 
   return (
     <div className="w-full max-w-lg mx-auto bg-white rounded-xl overflow-hidden shadow-xl border border-stone-200 font-sans">
@@ -266,6 +268,28 @@ export default function SimuladorMTR() {
               <NumberInput label="Dist (km)" value={distance} max={300} step={0.1} onChange={setDistance} />
               <NumberInput label="D+ (m)" value={dPlus} max={20000} step={100} onChange={setDPlus} />
               <NumberInput label="D- (m)" value={dMinus} max={20000} step={100} onChange={setDMinus} />
+            </div>
+
+            {/* Gradient Graph */}
+            <div className="w-full mt-3 pt-2 border-t border-stone-100">
+              <div className="flex justify-between items-end mb-1.5">
+                <span className="text-[9px] font-black tracking-widest text-stone-400 uppercase">Gradiente</span>
+                <span className="text-[11px] font-bold text-stone-700 leading-none">{gradientVal.toFixed(1)}%</span>
+              </div>
+              <div className="h-2 w-full bg-stone-200 rounded-full overflow-hidden flex relative border border-stone-300">
+                <div className="h-full bg-[#10A49B] transition-all duration-500" style={{ width: `${Math.min((gradientVal / 40) * 100, 37.5)}%` }}></div>
+                {gradientVal > 15 && (
+                  <div className="h-full bg-amber-500 transition-all duration-500" style={{ width: `${Math.min(((gradientVal - 15) / 40) * 100, 37.5)}%` }}></div>
+                )}
+                {gradientVal > 30 && (
+                  <div className="h-full bg-red-500 transition-all duration-500" style={{ width: `${Math.min(((gradientVal - 30) / 40) * 100, 25)}%` }}></div>
+                )}
+              </div>
+              <div className="flex justify-between mt-1 px-0.5">
+                <span className="text-[8px] text-stone-400 font-bold">0%</span>
+                <span className="text-[8px] text-stone-400 font-bold">15% Muro</span>
+                <span className="text-[8px] text-stone-400 font-bold">40% Extremo</span>
+              </div>
             </div>
           </div>
 
