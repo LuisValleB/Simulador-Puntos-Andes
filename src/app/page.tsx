@@ -1,5 +1,6 @@
 "use client";
 import React from 'react';
+import Link from 'next/link';
 import SimuladorMTR from '@/components/SimuladorMTR';
 
 export default function Home() {
@@ -18,7 +19,19 @@ export default function Home() {
         </div>
       </div>
 
-      <main className="w-full max-w-4xl">
+      <main className="w-full max-w-4xl space-y-6">
+        {/* Acceso a la nueva herramienta GPX */}
+        <div className="flex justify-end px-1">
+          <Link 
+            href="/simulador-carrera"
+            className="text-[10px] font-bold text-[#10A49B] hover:text-teal-700 uppercase tracking-widest transition-colors flex items-center gap-1.5 border border-[#10A49B]/20 rounded-lg px-3 py-1.5 hover:bg-[#10A49B]/5"
+          >
+            <span className="text-xs">🗺️</span>
+            <span>Simulador de Carrera</span>
+            <span className="text-[8px] text-stone-400">→</span>
+          </Link>
+        </div>
+
         <SimuladorMTR />
       </main>
 

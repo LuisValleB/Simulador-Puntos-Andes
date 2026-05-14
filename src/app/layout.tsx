@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     siteName: "Puntos Andes",
     images: [
       {
-        url: "/logo.png",
+        url: "https://puntosandes.com/logo.png",
         width: 800,
         height: 800,
         alt: "Logo Puntos Andes",
