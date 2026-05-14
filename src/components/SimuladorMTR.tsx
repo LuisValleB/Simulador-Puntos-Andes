@@ -312,6 +312,11 @@ export default function SimuladorMTR() {
         </div>
       </div>
 
+      {/* Categories Legend */}
+      <div className="px-4 pt-3 pb-0 bg-stone-50">
+        <CategoriasLegend />
+      </div>
+
       {/* Sticky Score Area for Mobile/Desktop Compact */}
       <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-stone-200 p-4 shadow-sm flex flex-col items-center">
 
@@ -544,8 +549,7 @@ export default function SimuladorMTR() {
           <span className="text-lg">📸</span> Compartir / Descargar Resultado
         </button>
 
-        {/* Categories Legend */}
-        <CategoriasLegend />
+
 
       </div>
 
