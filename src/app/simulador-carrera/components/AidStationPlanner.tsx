@@ -64,7 +64,7 @@ export default function AidStationPlanner({ stations, onChange, totalDistanceKm,
                   <span className="text-[10px] text-[#10A49B]">⏱</span>
                   <input
                     type="number" min={0} max={totalEstimatedMinutes} step={1}
-                    value={isNaN(station.segmentMinutes) ? '' : station.segmentMinutes}
+                    value={station.segmentMinutes || ''}
                     onChange={e => updateStation(station.id, 'segmentMinutes', parseInt(e.target.value) || 0)}
                     className="w-14 text-xs border border-[#10A49B]/30 bg-white rounded px-1 py-0.5 text-center font-mono font-bold focus:outline-none focus:border-[#10A49B] focus:ring-1 focus:ring-[#10A49B]/20"
                     placeholder="min"
@@ -82,7 +82,7 @@ export default function AidStationPlanner({ stations, onChange, totalDistanceKm,
               <div className="flex items-center gap-1 min-w-[65px]">
                 <span className="text-[10px] font-bold text-[#e67e22] uppercase">km</span>
                 <input type="number" min={0} max={totalDistanceKm} step={0.1}
-                  value={isNaN(station.km) ? '' : station.km}
+                  value={station.km || ''}
                   onChange={e => updateStation(station.id, 'km', parseFloat(e.target.value) || 0)}
                   className="w-14 text-xs border border-[#e67e22]/30 bg-white rounded px-1.5 py-1 text-center font-mono font-bold focus:outline-none focus:border-[#e67e22] focus:ring-1 focus:ring-[#e67e22]/30" />
               </div>

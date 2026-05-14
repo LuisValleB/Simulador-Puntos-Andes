@@ -20,6 +20,7 @@ export default function SimuladorCarreraPage() {
   const [gender, setGender] = useState<'M' | 'F'>('M');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [dataMode, setDataMode] = useState<'file' | 'manual'>('manual');
 
   // Datos manuales (cuando no hay archivo)
   const [manualDist, setManualDist] = useState<number>(0);
@@ -111,7 +112,7 @@ export default function SimuladorCarreraPage() {
           </Link>
           <div className="text-right">
             <h1 className="text-lg font-black text-stone-800 uppercase tracking-tight">Simulador de Carrera</h1>
-            <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Planificación GPX / KML</p>
+            <p className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Planificación y Nutrición</p>
           </div>
         </div>
 
@@ -127,66 +128,94 @@ export default function SimuladorCarreraPage() {
         </div>
 
         {/* ══════ DATOS DEL RECORRIDO ══════ */}
-        <div className="bg-white border border-stone-200 rounded-xl p-4 shadow-sm space-y-3">
-          <div className="flex justify-between items-center border-b border-stone-100 pb-1.5">
-            <div>
-              <p className="text-xs font-black text-stone-700 uppercase tracking-tight">📍 Datos del Recorrido</p>
-              <p className="text-[9px] font-medium text-stone-400 mt-0.5">Carga un archivo o ingresa los datos manualmente</p>
+        <div className="bg-white border border-stone-200 rounded-xl shadow-sm overflow-hidden">
+          {/* Tabs */}
+          <div className="flex border-b border-stone-200">
+            <button onClick={() => { setDataMode('manual'); }}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-black uppercase tracking-wider transition-all
+                ${dataMode === 'manual' && !trackData ? 'bg-white text-[#10A49B] border-b-2 border-[#10A49B]' : 'bg-stone-50 text-stone-400 hover:text-stone-600'}`}>
+              <span className="text-sm">✏️</span> Ingreso Manual
+            </button>
+            <button onClick={() => setDataMode('file')}
+              className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-black uppercase tracking-wider transition-all
+                ${dataMode === 'file' || trackData ? 'bg-white text-[#10A49B] border-b-2 border-[#10A49B]' : 'bg-stone-50 text-stone-400 hover:text-stone-600'}`}>
+              <span className="text-sm">📁</span> Archivo GPX / KML
+            </button>
+          </div>
+
+          <div className="p-4 space-y-3">
+            {/* File upload area */}
+            {(dataMode === 'file' || trackData) && (
+              <div className="space-y-2">
+                <label className={`flex items-center gap-3 border-2 border-dashed rounded-lg px-4 py-3 cursor-pointer transition-colors
+                  ${loading ? 'opacity-50 bg-stone-50 border-stone-200' : trackData ? 'border-[#10A49B]/30 bg-[#10A49B]/[0.03]' : 'border-stone-300 hover:border-[#10A49B] hover:bg-stone-50/50'}`}>
+                  <span className="text-xl">{trackData ? '✅' : '📁'}</span>
+                  <div className="flex-1 min-w-0">
+                    <span className="font-bold text-xs text-stone-700 block">
+                      {trackData ? 'Archivo cargado' : 'Selecciona tu archivo GPX o KML'}
+                    </span>
+                    {trackData && (
+                      <span className="text-[10px] text-stone-400">
+                        {trackData.totalDistance.toFixed(1)} km · D+ {trackData.dPlus.toLocaleString()}m · D- {trackData.dMinus.toLocaleString()}m
+                      </span>
+                    )}
+                    {!trackData && (
+                      <span className="text-[10px] text-stone-400">Extrae automáticamente altimetría y desniveles</span>
+                    )}
+                  </div>
+                  <input type="file" accept=".gpx,.kml" onChange={handleFileUpload} className="hidden" />
+                </label>
+                {trackData && (
+                  <button onClick={resetAll}
+                    className="w-full text-[9px] font-bold text-stone-400 hover:text-red-500 border border-stone-200 rounded py-1 hover:bg-red-50 transition-colors text-center">
+                    ✕ Quitar archivo y resetear
+                  </button>
+                )}
+                {loading && <p className="text-xs font-bold text-[#10A49B] animate-pulse text-center">Procesando...</p>}
+                {error && <p className="text-xs font-bold text-red-500 bg-red-50 p-2 rounded border border-red-100 text-center">{error}</p>}
+              </div>
+            )}
+
+            {/* Manual or file-derived fields */}
+            {(!trackData && dataMode === 'manual') && (
+              <p className="text-[10px] text-stone-500 text-center bg-stone-50 rounded-lg py-2 px-3 border border-stone-100">
+                ℹ️ Ingresa los datos de tu carrera manualmente. Si tienes un archivo GPX/KML, usa la pestaña <strong>Archivo</strong>.
+              </p>
+            )}
+
+            <div className="grid grid-cols-3 gap-3">
+              <div className="flex flex-col">
+                <label className="text-[9px] font-bold text-stone-500 uppercase mb-1">Distancia (km)</label>
+                <input type="number" min={0} step={0.1}
+                  value={trackData ? trackData.totalDistance.toFixed(1) : (manualDist || '')}
+                  onChange={e => { if (!trackData) setManualDist(parseFloat(e.target.value) || 0); }}
+                  readOnly={!!trackData}
+                  className={`w-full border rounded-md px-2 py-2 text-sm font-mono font-bold text-center focus:outline-none ${trackData ? 'bg-stone-50 border-stone-200 text-stone-500' : 'bg-white border-stone-300 text-stone-800 focus:border-[#10A49B] focus:ring-1 focus:ring-[#10A49B]'}`}
+                  placeholder="42" />
+              </div>
+              <div className="flex flex-col">
+                <label className="text-[9px] font-bold text-stone-500 uppercase mb-1">D+ (m)</label>
+                <input type="number" min={0} step={10}
+                  value={trackData ? trackData.dPlus : (manualDPlus || '')}
+                  onChange={e => { if (!trackData) setManualDPlus(parseInt(e.target.value) || 0); }}
+                  readOnly={!!trackData}
+                  className={`w-full border rounded-md px-2 py-2 text-sm font-mono font-bold text-center focus:outline-none ${trackData ? 'bg-stone-50 border-stone-200 text-stone-500' : 'bg-white border-stone-300 text-stone-800 focus:border-[#10A49B] focus:ring-1 focus:ring-[#10A49B]'}`}
+                  placeholder="2400" />
+              </div>
+              <div className="flex flex-col">
+                <label className="text-[9px] font-bold text-stone-500 uppercase mb-1">D- (m)</label>
+                <input type="number" min={0} step={10}
+                  value={trackData ? trackData.dMinus : (manualDMinus || '')}
+                  onChange={e => { if (!trackData) setManualDMinus(parseInt(e.target.value) || 0); }}
+                  readOnly={!!trackData}
+                  className={`w-full border rounded-md px-2 py-2 text-sm font-mono font-bold text-center focus:outline-none ${trackData ? 'bg-stone-50 border-stone-200 text-stone-500' : 'bg-white border-stone-300 text-stone-800 focus:border-[#10A49B] focus:ring-1 focus:ring-[#10A49B]'}`}
+                  placeholder="2400" />
+              </div>
             </div>
-            {trackData && (
-              <button onClick={resetAll}
-                className="text-[9px] font-bold text-stone-400 hover:text-red-500 border border-stone-200 rounded px-2 py-0.5 hover:bg-red-50 transition-colors"
-              >✕ Reset</button>
+            {effDist > 0 && (
+              <p className="text-[9px] font-mono text-stone-400 text-center">KmE: {effKme.toFixed(1)}</p>
             )}
           </div>
-
-          {/* Upload file */}
-          <label className={`flex items-center gap-3 border-2 border-dashed rounded-lg px-3 py-2 cursor-pointer transition-colors
-            ${loading ? 'opacity-50 bg-stone-50 border-stone-200' : trackData ? 'border-[#10A49B]/30 bg-[#10A49B]/[0.03]' : 'border-stone-300 hover:border-[#10A49B] hover:bg-stone-50/50'}`}>
-            <span className="text-lg">{trackData ? '✅' : '📁'}</span>
-            <div className="flex-1 min-w-0">
-              <span className="font-bold text-[10px] text-stone-700 block">
-                {trackData ? 'Archivo cargado — click para reemplazar' : 'Subir archivo GPX / KML (opcional)'}
-              </span>
-            </div>
-            <input type="file" accept=".gpx,.kml" onChange={handleFileUpload} className="hidden" />
-          </label>
-          {loading && <p className="text-xs font-bold text-[#10A49B] animate-pulse text-center">Procesando...</p>}
-          {error && <p className="text-xs font-bold text-red-500 bg-red-50 p-2 rounded border border-red-100 text-center">{error}</p>}
-
-          {/* Manual inputs or file stats */}
-          <div className="grid grid-cols-3 gap-3">
-            <div className="flex flex-col">
-              <label className="text-[9px] font-bold text-stone-500 uppercase mb-1">Distancia (km)</label>
-              <input type="number" min={0} step={0.1}
-                value={trackData ? trackData.totalDistance.toFixed(1) : (manualDist || '')}
-                onChange={e => { if (!trackData) setManualDist(parseFloat(e.target.value) || 0); }}
-                readOnly={!!trackData}
-                className={`w-full border rounded-md px-2 py-2 text-sm font-mono font-bold text-center focus:outline-none ${trackData ? 'bg-stone-50 border-stone-200 text-stone-500' : 'bg-white border-stone-300 text-stone-800 focus:border-[#10A49B] focus:ring-1 focus:ring-[#10A49B]'}`}
-                placeholder="42" />
-            </div>
-            <div className="flex flex-col">
-              <label className="text-[9px] font-bold text-stone-500 uppercase mb-1">D+ (m)</label>
-              <input type="number" min={0} step={10}
-                value={trackData ? trackData.dPlus : (manualDPlus || '')}
-                onChange={e => { if (!trackData) setManualDPlus(parseInt(e.target.value) || 0); }}
-                readOnly={!!trackData}
-                className={`w-full border rounded-md px-2 py-2 text-sm font-mono font-bold text-center focus:outline-none ${trackData ? 'bg-stone-50 border-stone-200 text-stone-500' : 'bg-white border-stone-300 text-stone-800 focus:border-[#10A49B] focus:ring-1 focus:ring-[#10A49B]'}`}
-                placeholder="2400" />
-            </div>
-            <div className="flex flex-col">
-              <label className="text-[9px] font-bold text-stone-500 uppercase mb-1">D- (m)</label>
-              <input type="number" min={0} step={10}
-                value={trackData ? trackData.dMinus : (manualDMinus || '')}
-                onChange={e => { if (!trackData) setManualDMinus(parseInt(e.target.value) || 0); }}
-                readOnly={!!trackData}
-                className={`w-full border rounded-md px-2 py-2 text-sm font-mono font-bold text-center focus:outline-none ${trackData ? 'bg-stone-50 border-stone-200 text-stone-500' : 'bg-white border-stone-300 text-stone-800 focus:border-[#10A49B] focus:ring-1 focus:ring-[#10A49B]'}`}
-                placeholder="2400" />
-            </div>
-          </div>
-          {effDist > 0 && (
-            <p className="text-[9px] font-mono text-stone-400 text-center">KmE: {effKme.toFixed(1)}</p>
-          )}
         </div>
 
         {/* ══════ TIEMPO ESTIMADO ══════ */}
@@ -206,7 +235,7 @@ export default function SimuladorCarreraPage() {
             {[{ l: 'Horas', v: estHours, set: setEstHours, mx: 100 }, { l: 'Minutos', v: estMinutes, set: setEstMinutes, mx: 59 }, { l: 'Segundos', v: estSeconds, set: setEstSeconds, mx: 59 }].map(f => (
               <div key={f.l} className="flex flex-col">
                 <label className="text-[9px] font-bold text-stone-500 uppercase mb-1">{f.l}</label>
-                <input type="number" min={0} max={f.mx} value={isNaN(f.v) ? '' : f.v}
+                <input type="number" min={0} max={f.mx} value={f.v || ''}
                   onChange={e => f.set(parseInt(e.target.value) || 0)}
                   className="w-full bg-white border border-stone-300 rounded-md px-2 py-2 text-stone-800 text-lg font-mono font-bold focus:outline-none focus:border-[#10A49B] focus:ring-1 focus:ring-[#10A49B] shadow-sm text-center"
                   placeholder="0" />
@@ -278,7 +307,7 @@ export default function SimuladorCarreraPage() {
             </div>
             <div className="space-y-1">
               <label className="text-[9px] font-bold text-stone-500 uppercase block">Horas Noche</label>
-              <input type="number" min={0} max={48} step={0.5} value={isNaN(nightHours) ? '' : nightHours}
+              <input type="number" min={0} max={48} step={0.5} value={nightHours || ''}
                 onChange={e => setNightHours(parseFloat(e.target.value) || 0)}
                 className="w-full text-xs border border-stone-300 bg-white rounded p-1.5 text-center font-mono font-bold focus:outline-none focus:border-[#10A49B]" />
             </div>

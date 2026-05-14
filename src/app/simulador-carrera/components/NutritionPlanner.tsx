@@ -147,7 +147,7 @@ export default function NutritionPlanner({ stops, onChange, totalDistanceKm, pla
                 <div className="flex items-center gap-1">
                   <span className="text-[10px] font-bold text-[#8b5cf6]">km</span>
                   <input type="number" min={0} max={totalDistanceKm} step={0.5}
-                    value={isNaN(stop.km) ? '' : stop.km}
+                    value={stop.km || ''}
                     onChange={e => updateStop(stop.id, 'km', parseFloat(e.target.value) || 0)}
                     className="w-14 text-xs border border-[#8b5cf6]/30 bg-white rounded px-1.5 py-1 text-center font-mono font-bold focus:outline-none focus:border-[#8b5cf6]" />
                 </div>
@@ -155,7 +155,7 @@ export default function NutritionPlanner({ stops, onChange, totalDistanceKm, pla
                 <div className="flex items-center gap-1">
                   <span className="text-[10px] font-bold text-[#8b5cf6]">min</span>
                   <input type="number" min={0} max={totalEstimatedMinutes > 0 ? Math.ceil(totalEstimatedMinutes) : 1440} step={5}
-                    value={isNaN(stop.minuteMark) ? '' : stop.minuteMark}
+                    value={stop.minuteMark || ''}
                     onChange={e => updateStop(stop.id, 'minuteMark', parseFloat(e.target.value) || 0)}
                     className="w-16 text-xs border border-[#8b5cf6]/30 bg-white rounded px-1.5 py-1 text-center font-mono font-bold focus:outline-none focus:border-[#8b5cf6]" />
                 </div>
