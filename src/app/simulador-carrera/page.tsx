@@ -269,7 +269,8 @@ export default function SimuladorCarreraPage() {
             </div>
           </div>
           <AidStationPlanner stations={aidStations} onChange={setAidStations}
-            totalDistanceKm={effDist || 100} totalEstimatedMinutes={totalEstimatedMinutes} />
+            totalDistanceKm={effDist || 100} totalEstimatedMinutes={totalEstimatedMinutes}
+            points={trackData?.points} />
         </div>
 
         {/* ══════ PLAN DE NUTRICIÓN ══════ */}
@@ -334,6 +335,7 @@ export default function SimuladorCarreraPage() {
             sodiumPerHour={results.sodiumPerHour} totalCarbs={results.totalCarbs}
             sptcRange={results.sptcRange} kme={effKme} totalDistance={effDist}
             dPlus={effDPlus} dMinus={effDMinus}
+            altitudeAvg={effAltAvg}
             nutritionStops={nutritionStops} aidStations={aidStations}
             totalEstimatedMinutes={totalEstimatedMinutes}
             points={trackData?.points || []}

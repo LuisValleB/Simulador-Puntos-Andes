@@ -18,6 +18,7 @@ interface Props {
   totalDistance: number;
   dPlus: number;
   dMinus: number;
+  altitudeAvg?: number;
   nutritionStops: NutritionStop[];
   aidStations: AidStation[];
   totalEstimatedMinutes: number;
@@ -35,15 +36,27 @@ export default function ExportReport(props: Props) {
     if (!reportRef.current) return;
     setExporting(true);
     try {
-      const canvas = await html2canvas(reportRef.current, {
+      const source = reportRef.current;
+      // Clone and append to body so html2canvas doesn't clip via overflow containers
+      const clone = source.cloneNode(true) as HTMLElement;
+      clone.style.position = 'fixed';
+      clone.style.top = '0';
+      clone.style.left = '-9999px';
+      clone.style.zIndex = '-1';
+      clone.style.borderRadius = '0';
+      document.body.appendChild(clone);
+      const canvas = await html2canvas(clone, {
         scale: 2,
         useCORS: true,
+        allowTaint: true,
         logging: false,
         backgroundColor: layoutMode === 'story' ? '#111827' : '#FDFBF7',
+        scrollX: 0,
+        scrollY: 0,
       });
-
+      document.body.removeChild(clone);
       const link = document.createElement('a');
-      link.download = `puntos-andes-${layoutMode}-${Date.now()}.png`;
+      link.download = `plan-carrera-puntosandes-${layoutMode}-${Date.now()}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
     } catch (err) {
@@ -52,6 +65,38 @@ export default function ExportReport(props: Props) {
       setExporting(false);
     }
   };
+
+  // Segment details: D+, D-, km and estimated time between each aid station
+  const segmentDetails = (() => {
+    const sorted = [...props.aidStations].sort((a, b) => a.km - b.km);
+    const allStops = [{ km: 0, label: 'Salida', id: 'start', segmentMinutes: 0 }, ...sorted, { km: props.totalDistance, label: 'Meta', id: 'end', segmentMinutes: 0 }];
+    const pts = props.points || [];
+    return allStops.slice(0, -1).map((from, i) => {
+      const to = allStops[i + 1];
+      const segKm = +(to.km - from.km).toFixed(1);
+      // Calc D+/D- from GPX points in this segment
+      let segDPlus = 0, segDMinus = 0;
+      if (pts.length > 0) {
+        const inSeg = pts.filter(p => p.distance >= from.km && p.distance <= to.km);
+        for (let j = 1; j < inSeg.length; j++) {
+          const diff = inSeg[j].elevation - inSeg[j - 1].elevation;
+          if (diff > 0) segDPlus += diff;
+          else segDMinus += Math.abs(diff);
+        }
+      } else {
+        const ratio = segKm / (props.totalDistance || 1);
+        segDPlus = Math.round(props.dPlus * ratio);
+        segDMinus = Math.round(props.dMinus * ratio);
+      }
+      const segMin = props.totalEstimatedMinutes > 0
+        ? Math.round((segKm / (props.totalDistance || 1)) * props.totalEstimatedMinutes)
+        : 0;
+      const segH = Math.floor(segMin / 60);
+      const segM = segMin % 60;
+      const timeStr = segH > 0 ? `${segH}h ${segM}m` : `${segM}m`;
+      return { from: from.label, to: to.label, km: segKm, dPlus: Math.round(segDPlus), dMinus: Math.round(segDMinus), timeStr };
+    });
+  })();
 
   // Aggregate items
   const items: { label: string; type: string; qty: number; carbs: number; sodium: number; ml: number }[] = [];
@@ -166,8 +211,9 @@ export default function ExportReport(props: Props) {
             );
           })}
         </svg>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '8px', fontWeight: 700, color: textColor, marginTop: '2px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '7px', fontWeight: 700, color: textColor, marginTop: '2px' }}>
           <span>0 km</span>
+          <span style={{ color: isDark ? '#6ee7b7' : '#10A49B' }}>D+ {props.dPlus.toLocaleString()}m · D- {props.dMinus.toLocaleString()}m</span>
           <span>{props.totalDistance.toFixed(1)} km</span>
         </div>
       </div>
@@ -203,7 +249,7 @@ export default function ExportReport(props: Props) {
             <div className="grid grid-cols-3 gap-2 mb-4">
               {[
                 { id: 'standard', label: 'Estándar', desc: 'Ficha vertical' },
-                { id: 'story', label: 'Instagram Story', desc: 'Vertical 9:16' },
+                { id: 'story', label: 'Historia Instagram', desc: 'Vertical 9:16' },
                 { id: 'horizontal', label: 'Horizontal', desc: 'Apaisado 16:9' },
               ].map(opt => (
                 <button
@@ -218,7 +264,7 @@ export default function ExportReport(props: Props) {
             </div>
 
             {/* Live capture container wrapper */}
-            <div className="flex justify-center bg-stone-100 p-4 rounded-xl mb-4 overflow-x-auto max-h-[55vh]" style={{ alignItems: 'flex-start' }}>
+            <div className="flex justify-center bg-stone-100 p-4 rounded-xl mb-4 overflow-auto max-h-[55vh]" style={{ alignItems: 'flex-start' }}>
               
               {/* === LAYOUT 1: STANDARD === */}
               {layoutMode === 'standard' && (
@@ -254,9 +300,28 @@ export default function ExportReport(props: Props) {
 
                   {/* Graph */}
                   <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px', marginBottom: '12px' }}>
-                    <div style={{ fontSize: '8px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>📈 Altimetría y Nutrición</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
+                      <span style={{ fontSize: '8px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px' }}>📈 Altimetría</span>
+                      {props.altitudeAvg && props.altitudeAvg > 0 ? <span style={{ fontSize: '7px', fontWeight: 700, color: '#a8a29e' }}>Alt. media: {Math.round(props.altitudeAvg)}m</span> : null}
+                    </div>
                     {renderSvgProfile(338, 130)}
                   </div>
+
+                  {/* Segment detail table */}
+                  {segmentDetails.length > 1 && (
+                    <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px', marginBottom: '12px' }}>
+                      <div style={{ fontSize: '8px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>🗺️ Segmentos</div>
+                      {segmentDetails.map((seg, i) => (
+                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '3px 0', borderBottom: i < segmentDetails.length - 1 ? '1px solid #f5f5f4' : 'none', fontSize: '8px' }}>
+                          <span style={{ fontWeight: 700, color: '#1c1917', flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{seg.from} → {seg.to}</span>
+                          <span style={{ fontFamily: 'monospace', color: '#78716c', whiteSpace: 'nowrap' }}>{seg.km}km</span>
+                          <span style={{ color: '#16a34a', fontWeight: 700, whiteSpace: 'nowrap' }}>↑{seg.dPlus}m</span>
+                          <span style={{ color: '#dc2626', fontWeight: 700, whiteSpace: 'nowrap' }}>↓{seg.dMinus}m</span>
+                          <span style={{ color: '#6366f1', fontWeight: 700, whiteSpace: 'nowrap' }}>⏱{seg.timeStr}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
 
                   {/* Nutrition */}
                   <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px', marginBottom: '12px' }}>
@@ -294,7 +359,7 @@ export default function ExportReport(props: Props) {
                   </div>
 
                   {/* SPTC */}
-                  <div style={{ background: '#ecfdf5', border: '1px solid rgba(16,164,155,0.3)', borderRadius: '10px', padding: '10px', textAlign: 'center', marginBottom: '12px' }}>
+                  <div style={{ background: '#ecfdf5', border: '1px solid rgba(16,164,155,0.3)', borderRadius: '10px', padding: '10px', textAlign: 'center', marginBottom: '12px', position: 'relative', overflow: 'hidden' }}>
                     <div style={{ fontSize: '8px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', marginBottom: '4px' }}>Proyección Puntos Andes</div>
                     <div style={{ fontSize: '28px', fontWeight: 900, color: '#10A49B', lineHeight: 1 }}>{props.sptcRange.mid}</div>
                     <div style={{ fontSize: '7px', color: '#78716c', marginTop: '2px' }}>Rango: {props.sptcRange.low} - {props.sptcRange.high}</div>
@@ -317,10 +382,10 @@ export default function ExportReport(props: Props) {
                   </div>
 
                   {/* Time & Score promo block */}
-                  <div style={{ textAlign: 'center', marginTop: 'auto', marginBottom: 'auto' }}>
-                    <div style={{ fontSize: '9px', fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '2px' }}>Tiempo Objetivo</div>
-                    <div style={{ fontSize: '42px', fontWeight: 900, fontFamily: 'monospace', color: '#2dd4bf', textShadow: '0 4px 20px rgba(45,212,191,0.2)', lineHeight: 1 }}>{props.projectedTime}</div>
-                    <div style={{ display: 'inline-block', background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.3)', borderRadius: '20px', padding: '2px 10px', fontSize: '9px', fontWeight: 900, color: '#2dd4bf', marginTop: '6px' }}>
+                  <div style={{ textAlign: 'center', padding: '8px 0' }}>
+                    <div style={{ fontSize: '9px', fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '4px' }}>Tiempo Objetivo</div>
+                    <div style={{ fontSize: '38px', fontWeight: 900, fontFamily: 'monospace', color: '#2dd4bf', lineHeight: 1, marginBottom: '6px' }}>{props.projectedTime}</div>
+                    <div style={{ display: 'inline-block', background: 'rgba(45,212,191,0.15)', border: '1px solid rgba(45,212,191,0.4)', borderRadius: '20px', padding: '3px 12px', fontSize: '9px', fontWeight: 900, color: '#2dd4bf' }}>
                       Puntos Andes: {props.sptcRange.mid}
                     </div>
                   </div>
@@ -374,68 +439,101 @@ export default function ExportReport(props: Props) {
                 </div>
               )}
 
-              {/* === LAYOUT 3: HORIZONTAL === */}
+              {/* === LAYOUT 3: HORIZONTAL (Completo) === */}
               {layoutMode === 'horizontal' && (
-                <div ref={reportRef} style={{ width: '600px', height: '337px', background: '#FDFBF7', padding: '20px', borderRadius: '16px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexShrink: 0 }}>
-                  {/* Top Header */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #e7e5e4', paddingBottom: '10px' }}>
-                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-                      <span style={{ fontSize: '16px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase' }}>Plan de Carrera</span>
-                      <span style={{ fontSize: '10px', fontWeight: 700, color: '#10A49B' }}>{props.totalDistance.toFixed(1)} km · {props.dPlus}m D+</span>
+                <div ref={reportRef} style={{ width: '800px', background: '#FDFBF7', padding: '24px', borderRadius: '16px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', flexShrink: 0 }}>
+                  {/* Header */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #e7e5e4', paddingBottom: '12px', marginBottom: '16px' }}>
+                    <div>
+                      <div style={{ fontSize: '18px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase', letterSpacing: '-0.5px' }}>Plan de Carrera</div>
+                      <div style={{ fontSize: '10px', color: '#a8a29e', fontWeight: 700 }}>Simulador Puntos Andes · www.puntosandes.com</div>
                     </div>
-                    <img src="/logo.png" alt="Logo" style={{ height: '30px', objectFit: 'contain' }} crossOrigin="anonymous" />
+                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                      {[
+                        { v: `${props.totalDistance.toFixed(1)} km`, l: 'Distancia', c: '#1c1917' },
+                        { v: `${props.dPlus.toLocaleString()} m`, l: 'D+', c: '#16a34a' },
+                        { v: `${props.dMinus.toLocaleString()} m`, l: 'D-', c: '#dc2626' },
+                        { v: props.kme.toFixed(1), l: 'KmE', c: '#10A49B' },
+                        ...(props.altitudeAvg && props.altitudeAvg > 0 ? [{ v: `${Math.round(props.altitudeAvg)} m`, l: 'Alt. Media', c: '#7c3aed' }] : []),
+                      ].map((m, i) => (
+                        <div key={i} style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '8px', padding: '6px 10px', textAlign: 'center', minWidth: '60px' }}>
+                          <div style={{ fontSize: '14px', fontWeight: 900, color: m.c }}>{m.v}</div>
+                          <div style={{ fontSize: '7px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase' }}>{m.l}</div>
+                        </div>
+                      ))}
+                      <img src="/logo.png" alt="Logo" style={{ height: '36px', objectFit: 'contain' }} crossOrigin="anonymous" />
+                    </div>
                   </div>
 
-                  {/* Split content */}
-                  <div style={{ display: 'flex', gap: '16px', flex: 1, marginTop: '12px' }}>
-                    {/* Left col */}
-                    <div style={{ width: '38%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                      {/* Time block */}
-                      <div style={{ background: '#1c1917', color: 'white', borderRadius: '10px', padding: '12px', textAlign: 'center' }}>
-                        <div style={{ fontSize: '8px', color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px' }}>Tiempo Estimado</div>
-                        <div style={{ fontSize: '30px', fontWeight: 900, fontFamily: 'monospace', lineHeight: 1, marginTop: '2px' }}>{props.projectedTime}</div>
+                  {/* Main row */}
+                  <div style={{ display: 'flex', gap: '16px' }}>
+                    {/* Left: Time + Nutrition */}
+                    <div style={{ width: '180px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <div style={{ background: '#1c1917', color: 'white', borderRadius: '10px', padding: '14px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '8px', color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '2px' }}>Tiempo Estimado</div>
+                        <div style={{ fontSize: '26px', fontWeight: 900, fontFamily: 'monospace', lineHeight: 1 }}>{props.projectedTime}</div>
+                      </div>
+                      <div style={{ background: '#ecfdf5', border: '1px solid rgba(16,164,155,0.3)', borderRadius: '10px', padding: '10px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '8px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', marginBottom: '4px' }}>Proyección Puntos Andes</div>
+                        <div style={{ fontSize: '24px', fontWeight: 900, color: '#10A49B', lineHeight: 1 }}>{props.sptcRange.mid}</div>
+                        <div style={{ fontSize: '7px', color: '#78716c', marginTop: '2px' }}>Rango: {props.sptcRange.low} – {props.sptcRange.high}</div>
+                      </div>
+                      <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px' }}>
+                        <div style={{ fontSize: '8px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', marginBottom: '8px' }}>⚡ Nutrición / Hora</div>
+                        {[
+                          { v: props.carbsPerHour, u: 'g CH/h', c: '#3b82f6', bg: '#eff6ff' },
+                          { v: props.sodiumPerHour, u: 'mg Na/h', c: '#44403c', bg: '#fafaf9' },
+                          { v: mlPerHour, u: 'mL/h', c: '#2563eb', bg: '#eff6ff' },
+                        ].map((n, i) => (
+                          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: n.bg, borderRadius: '4px', padding: '4px 6px', marginBottom: '3px' }}>
+                            <span style={{ fontSize: '7px', fontWeight: 700, color: '#78716c', textTransform: 'uppercase' }}>{n.u}</span>
+                            <span style={{ fontSize: '14px', fontWeight: 900, color: n.c, fontFamily: 'monospace' }}>{n.v}</span>
+                          </div>
+                        ))}
+                        {sortedItems.length > 0 && (
+                          <div style={{ borderTop: '1px solid #f5f5f4', paddingTop: '6px', marginTop: '4px' }}>
+                            {sortedItems.slice(0, 6).map((item, i) => (
+                              <div key={i} style={{ display: 'flex', gap: '3px', alignItems: 'center', fontSize: '8px', marginBottom: '2px' }}>
+                                <span>{EMOJIS[item.type] || '📦'}</span>
+                                <span style={{ flex: 1, color: '#1c1917', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.label}</span>
+                                <span style={{ color: '#8b5cf6', fontWeight: 900, fontFamily: 'monospace' }}>×{item.qty}</span>
+                              </div>
+                            ))}
+                            <div style={{ fontSize: '7px', color: '#a8a29e', marginTop: '3px' }}>Total: {totalCarbsAll}g CH · {totalSodiumAll}mg Na · {totalMl}mL</div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Right: Chart + Segments */}
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                      <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
+                          <span style={{ fontSize: '8px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase' }}>📈 Perfil de Elevación y Nutrición</span>
+                          {props.altitudeAvg && props.altitudeAvg > 0 && <span style={{ fontSize: '7px', color: '#a8a29e' }}>Altitud media: {Math.round(props.altitudeAvg)} m</span>}
+                        </div>
+                        {renderSvgProfile(560, 140)}
                       </div>
 
-                      {/* Strategy */}
-                      <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '8px', padding: '8px' }}>
-                        <div style={{ fontSize: '8px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', marginBottom: '6px' }}>Nutrición por Hora</div>
-                        <div style={{ display: 'flex', justifyContent: 'space-around', textAlign: 'center' }}>
-                          <div>
-                            <div style={{ fontSize: '14px', fontWeight: 900, color: '#3b82f6' }}>{props.carbsPerHour}g</div>
-                            <div style={{ fontSize: '7px', color: '#78716c' }}>CH/h</div>
-                          </div>
-                          <div style={{ width: '1px', background: '#e7e5e4' }}></div>
-                          <div>
-                            <div style={{ fontSize: '14px', fontWeight: 900, color: '#44403c' }}>{props.sodiumPerHour}mg</div>
-                            <div style={{ fontSize: '7px', color: '#78716c' }}>Na/h</div>
-                          </div>
-                          <div style={{ width: '1px', background: '#e7e5e4' }}></div>
-                          <div>
-                            <div style={{ fontSize: '14px', fontWeight: 900, color: '#2563eb' }}>{mlPerHour}mL</div>
-                            <div style={{ fontSize: '7px', color: '#78716c' }}>Líquido/h</div>
+                      {segmentDetails.length > 1 && (
+                        <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px' }}>
+                          <div style={{ fontSize: '8px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', marginBottom: '6px' }}>🗺️ Detalle por Segmento</div>
+                          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(segmentDetails.length, 5)}, 1fr)`, gap: '6px' }}>
+                            {segmentDetails.map((seg, i) => (
+                              <div key={i} style={{ background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: '6px', padding: '6px', textAlign: 'center' }}>
+                                <div style={{ fontSize: '8px', fontWeight: 900, color: '#1c1917', marginBottom: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{seg.from} → {seg.to}</div>
+                                <div style={{ fontSize: '10px', fontWeight: 900, color: '#78716c', fontFamily: 'monospace' }}>{seg.km} km</div>
+                                <div style={{ display: 'flex', justifyContent: 'center', gap: '4px', marginTop: '2px' }}>
+                                  <span style={{ fontSize: '8px', fontWeight: 700, color: '#16a34a' }}>↑{seg.dPlus}m</span>
+                                  <span style={{ fontSize: '8px', fontWeight: 700, color: '#dc2626' }}>↓{seg.dMinus}m</span>
+                                </div>
+                                <div style={{ fontSize: '8px', color: '#6366f1', fontWeight: 700, marginTop: '2px' }}>⏱ {seg.timeStr}</div>
+                              </div>
+                            ))}
                           </div>
                         </div>
-                      </div>
-
-                      {/* Score */}
-                      <div style={{ background: '#ecfdf5', border: '1px solid rgba(16,164,155,0.3)', borderRadius: '8px', padding: '6px', textAlign: 'center' }}>
-                        <span style={{ fontSize: '9px', fontWeight: 900, color: '#10A49B' }}>Puntos Andes: {props.sptcRange.mid}</span>
-                      </div>
+                      )}
                     </div>
-
-                    {/* Right col: graph */}
-                    <div style={{ flex: 1, background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                      <div style={{ fontSize: '8px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px' }}>📈 Perfil de Elevación y Puntos Estratégicos</div>
-                      {renderSvgProfile(330, 160)}
-                      <div style={{ fontSize: '8px', color: '#a8a29e', textAlign: 'center', fontFamily: 'monospace' }}>
-                        📦 Totales: {sortedItems.reduce((s, i) => s + i.qty, 0)} productos · {totalCarbsAll}g CH · {totalSodiumAll}mg Na · {totalMl}mL
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Bottom banner */}
-                  <div style={{ borderTop: '1px solid #e7e5e4', paddingTop: '6px', textAlign: 'right', fontSize: '8px', color: '#a8a29e', marginTop: '6px' }}>
-                    www.puntosandes.com · <span style={{ fontWeight: 900, color: '#10A49B' }}>puntosandes.cl</span>
                   </div>
                 </div>
               )}

@@ -1,12 +1,14 @@
 'use client';
 import React from 'react';
 import { AidStation } from './ElevationChart';
+import { ProfilePoint } from '../utils/gpxParser';
 
 interface Props {
   stations: AidStation[];
   onChange: (stations: AidStation[]) => void;
   totalDistanceKm: number;
   totalEstimatedMinutes: number;
+  points?: ProfilePoint[];
 }
 
 function formatTime(minutes: number): string {
@@ -17,7 +19,19 @@ function formatTime(minutes: number): string {
   return `${m}'`;
 }
 
-export default function AidStationPlanner({ stations, onChange, totalDistanceKm, totalEstimatedMinutes }: Props) {
+function calcSegmentElevation(pts: ProfilePoint[], fromKm: number, toKm: number) {
+  if (!pts || pts.length === 0) return { dPlus: 0, dMinus: 0 };
+  const inSeg = pts.filter(p => p.distance >= fromKm && p.distance <= toKm);
+  let dPlus = 0, dMinus = 0;
+  for (let i = 1; i < inSeg.length; i++) {
+    const diff = inSeg[i].elevation - inSeg[i - 1].elevation;
+    if (diff > 0) dPlus += diff;
+    else dMinus += Math.abs(diff);
+  }
+  return { dPlus: Math.round(dPlus), dMinus: Math.round(dMinus) };
+}
+
+export default function AidStationPlanner({ stations, onChange, totalDistanceKm, totalEstimatedMinutes, points = [] }: Props) {
   const addStation = () => {
     const newStation: AidStation = {
       id: Date.now().toString(),
@@ -36,11 +50,20 @@ export default function AidStationPlanner({ stations, onChange, totalDistanceKm,
     onChange(stations.filter(s => s.id !== id));
   };
 
+  const hasGpx = points.length > 0;
   const totalSegmentTime = stations.reduce((sum, s) => sum + (s.segmentMinutes || 0), 0);
   const hasTime = totalEstimatedMinutes > 0;
   const lastPasKm = stations.length > 0 ? Math.max(...stations.map(s => s.km)) : 0;
   const lastSegmentKm = totalDistanceKm - lastPasKm;
   const remainingMinutes = hasTime ? totalEstimatedMinutes - totalSegmentTime : 0;
+
+  // Build all breakpoints for segment calculation
+  const sorted = [...stations].sort((a, b) => a.km - b.km);
+  const allStops = [
+    { km: 0, label: 'Salida' },
+    ...sorted.map(s => ({ km: s.km, label: s.label })),
+    { km: totalDistanceKm, label: 'Meta' },
+  ];
 
   return (
     <div className="space-y-1">
@@ -48,18 +71,25 @@ export default function AidStationPlanner({ stations, onChange, totalDistanceKm,
         const prevKm = idx > 0 ? stations[idx - 1].km : 0;
         const segKm = station.km > prevKm ? station.km - prevKm : 0;
         const prevLabel = idx === 0 ? 'Partida' : stations[idx - 1].label;
+        const { dPlus, dMinus } = hasGpx ? calcSegmentElevation(points, prevKm, station.km) : { dPlus: 0, dMinus: 0 };
 
         return (
           <React.Fragment key={station.id}>
-            {/* ───── Tramo: tiempo estimado entre puntos ───── */}
-            {hasTime && (
-              <div className="flex items-center gap-2 py-1.5 px-2 bg-stone-50/80 rounded border border-dashed border-stone-200">
-                <div className="flex items-center gap-1 text-[9px] font-bold text-stone-500 flex-1 min-w-0">
-                  <span className="truncate">{prevLabel}</span>
-                  <span className="text-stone-300">→</span>
-                  <span className="truncate">{station.label}</span>
-                  {segKm > 0 && <span className="text-stone-300 flex-shrink-0">({segKm.toFixed(1)}km)</span>}
-                </div>
+            {/* ───── Tramo entre puntos ───── */}
+            <div className="flex items-center gap-2 py-1.5 px-2 bg-stone-50/80 rounded border border-dashed border-stone-200">
+              <div className="flex items-center gap-1 text-[9px] font-bold text-stone-500 flex-1 min-w-0 flex-wrap">
+                <span className="truncate">{prevLabel}</span>
+                <span className="text-stone-300">→</span>
+                <span className="truncate">{station.label}</span>
+                {segKm > 0 && <span className="text-stone-300 flex-shrink-0">({segKm.toFixed(1)}km)</span>}
+                {hasGpx && (dPlus > 0 || dMinus > 0) && (
+                  <span className="flex gap-1 flex-shrink-0">
+                    <span className="text-emerald-600 font-black">↑{dPlus}m</span>
+                    <span className="text-red-500 font-black">↓{dMinus}m</span>
+                  </span>
+                )}
+              </div>
+              {hasTime && (
                 <div className="flex items-center gap-1 flex-shrink-0">
                   <span className="text-[10px] text-[#10A49B]">⏱</span>
                   <input
@@ -71,10 +101,10 @@ export default function AidStationPlanner({ stations, onChange, totalDistanceKm,
                   />
                   <span className="text-[9px] text-stone-400 font-bold">min</span>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
-            {/* ───── PAS (punto de abastecimiento) ───── */}
+            {/* ───── PAS card ───── */}
             <div className="flex gap-2 items-center bg-[#e67e22]/5 p-2 rounded-lg border border-[#e67e22]/20">
               <div className="w-7 h-7 bg-[#e67e22] text-white rounded-full flex items-center justify-center text-[10px] font-black flex-shrink-0">
                 {idx + 1}
@@ -98,27 +128,39 @@ export default function AidStationPlanner({ stations, onChange, totalDistanceKm,
       })}
 
       {/* ───── Tramo final: último PAS → Meta ───── */}
-      {hasTime && stations.length > 0 && (
-        <div className="flex items-center gap-2 py-1.5 px-2 bg-stone-50/80 rounded border border-dashed border-stone-200">
-          <div className="flex items-center gap-1 text-[9px] font-bold text-stone-500 flex-1 min-w-0">
-            <span className="truncate">{stations[stations.length - 1].label}</span>
-            <span className="text-stone-300">→</span>
-            <span>Meta 🏁</span>
-            {lastSegmentKm > 0 && <span className="text-stone-300 flex-shrink-0">({lastSegmentKm.toFixed(1)}km)</span>}
+      {stations.length > 0 && (() => {
+        const lastSt = stations[stations.length - 1];
+        const { dPlus: ldp, dMinus: ldm } = hasGpx ? calcSegmentElevation(points, lastSt.km, totalDistanceKm) : { dPlus: 0, dMinus: 0 };
+        return (
+          <div className="flex items-center gap-2 py-1.5 px-2 bg-stone-50/80 rounded border border-dashed border-stone-200">
+            <div className="flex items-center gap-1 text-[9px] font-bold text-stone-500 flex-1 min-w-0 flex-wrap">
+              <span className="truncate">{lastSt.label}</span>
+              <span className="text-stone-300">→</span>
+              <span>Meta 🏁</span>
+              {lastSegmentKm > 0 && <span className="text-stone-300 flex-shrink-0">({lastSegmentKm.toFixed(1)}km)</span>}
+              {hasGpx && (ldp > 0 || ldm > 0) && (
+                <span className="flex gap-1 flex-shrink-0">
+                  <span className="text-emerald-600 font-black">↑{ldp}m</span>
+                  <span className="text-red-500 font-black">↓{ldm}m</span>
+                </span>
+              )}
+            </div>
+            {hasTime && (
+              <span className={`text-[10px] font-mono font-bold flex-shrink-0 ${remainingMinutes >= 0 ? 'text-[#10A49B]' : 'text-red-500'}`}>
+                ≈ {formatTime(Math.abs(remainingMinutes))} {remainingMinutes < 0 ? '⚠️' : ''}
+              </span>
+            )}
           </div>
-          <span className={`text-[10px] font-mono font-bold flex-shrink-0 ${remainingMinutes >= 0 ? 'text-[#10A49B]' : 'text-red-500'}`}>
-            ≈ {formatTime(Math.abs(remainingMinutes))} {remainingMinutes < 0 ? '⚠️' : ''}
-          </span>
-        </div>
-      )}
+        );
+      })()}
 
       {/* Resumen de tiempos */}
       {hasTime && stations.length > 0 && totalSegmentTime > 0 && (
         <div className={`text-[9px] font-bold px-2 py-1.5 rounded text-center border mt-1
-          ${Math.abs(totalSegmentTime - totalEstimatedMinutes) < 2 
-            ? 'bg-emerald-50 text-emerald-700 border-emerald-200' 
+          ${Math.abs(totalSegmentTime - totalEstimatedMinutes) < 2
+            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
             : 'bg-amber-50 text-amber-700 border-amber-200'}`}>
-          Tramos: {formatTime(totalSegmentTime)} 
+          Tramos: {formatTime(totalSegmentTime)}
           {remainingMinutes > 0 && ` + ${formatTime(remainingMinutes)} restante`}
           {' '}/ Total: {formatTime(totalEstimatedMinutes)}
         </div>
