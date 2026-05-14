@@ -28,6 +28,7 @@ function makeSubItem(type: string = 'gel'): NutritionSubItem {
     quantity: 1,
     customCarbs: null,
     customSodium: null,
+    customMl: null,
     nota: '',
   };
 }
@@ -226,6 +227,16 @@ export default function NutritionPlanner({ stops, onChange, totalDistanceKm, pla
                     <span className="text-[7px] text-stone-400">mg</span>
                   </div>
 
+                  {/* mL per unit */}
+                  <div className="flex items-center gap-0.5">
+                    <span className="text-[8px] font-bold text-blue-400">mL</span>
+                    <input type="number" min={0} step={50}
+                      value={sub.customMl !== null && sub.customMl !== undefined ? sub.customMl : ''}
+                      onChange={e => updateSubItem(stop.id, sub.id, 'customMl', e.target.value === '' ? null : parseFloat(e.target.value) || 0)}
+                      placeholder="0"
+                      className="w-12 text-[10px] border border-stone-200 rounded px-1 py-0.5 text-center font-mono focus:outline-none focus:border-blue-400" />
+                  </div>
+
                   {/* Delete sub-item */}
                   <button onClick={() => removeSubItem(stop.id, sub.id)}
                     className="text-stone-300 hover:text-red-500 text-[10px] font-bold px-0.5" title="Eliminar">✕</button>
@@ -234,7 +245,7 @@ export default function NutritionPlanner({ stops, onChange, totalDistanceKm, pla
 
               {/* Add sub-item to this stop */}
               <button onClick={() => addSubItem(stop.id)}
-                className="w-full border border-dashed border-stone-200 hover:border-[#8b5cf6] rounded py-1 text-[10px] font-bold text-stone-400 hover:text-[#8b5cf6] transition-colors">
+                className="w-full bg-[#8b5cf6]/5 border border-[#8b5cf6]/20 hover:bg-[#8b5cf6]/10 hover:border-[#8b5cf6]/40 rounded py-1.5 text-[10px] font-bold text-[#8b5cf6] transition-colors">
                 + Agregar otro item en esta parada
               </button>
             </div>
@@ -243,8 +254,8 @@ export default function NutritionPlanner({ stops, onChange, totalDistanceKm, pla
       })}
 
       <button onClick={addStop}
-        className="w-full border border-dashed border-stone-300 hover:border-[#8b5cf6] rounded-lg py-2.5 text-xs font-bold text-stone-500 hover:text-[#8b5cf6] bg-white transition-colors">
-        + Nueva parada de nutrición
+        className="w-full bg-[#8b5cf6]/10 border-2 border-[#8b5cf6]/30 hover:bg-[#8b5cf6]/20 hover:border-[#8b5cf6]/50 rounded-xl py-3 text-sm font-black text-[#8b5cf6] transition-colors flex items-center justify-center gap-2">
+        <span className="text-base">⚡</span> Nueva parada de nutrición
       </button>
     </div>
   );

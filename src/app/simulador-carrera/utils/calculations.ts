@@ -21,6 +21,7 @@ export interface NutritionSubItem {
   quantity: number;
   customCarbs: number | null;
   customSodium: number | null;
+  customMl: number | null;  // mL por unidad
   nota: string;
 }
 

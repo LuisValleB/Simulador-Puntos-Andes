@@ -301,7 +301,8 @@ export default function SimuladorCarreraPage() {
             <p className="text-xs font-black uppercase tracking-widest text-stone-400 px-1">Proyección Final de Carrera</p>
             <ResultsPanel projectedTime={results.projectedTime} carbsPerHour={results.carbsPerHour}
               sodiumPerHour={results.sodiumPerHour} totalCarbs={results.totalCarbs} mlPerHour={results.mlPerHour}
-              sptcRange={results.sptcRange} kme={effKme} totalDistance={effDist} dPlus={effDPlus} />
+              sptcRange={results.sptcRange} kme={effKme} totalDistance={effDist} dPlus={effDPlus}
+              nutritionStops={nutritionStops} totalEstimatedMinutes={totalEstimatedMinutes} />
           </div>
         )}
 

@@ -125,8 +125,8 @@ export default function AidStationPlanner({ stations, onChange, totalDistanceKm,
       )}
 
       <button onClick={addStation}
-        className="w-full border border-dashed border-[#e67e22]/40 hover:border-[#e67e22] rounded-lg py-2 text-xs font-bold text-[#e67e22]/60 hover:text-[#e67e22] bg-white transition-colors mt-1">
-        + Agregar punto de abastecimiento
+        className="w-full bg-[#e67e22]/10 border-2 border-[#e67e22]/30 hover:bg-[#e67e22]/20 hover:border-[#e67e22]/50 rounded-xl py-3 text-sm font-black text-[#e67e22] transition-colors flex items-center justify-center gap-2 mt-1">
+        <span className="text-base">📦</span> Agregar punto de abastecimiento
       </button>
     </div>
   );
