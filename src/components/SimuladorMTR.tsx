@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import html2canvas from 'html2canvas';
 import { calculatePuntosAndesScore } from '../utils/calculoRendimiento';
 import { calcularRAP } from '../utils/calculoRAP';
+import { parseGPX } from '../app/simulador-carrera/utils/gpxParser';
 
 const NumberInput = ({ label, value, max, onChange, step = 1, min = 0 }: any) => {
   const displayValue = isNaN(value) ? '' : value;
@@ -103,6 +104,37 @@ export default function SimuladorMTR() {
   const [targetScoreInput, setTargetScoreInput] = useState<string>('');
 
   const [scoreData, setScoreData] = useState<any>(null);
+
+  // GPX File Upload States
+  const [gpxFileName, setGpxFileName] = useState<string | null>(null);
+  const [loadingGpx, setLoadingGpx] = useState(false);
+  const [gpxError, setGpxError] = useState<string | null>(null);
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setLoadingGpx(true);
+    setGpxError(null);
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      try {
+        const content = ev.target?.result as string;
+        const data = parseGPX(content);
+        setDistance(parseFloat(data.totalDistance.toFixed(1)));
+        setDPlus(Math.round(data.dPlus));
+        setDMinus(Math.round(data.dMinus));
+        if (data.altitudeAvg > 0) {
+          setMeanAltitude(Math.round(data.altitudeAvg));
+        }
+        setGpxFileName(file.name);
+      } catch (err: any) {
+        setGpxError(err.message || 'Error al leer el archivo GPX/KML');
+      } finally {
+        setLoadingGpx(false);
+      }
+    };
+    reader.readAsText(file);
+  };
 
   // Export states
   const [isExportOpen, setIsExportOpen] = useState(false);
@@ -311,6 +343,35 @@ export default function SimuladorMTR() {
 
         {/* Inputs Grid */}
         <div className="flex flex-col gap-4">
+
+          {/* Carga de Archivo GPX */}
+          <div className="bg-white p-3 rounded-lg border border-stone-200 shadow-sm space-y-2">
+            <div className="flex justify-between items-center border-b border-stone-100 pb-1">
+              <h3 className="text-[10px] font-black text-stone-400 uppercase tracking-widest">Archivo GPX / KML</h3>
+              {gpxFileName && (
+                <button
+                  onClick={() => setGpxFileName(null)}
+                  className="text-[9px] text-red-500 hover:underline font-bold"
+                >
+                  Quitar archivo
+                </button>
+              )}
+            </div>
+            <label className={`flex items-center gap-3 border-2 border-dashed rounded-lg px-3 py-2.5 cursor-pointer transition-colors ${loadingGpx ? 'opacity-50 bg-stone-50 border-stone-200' : gpxFileName ? 'border-[#10A49B]/40 bg-[#10A49B]/[0.03]' : 'border-stone-300 hover:border-[#10A49B] hover:bg-stone-50/50'}`}>
+              <span className="text-lg">{gpxFileName ? '✅' : '📁'}</span>
+              <div className="flex-1 min-w-0">
+                <span className="font-bold text-xs text-stone-700 block truncate">
+                  {gpxFileName ? gpxFileName : 'Subir archivo GPX o KML'}
+                </span>
+                <span className="text-[9px] text-stone-400 block">
+                  {gpxFileName ? 'Altimetría y desniveles cargados' : 'Extrae distancia, D+, D- y altitud media'}
+                </span>
+              </div>
+              <input type="file" accept=".gpx,.kml,application/gpx+xml,application/vnd.google-earth.kml+xml,application/xml,text/xml,*/*" onChange={handleFileUpload} className="hidden" />
+            </label>
+            {loadingGpx && <p className="text-[10px] font-bold text-[#10A49B] animate-pulse text-center">Procesando archivo...</p>}
+            {gpxError && <p className="text-[10px] font-bold text-red-500 bg-red-50 p-1.5 rounded border border-red-100 text-center">{gpxError}</p>}
+          </div>
 
           {/* Recorrido */}
           <div className="bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
