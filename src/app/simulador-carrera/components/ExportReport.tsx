@@ -255,7 +255,7 @@ export default function ExportReport(props: Props) {
                   {/* Graph */}
                   <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px', marginBottom: '12px' }}>
                     <div style={{ fontSize: '8px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>📈 Altimetría y Nutrición</div>
-                    {renderSvgProfile(338, 120)}
+                    {renderSvgProfile(338, 130)}
                   </div>
 
                   {/* Nutrition */}
@@ -302,7 +302,7 @@ export default function ExportReport(props: Props) {
 
                   {/* Footer */}
                   <div style={{ borderTop: '1px solid #e7e5e4', paddingTop: '8px', textAlign: 'center', fontSize: '8px', color: '#a8a29e' }}>
-                    <span style={{ fontWeight: 900, color: '#10A49B' }}>puntosandes.cl</span> · Planificación Profesional
+                    <span style={{ fontWeight: 900, color: '#10A49B' }}>www.puntosandes.com</span>
                   </div>
                 </div>
               )}
@@ -341,7 +341,7 @@ export default function ExportReport(props: Props) {
                   </div>
 
                   {/* Graph */}
-                  <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px' }}>
+                  <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px', margin: '10px 0' }}>
                     <div style={{ fontSize: '8px', fontWeight: 900, color: '#2dd4bf', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>Altimetría y Puntos</div>
                     {renderSvgProfile(300, 110, true)}
                   </div>
@@ -365,7 +365,8 @@ export default function ExportReport(props: Props) {
                   </div>
 
                   {/* Bottom Tag */}
-                  <div style={{ textAlign: 'center', marginTop: '4px' }}>
+                  <div style={{ textAlign: 'center', marginTop: '12px' }}>
+                    <div style={{ fontSize: '9px', fontWeight: 900, color: '#2dd4bf', marginBottom: '4px' }}>www.puntosandes.com</div>
                     <span style={{ background: '#2dd4bf', color: '#111827', fontSize: '10px', fontWeight: 900, padding: '3px 12px', borderRadius: '20px', display: 'inline-block' }}>
                       @puntosandes
                     </span>
@@ -434,7 +435,7 @@ export default function ExportReport(props: Props) {
 
                   {/* Bottom banner */}
                   <div style={{ borderTop: '1px solid #e7e5e4', paddingTop: '6px', textAlign: 'right', fontSize: '8px', color: '#a8a29e', marginTop: '6px' }}>
-                    Simulador Puntos Andes · <span style={{ fontWeight: 900, color: '#10A49B' }}>puntosandes.cl</span>
+                    www.puntosandes.com · <span style={{ fontWeight: 900, color: '#10A49B' }}>puntosandes.cl</span>
                   </div>
                 </div>
               )}

@@ -206,6 +206,50 @@ export default function SimuladorMTR() {
     setSeconds(finalS);
   };
 
+  const handleExportImage = async () => {
+    if (!exportRef.current) return;
+    setExporting(true);
+    try {
+      const canvas = await html2canvas(exportRef.current, {
+        scale: 2,
+        useCORS: true,
+        logging: false,
+        backgroundColor: exportLayout === 'story' ? '#111827' : '#FDFBF7',
+      });
+      const link = document.createElement('a');
+      link.download = `puntos-andes-score-${exportLayout}-${Date.now()}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (err) {
+      console.error('Export error:', err);
+    } finally {
+      setExporting(false);
+    }
+  };
+
+  const renderPrintableGauge = (scale = 1, isDark = false) => {
+    const r = 70 * scale;
+    const sw = 12 * scale;
+    const circ = Math.PI * r;
+    const dOff = circ - (clampedScore / 1000) * circ;
+    const w = 160 * scale;
+    const h = 85 * scale;
+    const cx = w / 2;
+    const cy = h - sw / 2;
+    return (
+      <div style={{ position: 'relative', width: `${w}px`, height: `${h}px`, margin: '0 auto' }}>
+        <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} style={{ overflow: 'visible', display: 'block' }}>
+          <path d={`M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`} fill="none" stroke={isDark ? '#374151' : '#e7e5e4'} strokeWidth={sw} strokeLinecap="round" />
+          <path d={`M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`} fill="none" stroke={dynamicColor} strokeWidth={sw} strokeLinecap="round" strokeDasharray={circ} strokeDashoffset={dOff} />
+        </svg>
+        <div style={{ position: 'absolute', bottom: '0px', left: '0', right: '0', textAlign: 'center' }}>
+          <div style={{ fontSize: `${36 * scale}px`, fontWeight: 900, color: dynamicColor, lineHeight: 0.95 }}>{score}</div>
+          <div style={{ fontSize: `${8 * scale}px`, fontWeight: 800, color: isDark ? '#d1d5db' : '#57534e', textTransform: 'uppercase', marginTop: '3px', letterSpacing: '0.5px' }}>{categoryName}</div>
+        </div>
+      </div>
+    );
+  };
+
   const radius = 80;
   const strokeWidth = 14;
   const circumference = Math.PI * radius;
@@ -431,11 +475,201 @@ export default function SimuladorMTR() {
           </div>
         </div>
 
+        {/* Share Button */}
+        <button
+          onClick={() => setIsExportOpen(true)}
+          className="w-full mt-4 bg-gradient-to-r from-[#10A49B] to-teal-600 text-white font-black py-3 rounded-xl shadow-md hover:shadow-lg transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 border border-teal-500/30"
+        >
+          <span className="text-lg">📸</span> Compartir / Descargar Resultado
+        </button>
+
         {/* Categories Legend */}
         <CategoriasLegend />
 
       </div>
 
+      {/* Export modal overlay */}
+      {isExportOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-white rounded-2xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl border border-stone-200 my-auto">
+            {/* Header */}
+            <div className="flex justify-between items-center pb-3 border-b border-stone-100 mb-4">
+              <div>
+                <h3 className="text-base font-black text-stone-800 uppercase tracking-tight">Exportar Resultado Puntos Andes</h3>
+                <p className="text-xs text-stone-500">Selecciona el formato deseado para visualizar y guardar la imagen</p>
+              </div>
+              <button onClick={() => setIsExportOpen(false)} className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-stone-500 hover:bg-stone-200 font-bold">
+                ✕
+              </button>
+            </div>
+
+            {/* Layout mode buttons */}
+            <div className="grid grid-cols-3 gap-2 mb-4">
+              {[
+                { id: 'standard', label: 'Estándar', desc: 'Ficha vertical' },
+                { id: 'story', label: 'Instagram Story', desc: 'Vertical 9:16' },
+                { id: 'horizontal', label: 'Horizontal', desc: 'Apaisado 16:9' },
+              ].map(opt => (
+                <button
+                  key={opt.id}
+                  onClick={() => setExportLayout(opt.id as any)}
+                  className={`p-2 rounded-xl border text-center transition-all ${exportLayout === opt.id ? 'border-[#10A49B] bg-[#10A49B]/5 text-[#10A49B]' : 'border-stone-200 hover:bg-stone-50 text-stone-600'}`}
+                >
+                  <p className="text-xs font-black block leading-tight">{opt.label}</p>
+                  <span className="text-[9px] text-stone-400 block mt-0.5">{opt.desc}</span>
+                </button>
+              ))}
+            </div>
+
+            {/* Live capture container wrapper */}
+            <div className="flex justify-center bg-stone-100 p-4 rounded-xl mb-4 overflow-x-auto max-h-[55vh]" style={{ alignItems: 'flex-start' }}>
+              
+              {/* === LAYOUT 1: STANDARD === */}
+              {exportLayout === 'standard' && (
+                <div ref={exportRef} style={{ width: '400px', background: '#FDFBF7', padding: '24px', borderRadius: '16px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', flexShrink: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid #e7e5e4', paddingBottom: '12px', marginBottom: '20px' }}>
+                    <div>
+                      <div style={{ fontSize: '18px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase', letterSpacing: '-0.5px' }}>Resultado Oficial</div>
+                      <div style={{ fontSize: '9px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '2px' }}>Simulador Puntos Andes</div>
+                    </div>
+                    <img src="/logo.png" alt="Logo" style={{ height: '40px', objectFit: 'contain' }} crossOrigin="anonymous" />
+                  </div>
+
+                  {/* Centered Gauge */}
+                  <div style={{ margin: '20px 0 30px' }}>
+                    {renderPrintableGauge(1.2)}
+                  </div>
+
+                  {/* Metrics Grid */}
+                  <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '12px', padding: '16px', marginBottom: '16px' }}>
+                    <div style={{ fontSize: '10px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px', borderBottom: '1px solid #f5f5f4', paddingBottom: '6px' }}>Detalles del Recorrido</div>
+                    <div style={{ gridTemplateColumns: 'repeat(3, 1fr)', display: 'grid', gap: '10px' }}>
+                      {[
+                        { v: `${distance}km`, l: 'Distancia' },
+                        { v: `${dPlus}m`, l: 'D+' },
+                        { v: `${dMinus}m`, l: 'D-' },
+                      ].map((m, i) => (
+                        <div key={i} style={{ textAlign: 'center' }}>
+                          <div style={{ fontSize: '16px', fontWeight: 900, color: '#1c1917' }}>{m.v}</div>
+                          <div style={{ fontSize: '8px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase' }}>{m.l}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Time & Pace */}
+                  <div style={{ background: '#1c1917', color: 'white', borderRadius: '12px', padding: '16px', marginBottom: '16px', display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+                    <div style={{ textAlign: 'center' }}>
+                      <div style={{ fontSize: '8px', color: '#10A49B', fontWeight: 700, textTransform: 'uppercase' }}>Tiempo Total</div>
+                      <div style={{ fontSize: '24px', fontWeight: 900, fontFamily: 'monospace' }}>{safeHours}:{safeMinutes.toString().padStart(2, '0')}:{safeSeconds.toString().padStart(2, '0')}</div>
+                    </div>
+                    <div style={{ width: '1px', height: '30px', background: '#374151' }}></div>
+                    <div style={{ textAlign: 'center' }}>
+                      <div style={{ fontSize: '8px', color: '#10A49B', fontWeight: 700, textTransform: 'uppercase' }}>RAP Equivalente</div>
+                      <div style={{ fontSize: '24px', fontWeight: 900, fontFamily: 'monospace' }}>{rapResult.rapStr}</div>
+                    </div>
+                  </div>
+
+                  {/* Footer */}
+                  <div style={{ borderTop: '2px solid #e7e5e4', paddingTop: '12px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '11px', fontWeight: 900, color: '#10A49B' }}>www.puntosandes.com</div>
+                    <div style={{ fontSize: '8px', color: '#a8a29e', marginTop: '2px' }}>Simulador de Rendimiento para Trail Running</div>
+                  </div>
+                </div>
+              )}
+
+              {/* === LAYOUT 2: STORY === */}
+              {exportLayout === 'story' && (
+                <div ref={exportRef} style={{ width: '360px', height: '640px', background: 'linear-gradient(145deg, #111827, #1f2937)', padding: '40px 24px', borderRadius: '24px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', color: 'white', flexShrink: 0 }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <img src="/logo.png" alt="Logo" style={{ height: '45px', objectFit: 'contain', margin: '0 auto 10px', filter: 'brightness(0) invert(1)' }} crossOrigin="anonymous" />
+                    <div style={{ fontSize: '10px', fontWeight: 900, color: '#2dd4bf', textTransform: 'uppercase', letterSpacing: '4px' }}>Resultado Oficial</div>
+                  </div>
+
+                  <div style={{ margin: '40px 0' }}>
+                    {renderPrintableGauge(1.4, true)}
+                  </div>
+
+                  <div style={{ background: 'rgba(255,255,255,0.05)', borderRadius: '16px', padding: '20px', border: '1px solid rgba(255,255,255,0.1)' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                      <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase' }}>Distancia</div>
+                        <div style={{ fontSize: '24px', fontWeight: 900 }}>{distance}km</div>
+                      </div>
+                      <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase' }}>Tiempo</div>
+                        <div style={{ fontSize: '24px', fontWeight: 900 }}>{safeHours}h {safeMinutes}m</div>
+                      </div>
+                      <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase' }}>RAP</div>
+                        <div style={{ fontSize: '24px', fontWeight: 900, color: '#2dd4bf' }}>{rapResult.rapStr}</div>
+                      </div>
+                      <div style={{ textAlign: 'center' }}>
+                        <div style={{ fontSize: '10px', color: '#9ca3af', textTransform: 'uppercase' }}>Ritmo Real</div>
+                        <div style={{ fontSize: '24px', fontWeight: 900 }}>{rapResult.ritmoRealStr}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ textAlign: 'center', marginTop: '20px' }}>
+                    <div style={{ fontSize: '11px', fontWeight: 900, color: '#2dd4bf', marginBottom: '8px' }}>www.puntosandes.com</div>
+                    <span style={{ background: '#2dd4bf', color: '#111827', fontSize: '12px', fontWeight: 900, padding: '4px 16px', borderRadius: '20px' }}>@puntosandes</span>
+                  </div>
+                </div>
+              )}
+
+              {/* === LAYOUT 3: HORIZONTAL === */}
+              {exportLayout === 'horizontal' && (
+                <div ref={exportRef} style={{ width: '600px', height: '337px', background: '#FDFBF7', padding: '30px', borderRadius: '16px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexShrink: 0 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #e7e5e4', paddingBottom: '12px' }}>
+                    <div style={{ fontSize: '20px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase' }}>Simulador Puntos Andes</div>
+                    <img src="/logo.png" alt="Logo" style={{ height: '35px', objectFit: 'contain' }} crossOrigin="anonymous" />
+                  </div>
+
+                  <div style={{ display: 'flex', gap: '30px', flex: 1, alignItems: 'center', margin: '20px 0' }}>
+                    <div style={{ flex: 1 }}>
+                      {renderPrintableGauge(1.3)}
+                    </div>
+                    <div style={{ flex: 1, display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '15px' }}>
+                      <div style={{ background: 'white', padding: '10px', borderRadius: '8px', border: '1px solid #e7e5e4' }}>
+                        <div style={{ fontSize: '8px', color: '#a8a29e', textTransform: 'uppercase' }}>Recorrido</div>
+                        <div style={{ fontSize: '14px', fontWeight: 900 }}>{distance}km / {dPlus}m D+</div>
+                      </div>
+                      <div style={{ background: 'white', padding: '10px', borderRadius: '8px', border: '1px solid #e7e5e4' }}>
+                        <div style={{ fontSize: '8px', color: '#a8a29e', textTransform: 'uppercase' }}>Tiempo Total</div>
+                        <div style={{ fontSize: '14px', fontWeight: 900 }}>{safeHours}:{safeMinutes.toString().padStart(2, '0')}</div>
+                      </div>
+                      <div style={{ background: '#1c1917', padding: '10px', borderRadius: '8px', color: 'white' }}>
+                        <div style={{ fontSize: '8px', color: '#10A49B', textTransform: 'uppercase' }}>Ritmo Real</div>
+                        <div style={{ fontSize: '14px', fontWeight: 900 }}>{rapResult.ritmoRealStr}</div>
+                      </div>
+                      <div style={{ background: '#10A49B', padding: '10px', borderRadius: '8px', color: 'white' }}>
+                        <div style={{ fontSize: '8px', color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase' }}>RAP Equivalente</div>
+                        <div style={{ fontSize: '14px', fontWeight: 900 }}>{rapResult.rapStr}</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ borderTop: '1px solid #e7e5e4', paddingTop: '10px', textAlign: 'right', fontSize: '10px', fontWeight: 900, color: '#10A49B' }}>
+                    www.puntosandes.com
+                  </div>
+                </div>
+              )}
+
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-2">
+              <button onClick={() => setIsExportOpen(false)} className="flex-1 py-3 rounded-xl border border-stone-200 text-stone-600 font-bold hover:bg-stone-50 text-xs uppercase tracking-wider transition-all">
+                Volver
+              </button>
+              <button onClick={handleExportImage} disabled={exporting} className="flex-[2] bg-[#10A49B] hover:bg-teal-600 text-white font-black py-3 rounded-xl shadow transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-50">
+                {exporting ? 'Generando archivo PNG...' : '📥 Guardar Imagen'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
