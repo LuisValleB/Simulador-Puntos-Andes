@@ -6,7 +6,6 @@ interface Props {
   carbsPerHour: number;
   sodiumPerHour: number;
   totalCarbs: number;
-  mlPerHour: number;
   sptcRange: { low: number; mid: number; high: number };
   kme: number;
   totalDistance: number;
@@ -28,7 +27,7 @@ const EMOJIS: Record<string, string> = {
 
 export default function ResultsPanel({
   projectedTime, carbsPerHour, sodiumPerHour, totalCarbs,
-  mlPerHour, sptcRange, kme, totalDistance, dPlus,
+  sptcRange, kme, totalDistance, dPlus,
   nutritionStops, totalEstimatedMinutes,
 }: Props) {
   const status = carbsStatus(carbsPerHour);
@@ -115,7 +114,7 @@ export default function ResultsPanel({
             <p className="text-[8px] font-bold text-stone-500 uppercase">mg Na/h</p>
           </div>
           <div className="rounded-lg p-2 text-center border bg-blue-50 border-blue-200">
-            <p className="text-lg font-black text-blue-600">{mlPerHour}</p>
+            <p className="text-lg font-black text-blue-600">{totalHours > 0 ? Math.round(totalMl / totalHours) : 0}</p>
             <p className="text-[8px] font-bold text-stone-500 uppercase">mL/h</p>
           </div>
         </div>

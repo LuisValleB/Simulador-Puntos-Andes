@@ -10,6 +10,7 @@ import ElevationChart, { AidStation } from './components/ElevationChart';
 import AidStationPlanner from './components/AidStationPlanner';
 import NutritionPlanner from './components/NutritionPlanner';
 import ResultsPanel from './components/ResultsPanel';
+import ExportReport from './components/ExportReport';
 
 export default function SimuladorCarreraPage() {
   const [trackData, setTrackData] = useState<TrackData | null>(null);
@@ -163,7 +164,7 @@ export default function SimuladorCarreraPage() {
                       <span className="text-[10px] text-stone-400">Extrae automáticamente altimetría y desniveles</span>
                     )}
                   </div>
-                  <input type="file" accept=".gpx,.kml" onChange={handleFileUpload} className="hidden" />
+                  <input type="file" accept=".gpx,.kml,application/gpx+xml,application/vnd.google-earth.kml+xml,application/xml,text/xml,*/*" onChange={handleFileUpload} className="hidden" />
                 </label>
                 {trackData && (
                   <button onClick={resetAll}
@@ -314,25 +315,30 @@ export default function SimuladorCarreraPage() {
           </div>
         </div>
 
-        {/* ══════ HIDRATACIÓN ══════ */}
-        <div className="bg-white border border-stone-200 rounded-xl p-4 shadow-sm space-y-2">
-          <div className="flex justify-between items-center">
-            <label className="text-xs font-black text-stone-700 uppercase tracking-tight">Tasa de Hidratación</label>
-            <span className="text-xs font-mono font-bold bg-stone-100 px-2 py-0.5 rounded text-stone-800">{mlPerHour} mL/h</span>
-          </div>
-          <input type="range" min={200} max={1200} step={50} value={mlPerHour}
-            onChange={e => setMlPerHour(parseInt(e.target.value))} className="w-full accent-stone-700 cursor-pointer" />
-        </div>
 
         {/* ══════ RESULTADOS ══════ */}
         {results && (
           <div className="space-y-2">
             <p className="text-xs font-black uppercase tracking-widest text-stone-400 px-1">Proyección Final de Carrera</p>
             <ResultsPanel projectedTime={results.projectedTime} carbsPerHour={results.carbsPerHour}
-              sodiumPerHour={results.sodiumPerHour} totalCarbs={results.totalCarbs} mlPerHour={results.mlPerHour}
+              sodiumPerHour={results.sodiumPerHour} totalCarbs={results.totalCarbs}
               sptcRange={results.sptcRange} kme={effKme} totalDistance={effDist} dPlus={effDPlus}
               nutritionStops={nutritionStops} totalEstimatedMinutes={totalEstimatedMinutes} />
           </div>
+        )}
+
+        {/* ══════ EXPORTAR ══════ */}
+        {results && (
+          <ExportReport
+            projectedTime={results.projectedTime} carbsPerHour={results.carbsPerHour}
+            sodiumPerHour={results.sodiumPerHour} totalCarbs={results.totalCarbs}
+            sptcRange={results.sptcRange} kme={effKme} totalDistance={effDist}
+            dPlus={effDPlus} dMinus={effDMinus}
+            nutritionStops={nutritionStops} aidStations={aidStations}
+            totalEstimatedMinutes={totalEstimatedMinutes}
+            points={trackData?.points || []}
+            nutritionItems={nutritionItems}
+          />
         )}
 
       </main>

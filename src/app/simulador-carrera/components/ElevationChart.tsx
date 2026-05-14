@@ -40,11 +40,28 @@ function fmtTimeShort(minutes: number): string {
   return `${m}'`;
 }
 
+const EMOJIS: Record<string, string> = {
+  gel: '⚡', solido: '🍌', sal: '🧂', cafeina: '☕', hidratacion: '💧',
+};
+
 // Tiny label on top of reference line
 function TopLabel({ viewBox, value, fill, offset = 0 }: any) {
   return (
     <text x={viewBox.x} y={4 + offset} fill={fill} fontSize={7} fontWeight="700"
       textAnchor="middle" dominantBaseline="hanging">{value}</text>
+  );
+}
+
+function VerticalNutritionLabel({ viewBox, items, offset = 0 }: any) {
+  return (
+    <g>
+      {items.map((it: any, idx: number) => (
+        <text key={idx} x={viewBox.x} y={4 + offset + idx * 11} fontSize={10}
+          textAnchor="middle" dominantBaseline="hanging">
+          {EMOJIS[it.type] || '⚡'}
+        </text>
+      ))}
+    </g>
   );
 }
 
@@ -190,11 +207,10 @@ export default function ElevationChart({ points, aidStations, nutritionItems, to
 
             {/* Nutrition lines */}
             {Object.entries(nutritionByKm).map(([km, items]) => {
-              const lbl = items.map(it => it.customLabel || it.type).join(', ');
               const c = NUTRITION_COLORS[items[0]?.type || 'gel'] || '#8b5cf6';
               return (
                 <ReferenceLine key={`n-${km}`} x={parseFloat(km)} stroke={c} strokeWidth={1} strokeDasharray="4 3" strokeOpacity={0.5}>
-                  <Label content={<TopLabel value={lbl} fill={c} offset={getOff(parseFloat(km), 'n')} />} />
+                  <Label content={<VerticalNutritionLabel items={items} offset={getOff(parseFloat(km), 'n')} />} />
                 </ReferenceLine>
               );
             })}

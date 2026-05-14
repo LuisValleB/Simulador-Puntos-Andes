@@ -36,11 +36,10 @@ function makeSubItem(type: string = 'gel'): NutritionSubItem {
 export default function NutritionPlanner({ stops, onChange, totalDistanceKm, planMode, onPlanModeChange, totalEstimatedMinutes }: Props) {
 
   const addStop = () => {
-    const lastStop = stops.length > 0 ? stops[stops.length - 1] : null;
     const newStop: NutritionStop = {
       id: Date.now().toString(),
-      km: lastStop ? lastStop.km : 0,
-      minuteMark: lastStop ? lastStop.minuteMark : 0,
+      km: 0,
+      minuteMark: 0,
       mode: planMode,
       items: [makeSubItem()],
     };
@@ -152,12 +151,27 @@ export default function NutritionPlanner({ stops, onChange, totalDistanceKm, pla
                     className="w-14 text-xs border border-[#8b5cf6]/30 bg-white rounded px-1.5 py-1 text-center font-mono font-bold focus:outline-none focus:border-[#8b5cf6]" />
                 </div>
               ) : (
-                <div className="flex items-center gap-1">
-                  <span className="text-[10px] font-bold text-[#8b5cf6]">min</span>
-                  <input type="number" min={0} max={totalEstimatedMinutes > 0 ? Math.ceil(totalEstimatedMinutes) : 1440} step={5}
-                    value={stop.minuteMark || ''}
-                    onChange={e => updateStop(stop.id, 'minuteMark', parseFloat(e.target.value) || 0)}
-                    className="w-16 text-xs border border-[#8b5cf6]/30 bg-white rounded px-1.5 py-1 text-center font-mono font-bold focus:outline-none focus:border-[#8b5cf6]" />
+                <div className="flex items-center gap-0.5">
+                  <input type="number" min={0} max={99} step={1}
+                    value={Math.floor((stop.minuteMark || 0) / 60) || ''}
+                    onChange={e => {
+                      const h = parseInt(e.target.value) || 0;
+                      const m = (stop.minuteMark || 0) % 60;
+                      updateStop(stop.id, 'minuteMark', h * 60 + m);
+                    }}
+                    className="w-10 text-xs border border-[#8b5cf6]/30 bg-white rounded px-1 py-1 text-center font-mono font-bold focus:outline-none focus:border-[#8b5cf6]"
+                    placeholder="h" />
+                  <span className="text-[9px] font-bold text-[#8b5cf6]">h</span>
+                  <input type="number" min={0} max={59} step={5}
+                    value={(stop.minuteMark || 0) % 60 || ''}
+                    onChange={e => {
+                      const h = Math.floor((stop.minuteMark || 0) / 60);
+                      const m = parseInt(e.target.value) || 0;
+                      updateStop(stop.id, 'minuteMark', h * 60 + m);
+                    }}
+                    className="w-10 text-xs border border-[#8b5cf6]/30 bg-white rounded px-1 py-1 text-center font-mono font-bold focus:outline-none focus:border-[#8b5cf6]"
+                    placeholder="m" />
+                  <span className="text-[9px] font-bold text-[#8b5cf6]">m</span>
                 </div>
               )}
 
