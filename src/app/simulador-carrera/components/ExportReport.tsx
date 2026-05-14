@@ -268,90 +268,92 @@ export default function ExportReport(props: Props) {
               
               {/* === LAYOUT 1: STANDARD === */}
               {layoutMode === 'standard' && (
-                <div ref={reportRef} style={{ width: '400px', background: '#FDFBF7', padding: '20px', borderRadius: '16px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', flexShrink: 0 }}>
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid #e7e5e4', paddingBottom: '12px', marginBottom: '14px' }}>
+                <div ref={reportRef} style={{ width: '420px', background: '#FDFBF7', padding: '24px', borderRadius: '16px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', flexShrink: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid #e7e5e4', paddingBottom: '12px', marginBottom: '16px' }}>
                     <div>
-                      <div style={{ fontSize: '16px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase', letterSpacing: '-0.5px' }}>Plan de Carrera</div>
+                      <div style={{ fontSize: '18px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase', letterSpacing: '-0.5px', marginBottom: '2px' }}>Plan de Carrera</div>
                       <div style={{ fontSize: '9px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '2px' }}>Simulador Puntos Andes</div>
                     </div>
                     <img src="/logo.png" alt="Logo" style={{ height: '36px', objectFit: 'contain' }} crossOrigin="anonymous" />
                   </div>
 
                   {/* Metrics */}
-                  <div style={{ display: 'flex', gap: '6px', marginBottom: '12px' }}>
+                  <div style={{ display: 'flex', gap: '8px', marginBottom: '16px' }}>
                     {[
                       { v: `${props.totalDistance.toFixed(1)} km`, l: 'Distancia' },
                       { v: `${props.dPlus.toLocaleString()} m`, l: 'D+' },
                       { v: `${props.dMinus.toLocaleString()} m`, l: 'D-' },
                       { v: props.kme.toFixed(1), l: 'KmE' },
                     ].map((s, i) => (
-                      <div key={i} style={{ flex: 1, background: 'white', border: '1px solid #e7e5e4', borderRadius: '8px', padding: '6px', textAlign: 'center' }}>
-                        <div style={{ fontSize: '12px', fontWeight: 900, color: i === 3 ? '#10A49B' : '#1c1917' }}>{s.v}</div>
-                        <div style={{ fontSize: '7px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase' }}>{s.l}</div>
+                      <div key={i} style={{ flex: 1, background: 'white', border: '1px solid #e7e5e4', borderRadius: '8px', padding: '8px 4px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '13px', fontWeight: 900, color: i === 3 ? '#10A49B' : '#1c1917' }}>{s.v}</div>
+                        <div style={{ fontSize: '7px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase', marginTop: '2px' }}>{s.l}</div>
                       </div>
                     ))}
                   </div>
 
                   {/* Time box */}
-                  <div style={{ background: '#1c1917', color: 'white', borderRadius: '10px', padding: '12px', textAlign: 'center', marginBottom: '12px' }}>
-                    <div style={{ fontSize: '8px', fontWeight: 700, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '2px' }}>Tiempo Estimado</div>
-                    <div style={{ fontSize: '28px', fontWeight: 900, fontFamily: 'monospace', letterSpacing: '-1px' }}>{props.projectedTime}</div>
+                  <div style={{ background: '#1c1917', color: 'white', borderRadius: '12px', padding: '14px', textAlign: 'center', marginBottom: '16px' }}>
+                    <div style={{ fontSize: '9px', fontWeight: 700, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '4px' }}>Tiempo Estimado</div>
+                    <div style={{ fontSize: '32px', fontWeight: 900, fontFamily: 'monospace', letterSpacing: '-1px' }}>{props.projectedTime}</div>
                   </div>
 
                   {/* Graph */}
-                  <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px', marginBottom: '12px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
-                      <span style={{ fontSize: '8px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px' }}>📈 Altimetría</span>
-                      {props.altitudeAvg && props.altitudeAvg > 0 ? <span style={{ fontSize: '7px', fontWeight: 700, color: '#a8a29e' }}>Alt. media: {Math.round(props.altitudeAvg)}m</span> : null}
+                  <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '12px', padding: '12px', marginBottom: '16px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
+                      <span style={{ fontSize: '9px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px' }}>📈 Altimetría</span>
+                      {props.altitudeAvg && props.altitudeAvg > 0 ? <span style={{ fontSize: '8px', fontWeight: 700, color: '#a8a29e' }}>Alt. media: {Math.round(props.altitudeAvg)}m</span> : null}
                     </div>
-                    {renderSvgProfile(338, 130)}
+                    {renderSvgProfile(370, 140)}
                   </div>
 
                   {/* Segment detail table */}
                   {segmentDetails.length > 1 && (
-                    <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px', marginBottom: '12px' }}>
-                      <div style={{ fontSize: '8px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>🗺️ Segmentos</div>
+                    <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '12px', padding: '12px', marginBottom: '16px' }}>
+                      <div style={{ fontSize: '9px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>🗺️ Segmentos</div>
                       {segmentDetails.map((seg, i) => (
-                        <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '3px 0', borderBottom: i < segmentDetails.length - 1 ? '1px solid #f5f5f4' : 'none', fontSize: '8px' }}>
-                          <span style={{ fontWeight: 700, color: '#1c1917', flex: 1 }}>{seg.from} - {seg.to}</span>
-                          <span style={{ fontFamily: 'monospace', color: '#78716c', whiteSpace: 'nowrap' }}>{seg.km}km</span>
-                          <span style={{ color: '#16a34a', fontWeight: 700, whiteSpace: 'nowrap' }}>+{seg.dPlus}m</span>
-                          <span style={{ color: '#dc2626', fontWeight: 700, whiteSpace: 'nowrap' }}>-{seg.dMinus}m</span>
-                          <span style={{ color: '#6366f1', fontWeight: 700, whiteSpace: 'nowrap' }}>{seg.timeStr}</span>
+                        <div key={i} style={{ padding: '6px 0', borderBottom: i < segmentDetails.length - 1 ? '1px solid #f5f5f4' : 'none' }}>
+                          <div style={{ fontSize: '10px', fontWeight: 800, color: '#1c1917', marginBottom: '3px' }}>{seg.from} - {seg.to}</div>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', fontFamily: 'monospace', color: '#78716c' }}>
+                            <span>📏 {seg.km} km</span>
+                            <span style={{ color: '#16a34a', fontWeight: 700 }}>+{seg.dPlus}m</span>
+                            <span style={{ color: '#dc2626', fontWeight: 700 }}>-{seg.dMinus}m</span>
+                            <span style={{ color: '#6366f1', fontWeight: 700 }}>⏱ {seg.timeStr}</span>
+                          </div>
                         </div>
                       ))}
                     </div>
                   )}
 
                   {/* Nutrition */}
-                  <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px', marginBottom: '12px' }}>
-                    <div style={{ fontSize: '8px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>⚡ Estrategia Nutricional</div>
-                    <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
-                      <div style={{ flex: 1, background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '6px', padding: '6px', textAlign: 'center' }}>
-                        <div style={{ fontSize: '15px', fontWeight: 900, color: '#3b82f6' }}>{props.carbsPerHour}</div>
-                        <div style={{ fontSize: '7px', fontWeight: 700, color: '#78716c' }}>g CH/h</div>
+                  <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '12px', padding: '12px', marginBottom: '16px' }}>
+                    <div style={{ fontSize: '9px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>⚡ Estrategia Nutricional</div>
+                    <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
+                      <div style={{ flex: 1, background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '8px', padding: '8px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '16px', fontWeight: 900, color: '#3b82f6' }}>{props.carbsPerHour}</div>
+                        <div style={{ fontSize: '8px', fontWeight: 700, color: '#78716c', marginTop: '2px' }}>g CH/h</div>
                       </div>
-                      <div style={{ flex: 1, background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: '6px', padding: '6px', textAlign: 'center' }}>
-                        <div style={{ fontSize: '15px', fontWeight: 900, color: '#44403c' }}>{props.sodiumPerHour}</div>
-                        <div style={{ fontSize: '7px', fontWeight: 700, color: '#78716c' }}>mg Na/h</div>
+                      <div style={{ flex: 1, background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: '8px', padding: '8px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '16px', fontWeight: 900, color: '#44403c' }}>{props.sodiumPerHour}</div>
+                        <div style={{ fontSize: '8px', fontWeight: 700, color: '#78716c', marginTop: '2px' }}>mg Na/h</div>
                       </div>
-                      <div style={{ flex: 1, background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '6px', padding: '6px', textAlign: 'center' }}>
-                        <div style={{ fontSize: '15px', fontWeight: 900, color: '#2563eb' }}>{mlPerHour}</div>
-                        <div style={{ fontSize: '7px', fontWeight: 700, color: '#78716c' }}>mL/h</div>
+                      <div style={{ flex: 1, background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '8px', padding: '8px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '16px', fontWeight: 900, color: '#2563eb' }}>{mlPerHour}</div>
+                        <div style={{ fontSize: '8px', fontWeight: 700, color: '#78716c', marginTop: '2px' }}>mL/h</div>
                       </div>
                     </div>
 
                     {sortedItems.length > 0 && (
-                      <div style={{ borderTop: '1px solid #f5f5f4', paddingTop: '6px' }}>
+                      <div style={{ borderTop: '1px solid #f5f5f4', paddingTop: '8px' }}>
                         {sortedItems.map((item, i) => (
-                          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: '#fafaf9', borderRadius: '4px', padding: '3px 6px', marginBottom: '2px', fontSize: '9px' }}>
+                          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#fafaf9', borderRadius: '6px', padding: '4px 8px', marginBottom: '4px', fontSize: '10px' }}>
                             <span>{EMOJIS[item.type] || '📦'}</span>
                             <span style={{ fontWeight: 700, color: '#1c1917', flex: 1 }}>{item.label}</span>
-                            <span style={{ fontWeight: 900, color: '#8b5cf6', fontFamily: 'monospace' }}>×{item.qty}</span>
-                            <span style={{ fontFamily: 'monospace', color: '#78716c', fontSize: '8px' }}>{item.carbs}g</span>
+                            <span style={{ fontWeight: 900, color: '#8b5cf6', fontFamily: 'monospace', marginRight: '6px' }}>×{item.qty}</span>
+                            <span style={{ fontFamily: 'monospace', color: '#78716c', fontSize: '9px' }}>{item.carbs}g</span>
                           </div>
                         ))}
-                        <div style={{ fontSize: '7px', color: '#a8a29e', textAlign: 'center', marginTop: '4px' }}>
+                        <div style={{ fontSize: '8px', color: '#a8a29e', textAlign: 'center', marginTop: '6px' }}>
                           Totales: {totalCarbsAll}g CH · {totalSodiumAll}mg Na · {totalMl}mL
                         </div>
                       </div>
@@ -359,14 +361,14 @@ export default function ExportReport(props: Props) {
                   </div>
 
                   {/* SPTC */}
-                  <div style={{ background: '#ecfdf5', border: '1px solid rgba(16,164,155,0.3)', borderRadius: '10px', padding: '10px', textAlign: 'center', marginBottom: '12px', position: 'relative', overflow: 'hidden' }}>
-                    <div style={{ fontSize: '8px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', marginBottom: '4px' }}>Proyección Puntos Andes</div>
-                    <div style={{ fontSize: '28px', fontWeight: 900, color: '#10A49B', lineHeight: 1 }}>{props.sptcRange.mid}</div>
-                    <div style={{ fontSize: '7px', color: '#78716c', marginTop: '2px' }}>Rango: {props.sptcRange.low} - {props.sptcRange.high}</div>
+                  <div style={{ background: '#ecfdf5', border: '1px solid rgba(16,164,155,0.3)', borderRadius: '12px', padding: '12px', textAlign: 'center', marginBottom: '16px' }}>
+                    <div style={{ fontSize: '9px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', marginBottom: '4px' }}>Proyección Puntos Andes</div>
+                    <div style={{ fontSize: '32px', fontWeight: 900, color: '#10A49B', lineHeight: 1 }}>{props.sptcRange.mid}</div>
+                    <div style={{ fontSize: '8px', color: '#78716c', marginTop: '4px' }}>Rango: {props.sptcRange.low} - {props.sptcRange.high}</div>
                   </div>
 
                   {/* Footer */}
-                  <div style={{ borderTop: '1px solid #e7e5e4', paddingTop: '8px', textAlign: 'center', fontSize: '8px', color: '#a8a29e' }}>
+                  <div style={{ borderTop: '1px solid #e7e5e4', paddingTop: '10px', textAlign: 'center', fontSize: '9px', color: '#a8a29e' }}>
                     <span style={{ fontWeight: 900, color: '#10A49B' }}>www.puntosandes.com</span>
                   </div>
                 </div>
@@ -381,12 +383,12 @@ export default function ExportReport(props: Props) {
                     <div style={{ fontSize: '9px', fontWeight: 900, color: '#2dd4bf', textTransform: 'uppercase', letterSpacing: '3px' }}>Plan de Carrera</div>
                   </div>
 
-                  {/* Time & Score promo block */}
+                  {/* Time & Score promo block cleanly separated without pill background */}
                   <div style={{ textAlign: 'center', padding: '8px 0' }}>
-                    <div style={{ fontSize: '9px', fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '4px' }}>Tiempo Objetivo</div>
-                    <div style={{ fontSize: '38px', fontWeight: 900, fontFamily: 'monospace', color: '#2dd4bf', lineHeight: 1, marginBottom: '6px' }}>{props.projectedTime}</div>
-                    <div style={{ display: 'inline-block', background: 'rgba(45,212,191,0.15)', border: '1px solid rgba(45,212,191,0.4)', borderRadius: '20px', padding: '3px 12px', fontSize: '9px', fontWeight: 900, color: '#2dd4bf' }}>
-                      Puntos Andes: {props.sptcRange.mid}
+                    <div style={{ fontSize: '9px', fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '6px' }}>Tiempo Objetivo</div>
+                    <div style={{ fontSize: '36px', fontWeight: 900, fontFamily: 'monospace', color: '#2dd4bf', lineHeight: 1, marginBottom: '10px' }}>{props.projectedTime}</div>
+                    <div style={{ fontSize: '11px', fontWeight: 900, color: '#2dd4bf', letterSpacing: '0.5px' }}>
+                      Proyección Puntos Andes: {props.sptcRange.mid}
                     </div>
                   </div>
 
@@ -400,13 +402,13 @@ export default function ExportReport(props: Props) {
                     ].map((s, i) => (
                       <div key={i} style={{ flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '8px 4px', textAlign: 'center' }}>
                         <div style={{ fontSize: '13px', fontWeight: 900, color: i === 3 ? '#2dd4bf' : 'white' }}>{s.v}</div>
-                        <div style={{ fontSize: '7px', fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase' }}>{s.l}</div>
+                        <div style={{ fontSize: '7px', fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', marginTop: '2px' }}>{s.l}</div>
                       </div>
                     ))}
                   </div>
 
                   {/* Graph */}
-                  <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px', margin: '10px 0' }}>
+                  <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px', margin: '4px 0' }}>
                     <div style={{ fontSize: '8px', fontWeight: 900, color: '#2dd4bf', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>Altimetría y Puntos</div>
                     {renderSvgProfile(300, 110, true)}
                   </div>
@@ -414,23 +416,23 @@ export default function ExportReport(props: Props) {
                   {/* Strategy Row */}
                   <div style={{ display: 'flex', gap: '8px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '10px' }}>
                     <div style={{ flex: 1, textAlign: 'center' }}>
-                      <div style={{ fontSize: '8px', color: '#9ca3af', textTransform: 'uppercase' }}>Carbohidratos</div>
+                      <div style={{ fontSize: '8px', color: '#9ca3af', textTransform: 'uppercase', marginBottom: '2px' }}>Carbohidratos</div>
                       <div style={{ fontSize: '16px', fontWeight: 900, color: '#60a5fa' }}>{props.carbsPerHour}<span style={{ fontSize: '9px', fontWeight: 400 }}>g/h</span></div>
                     </div>
                     <div style={{ width: '1px', background: 'rgba(255,255,255,0.1)' }}></div>
                     <div style={{ flex: 1, textAlign: 'center' }}>
-                      <div style={{ fontSize: '8px', color: '#9ca3af', textTransform: 'uppercase' }}>Sodio</div>
+                      <div style={{ fontSize: '8px', color: '#9ca3af', textTransform: 'uppercase', marginBottom: '2px' }}>Sodio</div>
                       <div style={{ fontSize: '16px', fontWeight: 900, color: '#f3f4f6' }}>{props.sodiumPerHour}<span style={{ fontSize: '9px', fontWeight: 400 }}>mg/h</span></div>
                     </div>
                     <div style={{ width: '1px', background: 'rgba(255,255,255,0.1)' }}></div>
                     <div style={{ flex: 1, textAlign: 'center' }}>
-                      <div style={{ fontSize: '8px', color: '#9ca3af', textTransform: 'uppercase' }}>Líquido</div>
+                      <div style={{ fontSize: '8px', color: '#9ca3af', textTransform: 'uppercase', marginBottom: '2px' }}>Líquido</div>
                       <div style={{ fontSize: '16px', fontWeight: 900, color: '#38bdf8' }}>{mlPerHour}<span style={{ fontSize: '9px', fontWeight: 400 }}>mL/h</span></div>
                     </div>
                   </div>
 
                   {/* Bottom Tag */}
-                  <div style={{ textAlign: 'center', marginTop: '12px' }}>
+                  <div style={{ textAlign: 'center', marginTop: '8px' }}>
                     <div style={{ fontSize: '9px', fontWeight: 900, color: '#2dd4bf', marginBottom: '4px' }}>www.puntosandes.com</div>
                     <span style={{ background: '#2dd4bf', color: '#111827', fontSize: '10px', fontWeight: 900, padding: '3px 12px', borderRadius: '20px', display: 'inline-block' }}>
                       @puntosandes
@@ -441,14 +443,14 @@ export default function ExportReport(props: Props) {
 
               {/* === LAYOUT 3: HORIZONTAL (Completo) === */}
               {layoutMode === 'horizontal' && (
-                <div ref={reportRef} style={{ width: '800px', background: '#FDFBF7', padding: '24px', borderRadius: '16px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', flexShrink: 0 }}>
+                <div ref={reportRef} style={{ width: '840px', background: '#FDFBF7', padding: '28px', borderRadius: '20px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', flexShrink: 0 }}>
                   {/* Header */}
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #e7e5e4', paddingBottom: '12px', marginBottom: '16px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #e7e5e4', paddingBottom: '16px', marginBottom: '20px' }}>
                     <div>
-                      <div style={{ fontSize: '18px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase', letterSpacing: '-0.5px' }}>Plan de Carrera</div>
-                      <div style={{ fontSize: '10px', color: '#a8a29e', fontWeight: 700 }}>Simulador Puntos Andes · www.puntosandes.com</div>
+                      <div style={{ fontSize: '20px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase', letterSpacing: '-0.5px', marginBottom: '2px' }}>Plan de Carrera</div>
+                      <div style={{ fontSize: '11px', color: '#a8a29e', fontWeight: 700 }}>Simulador Puntos Andes · www.puntosandes.com</div>
                     </div>
-                    <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
                       {[
                         { v: `${props.totalDistance.toFixed(1)} km`, l: 'Distancia', c: '#1c1917' },
                         { v: `${props.dPlus.toLocaleString()} m`, l: 'D+', c: '#16a34a' },
@@ -456,78 +458,78 @@ export default function ExportReport(props: Props) {
                         { v: props.kme.toFixed(1), l: 'KmE', c: '#10A49B' },
                         ...(props.altitudeAvg && props.altitudeAvg > 0 ? [{ v: `${Math.round(props.altitudeAvg)} m`, l: 'Alt. Media', c: '#7c3aed' }] : []),
                       ].map((m, i) => (
-                        <div key={i} style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '8px', padding: '6px 10px', textAlign: 'center', minWidth: '60px' }}>
-                          <div style={{ fontSize: '14px', fontWeight: 900, color: m.c }}>{m.v}</div>
-                          <div style={{ fontSize: '7px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase' }}>{m.l}</div>
+                        <div key={i} style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '8px 12px', textAlign: 'center', minWidth: '65px' }}>
+                          <div style={{ fontSize: '15px', fontWeight: 900, color: m.c }}>{m.v}</div>
+                          <div style={{ fontSize: '8px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase', marginTop: '2px' }}>{m.l}</div>
                         </div>
                       ))}
-                      <img src="/logo.png" alt="Logo" style={{ height: '36px', objectFit: 'contain' }} crossOrigin="anonymous" />
+                      <img src="/logo.png" alt="Logo" style={{ height: '40px', objectFit: 'contain', marginLeft: '4px' }} crossOrigin="anonymous" />
                     </div>
                   </div>
 
                   {/* Main row */}
-                  <div style={{ display: 'flex', gap: '16px' }}>
+                  <div style={{ display: 'flex', gap: '20px' }}>
                     {/* Left: Time + Nutrition */}
-                    <div style={{ width: '180px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                      <div style={{ background: '#1c1917', color: 'white', borderRadius: '10px', padding: '14px', textAlign: 'center' }}>
-                        <div style={{ fontSize: '8px', color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '2px' }}>Tiempo Estimado</div>
-                        <div style={{ fontSize: '26px', fontWeight: 900, fontFamily: 'monospace', lineHeight: 1 }}>{props.projectedTime}</div>
+                    <div style={{ width: '200px', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                      <div style={{ background: '#1c1917', color: 'white', borderRadius: '12px', padding: '16px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '9px', color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px', fontWeight: 700 }}>Tiempo Estimado</div>
+                        <div style={{ fontSize: '28px', fontWeight: 900, fontFamily: 'monospace', lineHeight: 1 }}>{props.projectedTime}</div>
                       </div>
-                      <div style={{ background: '#ecfdf5', border: '1px solid rgba(16,164,155,0.3)', borderRadius: '10px', padding: '10px', textAlign: 'center' }}>
-                        <div style={{ fontSize: '8px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', marginBottom: '4px' }}>Proyección Puntos Andes</div>
-                        <div style={{ fontSize: '24px', fontWeight: 900, color: '#10A49B', lineHeight: 1 }}>{props.sptcRange.mid}</div>
-                        <div style={{ fontSize: '7px', color: '#78716c', marginTop: '2px' }}>Rango: {props.sptcRange.low} – {props.sptcRange.high}</div>
+                      <div style={{ background: '#ecfdf5', border: '1px solid rgba(16,164,155,0.3)', borderRadius: '12px', padding: '12px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '9px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', marginBottom: '4px' }}>Proyección Puntos Andes</div>
+                        <div style={{ fontSize: '26px', fontWeight: 900, color: '#10A49B', lineHeight: 1 }}>{props.sptcRange.mid}</div>
+                        <div style={{ fontSize: '8px', color: '#78716c', marginTop: '4px' }}>Rango: {props.sptcRange.low} – {props.sptcRange.high}</div>
                       </div>
-                      <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px' }}>
-                        <div style={{ fontSize: '8px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', marginBottom: '8px' }}>⚡ Nutrición / Hora</div>
+                      <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '12px', padding: '12px' }}>
+                        <div style={{ fontSize: '9px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', marginBottom: '10px' }}>⚡ Nutrición / Hora</div>
                         {[
                           { v: props.carbsPerHour, u: 'g CH/h', c: '#3b82f6', bg: '#eff6ff' },
                           { v: props.sodiumPerHour, u: 'mg Na/h', c: '#44403c', bg: '#fafaf9' },
                           { v: mlPerHour, u: 'mL/h', c: '#2563eb', bg: '#eff6ff' },
                         ].map((n, i) => (
-                          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: n.bg, borderRadius: '4px', padding: '4px 6px', marginBottom: '3px' }}>
-                            <span style={{ fontSize: '7px', fontWeight: 700, color: '#78716c', textTransform: 'uppercase' }}>{n.u}</span>
-                            <span style={{ fontSize: '14px', fontWeight: 900, color: n.c, fontFamily: 'monospace' }}>{n.v}</span>
+                          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: n.bg, borderRadius: '6px', padding: '6px 8px', marginBottom: '4px' }}>
+                            <span style={{ fontSize: '8px', fontWeight: 700, color: '#78716c', textTransform: 'uppercase' }}>{n.u}</span>
+                            <span style={{ fontSize: '15px', fontWeight: 900, color: n.c, fontFamily: 'monospace' }}>{n.v}</span>
                           </div>
                         ))}
                         {sortedItems.length > 0 && (
-                          <div style={{ borderTop: '1px solid #f5f5f4', paddingTop: '6px', marginTop: '4px' }}>
+                          <div style={{ borderTop: '1px solid #f5f5f4', paddingTop: '8px', marginTop: '6px' }}>
                             {sortedItems.slice(0, 6).map((item, i) => (
-                              <div key={i} style={{ display: 'flex', gap: '3px', alignItems: 'center', fontSize: '8px', marginBottom: '2px' }}>
+                              <div key={i} style={{ display: 'flex', gap: '4px', alignItems: 'center', fontSize: '9px', marginBottom: '4px' }}>
                                 <span>{EMOJIS[item.type] || '📦'}</span>
-                                <span style={{ flex: 1, color: '#1c1917', fontWeight: 600, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.label}</span>
+                                <span style={{ flex: 1, color: '#1c1917', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.label}</span>
                                 <span style={{ color: '#8b5cf6', fontWeight: 900, fontFamily: 'monospace' }}>×{item.qty}</span>
                               </div>
                             ))}
-                            <div style={{ fontSize: '7px', color: '#a8a29e', marginTop: '3px' }}>Total: {totalCarbsAll}g CH · {totalSodiumAll}mg Na · {totalMl}mL</div>
+                            <div style={{ fontSize: '8px', color: '#a8a29e', marginTop: '6px', textAlign: 'center' }}>Total: {totalCarbsAll}g CH · {totalSodiumAll}mg Na · {totalMl}mL</div>
                           </div>
                         )}
                       </div>
                     </div>
 
                     {/* Right: Chart + Segments */}
-                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                      <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '6px' }}>
-                          <span style={{ fontSize: '8px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase' }}>📈 Perfil de Elevación y Nutrición</span>
-                          {props.altitudeAvg && props.altitudeAvg > 0 && <span style={{ fontSize: '7px', color: '#a8a29e' }}>Altitud media: {Math.round(props.altitudeAvg)} m</span>}
+                    <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                      <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '12px', padding: '14px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
+                          <span style={{ fontSize: '9px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase' }}>📈 Perfil de Elevación y Nutrición</span>
+                          {props.altitudeAvg && props.altitudeAvg > 0 && <span style={{ fontSize: '8px', color: '#a8a29e', fontWeight: 700 }}>Altitud media: {Math.round(props.altitudeAvg)} m</span>}
                         </div>
-                        {renderSvgProfile(560, 140)}
+                        {renderSvgProfile(560, 150)}
                       </div>
 
                       {segmentDetails.length > 1 && (
-                        <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px' }}>
-                          <div style={{ fontSize: '8px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', marginBottom: '6px' }}>🗺️ Detalle por Segmento</div>
-                          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(segmentDetails.length, 5)}, 1fr)`, gap: '6px' }}>
+                        <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '12px', padding: '14px' }}>
+                          <div style={{ fontSize: '9px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', marginBottom: '10px' }}>🗺️ Detalle por Segmento</div>
+                          <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(segmentDetails.length, 5)}, 1fr)`, gap: '8px' }}>
                             {segmentDetails.map((seg, i) => (
-                              <div key={i} style={{ background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: '6px', padding: '6px', textAlign: 'center' }}>
-                                <div style={{ fontSize: '7px', fontWeight: 900, color: '#1c1917', marginBottom: '3px', lineHeight: '1.3' }}>{seg.from} - {seg.to}</div>
-                                <div style={{ fontSize: '10px', fontWeight: 900, color: '#78716c', fontFamily: 'monospace' }}>{seg.km} km</div>
-                                <div style={{ display: 'flex', justifyContent: 'center', gap: '4px', marginTop: '2px' }}>
-                                  <span style={{ fontSize: '8px', fontWeight: 700, color: '#16a34a' }}>+{seg.dPlus}m</span>
-                                  <span style={{ fontSize: '8px', fontWeight: 700, color: '#dc2626' }}>-{seg.dMinus}m</span>
+                              <div key={i} style={{ background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: '8px', padding: '8px', textAlign: 'center' }}>
+                                <div style={{ fontSize: '10px', fontWeight: 900, color: '#1c1917', marginBottom: '4px' }}>{seg.from}<br/>↓<br/>{seg.to}</div>
+                                <div style={{ fontSize: '11px', fontWeight: 900, color: '#78716c', fontFamily: 'monospace', margin: '4px 0' }}>{seg.km} km</div>
+                                <div style={{ display: 'flex', justifyContent: 'space-around', margin: '4px 0' }}>
+                                  <span style={{ fontSize: '9px', fontWeight: 800, color: '#16a34a' }}>+{seg.dPlus}m</span>
+                                  <span style={{ fontSize: '9px', fontWeight: 800, color: '#dc2626' }}>-{seg.dMinus}m</span>
                                 </div>
-                                <div style={{ fontSize: '8px', color: '#6366f1', fontWeight: 700, marginTop: '2px' }}>{seg.timeStr}</div>
+                                <div style={{ fontSize: '9px', color: '#6366f1', fontWeight: 800, marginTop: '4px' }}>{seg.timeStr}</div>
                               </div>
                             ))}
                           </div>
