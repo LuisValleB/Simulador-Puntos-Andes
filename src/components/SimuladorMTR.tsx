@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import html2canvas from 'html2canvas';
 import { calculatePuntosAndesScore } from '../utils/calculoRendimiento';
 import { calcularRAP } from '../utils/calculoRAP';
 
@@ -102,6 +103,12 @@ export default function SimuladorMTR() {
   const [targetScoreInput, setTargetScoreInput] = useState<string>('');
 
   const [scoreData, setScoreData] = useState<any>(null);
+
+  // Export states
+  const [isExportOpen, setIsExportOpen] = useState(false);
+  const [exportLayout, setExportLayout] = useState<'standard' | 'story' | 'horizontal'>('standard');
+  const exportRef = useRef<HTMLDivElement>(null);
+  const [exporting, setExporting] = useState(false);
 
   const safeDistance = isNaN(distance) || distance <= 0 ? 0.01 : distance;
   const safeDPlus = isNaN(dPlus) ? 0 : dPlus;

@@ -26,6 +26,8 @@ interface Props {
 }
 
 export default function ExportReport(props: Props) {
+  const [isOpen, setIsOpen] = useState(false);
+  const [layoutMode, setLayoutMode] = useState<'standard' | 'story' | 'horizontal'>('standard');
   const reportRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
 
@@ -33,27 +35,15 @@ export default function ExportReport(props: Props) {
     if (!reportRef.current) return;
     setExporting(true);
     try {
-      // Temporarily show the hidden report
-      reportRef.current.style.display = 'block';
-      reportRef.current.style.position = 'absolute';
-      reportRef.current.style.left = '-9999px';
-      reportRef.current.style.top = '0';
-
       const canvas = await html2canvas(reportRef.current, {
-        backgroundColor: '#FDFBF7',
         scale: 2,
         useCORS: true,
         logging: false,
-        width: 420,
+        backgroundColor: layoutMode === 'story' ? '#111827' : '#FDFBF7',
       });
 
-      reportRef.current.style.display = 'none';
-      reportRef.current.style.position = '';
-      reportRef.current.style.left = '';
-      reportRef.current.style.top = '';
-
       const link = document.createElement('a');
-      link.download = `plan-carrera-${Date.now()}.png`;
+      link.download = `puntos-andes-${layoutMode}-${Date.now()}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
     } catch (err) {
@@ -95,243 +85,381 @@ export default function ExportReport(props: Props) {
   const mlPerHour = totalHours > 0 ? Math.round(totalMl / totalHours) : 0;
   const sortedItems = items.sort((a, b) => b.qty - a.qty);
 
-  // Mini Chart data
-  const hasPoints = props.points && props.points.length > 0;
-  const chartPoints = hasPoints ? props.points!.filter((_, i) => i % Math.max(1, Math.floor(props.points!.length / 120)) === 0) : [];
-  const maxDist = hasPoints ? props.points![props.points!.length - 1].distance : props.totalDistance;
-  const elevations = chartPoints.map(p => p.elevation);
-  const minEle = hasPoints ? Math.min(...elevations) : 0;
-  const maxEle = hasPoints ? Math.max(...elevations) : 100;
-  const eleRange = maxEle - minEle || 100;
+  // Reusable inline SVG Profile chart
+  const renderSvgProfile = (w: number, h: number, isDark = false) => {
+    const hasPoints = props.points && props.points.length > 0;
+    const chartPoints = hasPoints ? props.points!.filter((_, i) => i % Math.max(1, Math.floor(props.points!.length / 100)) === 0) : [];
+    const maxDist = hasPoints ? props.points![props.points!.length - 1].distance : props.totalDistance;
+    const elevations = chartPoints.map(p => p.elevation);
+    const minEle = hasPoints ? Math.min(...elevations) : 0;
+    const maxEle = hasPoints ? Math.max(...elevations) : 100;
+    const eleRange = maxEle - minEle || 100;
 
-  const svgWidth = 372;
-  const svgHeight = 135;
-  const getX = (d: number) => maxDist > 0 ? (d / maxDist) * svgWidth : 0;
-  const getY = (e: number) => 120 - ((e - minEle) / eleRange) * 75;
+    const basePad = 25; // padding top for nutrition icons
+    const graphH = h - 20; // baseline y
+    const getX = (d: number) => maxDist > 0 ? (d / maxDist) * w : 0;
+    const getY = (e: number) => graphH - ((e - minEle) / eleRange) * (graphH - basePad);
 
-  let pathD = '';
-  if (hasPoints && chartPoints.length > 0) {
-    pathD = `M ${getX(chartPoints[0].distance)} 120 `;
-    for (const p of chartPoints) {
-      pathD += `L ${getX(p.distance)} ${getY(p.elevation)} `;
+    let pathD = '';
+    if (hasPoints && chartPoints.length > 0) {
+      pathD = `M ${getX(chartPoints[0].distance)} ${graphH} `;
+      for (const p of chartPoints) {
+        pathD += `L ${getX(p.distance)} ${getY(p.elevation)} `;
+      }
+      pathD += `L ${getX(chartPoints[chartPoints.length - 1].distance)} ${graphH} Z`;
+    } else {
+      pathD = `M 0 ${graphH} L ${w * 0.3} ${basePad + 15} L ${w * 0.7} ${basePad + 5} L ${w} ${graphH} Z`;
     }
-    pathD += `L ${getX(chartPoints[chartPoints.length - 1].distance)} 120 Z`;
-  } else {
-    pathD = `M 0 120 L ${svgWidth * 0.3} 60 L ${svgWidth * 0.7} 40 L ${svgWidth} 120 Z`;
-  }
 
+    const strokeColor = isDark ? '#2dd4bf' : '#10A49B';
+    const baseColor = isDark ? '#374151' : '#e7e5e4';
+    const textColor = isDark ? '#9ca3af' : '#a8a29e';
+
+    return (
+      <div style={{ position: 'relative', width: '100%', height: `${h}px`, boxSizing: 'border-box' }}>
+        <svg width="100%" height={h} viewBox={`0 0 ${w} ${h}`} style={{ display: 'block' }}>
+          <defs>
+            <linearGradient id={`grad-${w}-${isDark}`} x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor={strokeColor} stopOpacity={isDark ? 0.4 : 0.35} />
+              <stop offset="100%" stopColor={strokeColor} stopOpacity={0.02} />
+            </linearGradient>
+          </defs>
+          {/* Baseline */}
+          <line x1={0} y1={graphH} x2={w} y2={graphH} stroke={baseColor} strokeWidth={1} />
+          
+          {/* Profile Area */}
+          <path d={pathD} fill={`url(#grad-${w}-${isDark})`} stroke={strokeColor} strokeWidth={1.5} />
+
+          {/* Aid stations */}
+          {props.aidStations.filter(s => s.km > 0).map((s, i) => {
+            const x = getX(s.km);
+            return (
+              <g key={`aid-${i}`}>
+                <line x1={x} y1={basePad} x2={x} y2={graphH} stroke="#e67e22" strokeWidth={1} strokeDasharray="2 2" opacity={0.7} />
+                <circle cx={x} cy={graphH} r={2.5} fill="#e67e22" />
+                <text x={x} y={basePad - 4} fill={isDark ? '#fdba74' : '#c2410c'} fontSize={8} fontWeight={900} textAnchor="middle">{s.label}</text>
+              </g>
+            );
+          })}
+
+          {/* Nutrition Items stacked vertically */}
+          {Object.entries(
+            (props.nutritionItems || []).filter(n => n.km > 0).reduce((acc, item) => {
+              const key = item.km.toFixed(1);
+              if (!acc[key]) acc[key] = [];
+              acc[key].push(item);
+              return acc;
+            }, {} as Record<string, any[]>)
+          ).map(([kmStr, nItemsVal], i) => {
+            const nItems = nItemsVal as any[];
+            const km = parseFloat(kmStr);
+            const x = getX(km);
+            return (
+              <g key={`nut-${i}`}>
+                <line x1={x} y1={basePad} x2={x} y2={graphH} stroke="#8b5cf6" strokeWidth={0.7} strokeDasharray="1 2" opacity={0.6} />
+                {nItems.map((it, idx) => (
+                  <text key={idx} x={x} y={basePad + 2 + idx * 10} fontSize={10} textAnchor="middle" dominantBaseline="hanging">
+                    {EMOJIS[it.type] || '⚡'}
+                  </text>
+                ))}
+              </g>
+            );
+          })}
+        </svg>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '8px', fontWeight: 700, color: textColor, marginTop: '2px' }}>
+          <span>0 km</span>
+          <span>{props.totalDistance.toFixed(1)} km</span>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <>
-      {/* Download button */}
+      {/* Trigger button */}
       <button
-        onClick={handleExport}
-        disabled={exporting}
-        className="w-full bg-gradient-to-r from-[#10A49B] to-teal-600 text-white font-black py-3 rounded-xl shadow-md hover:shadow-lg transition-all text-sm uppercase tracking-wider flex items-center justify-center gap-2 border border-teal-500/30 disabled:opacity-50"
+        onClick={() => setIsOpen(true)}
+        className="w-full bg-gradient-to-r from-[#10A49B] to-teal-600 text-white font-black py-3 rounded-xl shadow-md hover:shadow-lg transition-all text-sm uppercase tracking-wider flex items-center justify-center gap-2 border border-teal-500/30"
       >
-        {exporting ? (
-          <span className="animate-pulse">Generando imagen...</span>
-        ) : (
-          <><span className="text-lg">📸</span> Descargar Plan de Carrera</>
-        )}
+        <span className="text-lg">📸</span> Compartir / Descargar Plan
       </button>
 
-      {/* Hidden report card for html2canvas */}
-      <div ref={reportRef} style={{ display: 'none', width: '420px', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-        <div style={{ background: '#FDFBF7', padding: '24px', borderRadius: '16px' }}>
-
-          {/* Header with logo */}
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid #e7e5e4', paddingBottom: '14px', marginBottom: '16px' }}>
-            <div>
-              <div style={{ fontSize: '18px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase', letterSpacing: '-0.5px' }}>
-                Plan de Carrera
+      {/* Export modal overlay */}
+      {isOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
+          <div className="bg-white rounded-2xl max-w-2xl w-full p-4 sm:p-6 shadow-2xl border border-stone-200 my-auto">
+            {/* Header */}
+            <div className="flex justify-between items-center pb-3 border-b border-stone-100 mb-4">
+              <div>
+                <h3 className="text-base font-black text-stone-800 uppercase tracking-tight">Exportar Plan de Carrera</h3>
+                <p className="text-xs text-stone-500">Selecciona el formato deseado para visualizar y guardar la imagen</p>
               </div>
-              <div style={{ fontSize: '9px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '2px', marginTop: '2px' }}>
-                Simulador Puntos Andes
-              </div>
+              <button onClick={() => setIsOpen(false)} className="w-8 h-8 rounded-full bg-stone-100 flex items-center justify-center text-stone-500 hover:bg-stone-200 font-bold">
+                ✕
+              </button>
             </div>
-            <img src="/logo.png" alt="Puntos Andes" style={{ height: '40px', objectFit: 'contain' }} crossOrigin="anonymous" />
-          </div>
 
-          {/* Race metrics */}
-          <div style={{ display: 'flex', gap: '8px', marginBottom: '12px' }}>
-            {[
-              { v: `${props.totalDistance.toFixed(1)} km`, l: 'Distancia' },
-              { v: `${props.dPlus.toLocaleString()} m`, l: 'D+' },
-              { v: `${props.dMinus.toLocaleString()} m`, l: 'D-' },
-              { v: props.kme.toFixed(1), l: 'KmE' },
-            ].map((s, i) => (
-              <div key={i} style={{ flex: 1, background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '8px', textAlign: 'center' }}>
-                <div style={{ fontSize: '14px', fontWeight: 900, color: i === 3 ? '#10A49B' : '#1c1917' }}>{s.v}</div>
-                <div style={{ fontSize: '8px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '1px' }}>{s.l}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* Time */}
-          <div style={{ background: '#1c1917', color: 'white', borderRadius: '12px', padding: '14px', textAlign: 'center', marginBottom: '12px' }}>
-            <div style={{ fontSize: '8px', fontWeight: 700, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '4px' }}>
-              Tiempo Estimado
+            {/* Layout mode buttons */}
+            <div className="grid grid-cols-3 gap-2 mb-4">
+              {[
+                { id: 'standard', label: 'Estándar', desc: 'Ficha vertical' },
+                { id: 'story', label: 'Instagram Story', desc: 'Vertical 9:16' },
+                { id: 'horizontal', label: 'Horizontal', desc: 'Apaisado 16:9' },
+              ].map(opt => (
+                <button
+                  key={opt.id}
+                  onClick={() => setLayoutMode(opt.id as any)}
+                  className={`p-2 rounded-xl border text-center transition-all ${layoutMode === opt.id ? 'border-[#10A49B] bg-[#10A49B]/5 text-[#10A49B]' : 'border-stone-200 hover:bg-stone-50 text-stone-600'}`}
+                >
+                  <p className="text-xs font-black block leading-tight">{opt.label}</p>
+                  <span className="text-[9px] text-stone-400 block mt-0.5">{opt.desc}</span>
+                </button>
+              ))}
             </div>
-            <div style={{ fontSize: '32px', fontWeight: 900, fontFamily: 'monospace', letterSpacing: '-1px' }}>
-              {props.projectedTime}
-            </div>
-          </div>
 
-          {/* PAS list */}
-          {props.aidStations.length > 0 && (
-            <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '12px', padding: '12px', marginBottom: '12px' }}>
-              <div style={{ fontSize: '9px', fontWeight: 900, color: '#e67e22', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '8px', borderBottom: '1px solid #f5f5f4', paddingBottom: '6px' }}>
-                📦 Puntos de Abastecimiento
-              </div>
-              <div style={{ display: 'flex', flexWrap: 'wrap' as const, gap: '4px' }}>
-                {props.aidStations.map((s, i) => (
-                  <div key={i} style={{ background: '#fef2e8', border: '1px solid #fed7aa', borderRadius: '6px', padding: '4px 8px', fontSize: '10px', fontWeight: 700, color: '#9a3412' }}>
-                    {s.label} — km {s.km}
+            {/* Live capture container wrapper */}
+            <div className="flex justify-center bg-stone-100 p-4 rounded-xl mb-4 overflow-x-auto max-h-[55vh]" style={{ alignItems: 'flex-start' }}>
+              
+              {/* === LAYOUT 1: STANDARD === */}
+              {layoutMode === 'standard' && (
+                <div ref={reportRef} style={{ width: '400px', background: '#FDFBF7', padding: '20px', borderRadius: '16px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', flexShrink: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid #e7e5e4', paddingBottom: '12px', marginBottom: '14px' }}>
+                    <div>
+                      <div style={{ fontSize: '16px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase', letterSpacing: '-0.5px' }}>Plan de Carrera</div>
+                      <div style={{ fontSize: '9px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '2px' }}>Simulador Puntos Andes</div>
+                    </div>
+                    <img src="/logo.png" alt="Logo" style={{ height: '36px', objectFit: 'contain' }} crossOrigin="anonymous" />
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
 
-          {/* Nutrition metrics */}
-          <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '12px', padding: '12px', marginBottom: '12px' }}>
-            <div style={{ fontSize: '9px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '8px', borderBottom: '1px solid #f5f5f4', paddingBottom: '6px' }}>
-              ⚡ Estrategia Nutricional
-            </div>
-            <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
-              <div style={{ flex: 1, background: props.carbsPerHour < 45 ? '#fef2f2' : props.carbsPerHour <= 90 ? '#f0fdf4' : '#eff6ff', border: '1px solid #e7e5e4', borderRadius: '8px', padding: '8px', textAlign: 'center' }}>
-                <div style={{ fontSize: '18px', fontWeight: 900, color: props.carbsPerHour < 45 ? '#ef4444' : props.carbsPerHour <= 90 ? '#16a34a' : '#3b82f6' }}>{props.carbsPerHour}</div>
-                <div style={{ fontSize: '7px', fontWeight: 700, color: '#78716c', textTransform: 'uppercase' }}>g CH/h</div>
-              </div>
-              <div style={{ flex: 1, background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: '8px', padding: '8px', textAlign: 'center' }}>
-                <div style={{ fontSize: '18px', fontWeight: 900, color: '#44403c' }}>{props.sodiumPerHour}</div>
-                <div style={{ fontSize: '7px', fontWeight: 700, color: '#78716c', textTransform: 'uppercase' }}>mg Na/h</div>
-              </div>
-              <div style={{ flex: 1, background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '8px', padding: '8px', textAlign: 'center' }}>
-                <div style={{ fontSize: '18px', fontWeight: 900, color: '#2563eb' }}>{mlPerHour}</div>
-                <div style={{ fontSize: '7px', fontWeight: 700, color: '#78716c', textTransform: 'uppercase' }}>mL/h</div>
-              </div>
-            </div>
-
-            {/* Item breakdown */}
-            {sortedItems.length > 0 && (
-              <div style={{ borderTop: '1px solid #f5f5f4', paddingTop: '8px' }}>
-                <div style={{ fontSize: '8px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>Detalle por producto</div>
-                {sortedItems.map((item, i) => (
-                  <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#fafaf9', borderRadius: '6px', padding: '5px 8px', marginBottom: '3px', border: '1px solid #f5f5f4' }}>
-                    <span style={{ fontSize: '12px' }}>{EMOJIS[item.type] || '📦'}</span>
-                    <span style={{ fontSize: '10px', fontWeight: 700, color: '#1c1917', flex: 1 }}>{item.label}</span>
-                    <span style={{ fontSize: '11px', fontWeight: 900, color: '#8b5cf6', fontFamily: 'monospace' }}>×{item.qty}</span>
-                    <span style={{ fontSize: '9px', fontFamily: 'monospace', color: '#78716c' }}>{item.carbs}g · {item.sodium}mg{item.ml > 0 ? ` · ${item.ml}mL` : ''}</span>
+                  {/* Metrics */}
+                  <div style={{ display: 'flex', gap: '6px', marginBottom: '12px' }}>
+                    {[
+                      { v: `${props.totalDistance.toFixed(1)} km`, l: 'Distancia' },
+                      { v: `${props.dPlus.toLocaleString()} m`, l: 'D+' },
+                      { v: `${props.dMinus.toLocaleString()} m`, l: 'D-' },
+                      { v: props.kme.toFixed(1), l: 'KmE' },
+                    ].map((s, i) => (
+                      <div key={i} style={{ flex: 1, background: 'white', border: '1px solid #e7e5e4', borderRadius: '8px', padding: '6px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '12px', fontWeight: 900, color: i === 3 ? '#10A49B' : '#1c1917' }}>{s.v}</div>
+                        <div style={{ fontSize: '7px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase' }}>{s.l}</div>
+                      </div>
+                    ))}
                   </div>
-                ))}
-                <div style={{ fontSize: '8px', fontFamily: 'monospace', color: '#a8a29e', textAlign: 'center', marginTop: '6px' }}>
-                  {props.nutritionStops.length} parada{props.nutritionStops.length !== 1 ? 's' : ''} · {sortedItems.reduce((s, i) => s + i.qty, 0)} items · Totales: {totalCarbsAll}g CH · {totalSodiumAll}mg Na · {totalMl}mL · ~{(totalCarbsAll * 4).toLocaleString()} kcal
+
+                  {/* Time box */}
+                  <div style={{ background: '#1c1917', color: 'white', borderRadius: '10px', padding: '12px', textAlign: 'center', marginBottom: '12px' }}>
+                    <div style={{ fontSize: '8px', fontWeight: 700, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '2px' }}>Tiempo Estimado</div>
+                    <div style={{ fontSize: '28px', fontWeight: 900, fontFamily: 'monospace', letterSpacing: '-1px' }}>{props.projectedTime}</div>
+                  </div>
+
+                  {/* Graph */}
+                  <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px', marginBottom: '12px' }}>
+                    <div style={{ fontSize: '8px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>📈 Altimetría y Nutrición</div>
+                    {renderSvgProfile(338, 120)}
+                  </div>
+
+                  {/* Nutrition */}
+                  <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px', marginBottom: '12px' }}>
+                    <div style={{ fontSize: '8px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>⚡ Estrategia Nutricional</div>
+                    <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
+                      <div style={{ flex: 1, background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '6px', padding: '6px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '15px', fontWeight: 900, color: '#3b82f6' }}>{props.carbsPerHour}</div>
+                        <div style={{ fontSize: '7px', fontWeight: 700, color: '#78716c' }}>g CH/h</div>
+                      </div>
+                      <div style={{ flex: 1, background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: '6px', padding: '6px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '15px', fontWeight: 900, color: '#44403c' }}>{props.sodiumPerHour}</div>
+                        <div style={{ fontSize: '7px', fontWeight: 700, color: '#78716c' }}>mg Na/h</div>
+                      </div>
+                      <div style={{ flex: 1, background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '6px', padding: '6px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '15px', fontWeight: 900, color: '#2563eb' }}>{mlPerHour}</div>
+                        <div style={{ fontSize: '7px', fontWeight: 700, color: '#78716c' }}>mL/h</div>
+                      </div>
+                    </div>
+
+                    {sortedItems.length > 0 && (
+                      <div style={{ borderTop: '1px solid #f5f5f4', paddingTop: '6px' }}>
+                        {sortedItems.map((item, i) => (
+                          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '4px', background: '#fafaf9', borderRadius: '4px', padding: '3px 6px', marginBottom: '2px', fontSize: '9px' }}>
+                            <span>{EMOJIS[item.type] || '📦'}</span>
+                            <span style={{ fontWeight: 700, color: '#1c1917', flex: 1 }}>{item.label}</span>
+                            <span style={{ fontWeight: 900, color: '#8b5cf6', fontFamily: 'monospace' }}>×{item.qty}</span>
+                            <span style={{ fontFamily: 'monospace', color: '#78716c', fontSize: '8px' }}>{item.carbs}g</span>
+                          </div>
+                        ))}
+                        <div style={{ fontSize: '7px', color: '#a8a29e', textAlign: 'center', marginTop: '4px' }}>
+                          Totales: {totalCarbsAll}g CH · {totalSodiumAll}mg Na · {totalMl}mL
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* SPTC */}
+                  <div style={{ background: '#ecfdf5', border: '1px solid rgba(16,164,155,0.3)', borderRadius: '10px', padding: '10px', textAlign: 'center', marginBottom: '12px' }}>
+                    <div style={{ fontSize: '8px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', marginBottom: '4px' }}>Proyección Puntos Andes</div>
+                    <div style={{ fontSize: '28px', fontWeight: 900, color: '#10A49B', lineHeight: 1 }}>{props.sptcRange.mid}</div>
+                    <div style={{ fontSize: '7px', color: '#78716c', marginTop: '2px' }}>Rango: {props.sptcRange.low} - {props.sptcRange.high}</div>
+                  </div>
+
+                  {/* Footer */}
+                  <div style={{ borderTop: '1px solid #e7e5e4', paddingTop: '8px', textAlign: 'center', fontSize: '8px', color: '#a8a29e' }}>
+                    <span style={{ fontWeight: 900, color: '#10A49B' }}>puntosandes.cl</span> · Planificación Profesional
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
 
-          {/* Altimetría y Puntos Estratégicos */}
-          <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '12px', padding: '12px', marginBottom: '12px' }}>
-            <div style={{ fontSize: '9px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '8px', borderBottom: '1px solid #f5f5f4', paddingBottom: '6px' }}>
-              📈 Altimetría y Puntos Estratégicos
-            </div>
-            <div style={{ position: 'relative', width: '100%', height: `${svgHeight}px`, overflow: 'hidden' }}>
-              <svg width="100%" height={svgHeight} viewBox={`0 0 ${svgWidth} ${svgHeight}`} style={{ display: 'block' }}>
-                <defs>
-                  <linearGradient id="miniElevGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#10A49B" stopOpacity={0.35} />
-                    <stop offset="100%" stopColor="#10A49B" stopOpacity={0.04} />
-                  </linearGradient>
-                </defs>
-                {/* Baseline */}
-                <line x1={0} y1={120} x2={svgWidth} y2={120} stroke="#e7e5e4" strokeWidth={1} />
-                
-                {/* Profile Area */}
-                <path d={pathD} fill="url(#miniElevGrad)" stroke="#10A49B" strokeWidth={1.5} />
+              {/* === LAYOUT 2: INSTAGRAM STORY === */}
+              {layoutMode === 'story' && (
+                <div ref={reportRef} style={{ width: '360px', height: '640px', background: 'linear-gradient(145deg, #111827, #1f2937)', padding: '24px 20px', borderRadius: '24px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', color: 'white', flexShrink: 0 }}>
+                  {/* Top */}
+                  <div style={{ textAlign: 'center' }}>
+                    <img src="/logo.png" alt="Logo" style={{ height: '38px', objectFit: 'contain', margin: '0 auto 6px', filter: 'brightness(0) invert(1)' }} crossOrigin="anonymous" />
+                    <div style={{ fontSize: '9px', fontWeight: 900, color: '#2dd4bf', textTransform: 'uppercase', letterSpacing: '3px' }}>Plan de Carrera</div>
+                  </div>
 
-                {/* Aid stations */}
-                {props.aidStations.filter(s => s.km > 0).map((s, i) => {
-                  const x = getX(s.km);
-                  return (
-                    <g key={`aid-${i}`}>
-                      <line x1={x} y1={30} x2={x} y2={120} stroke="#e67e22" strokeWidth={1} strokeDasharray="2 2" opacity={0.6} />
-                      <circle cx={x} cy={120} r={2.5} fill="#e67e22" />
-                      <text x={x} y={22} fill="#c2410c" fontSize={7} fontWeight={900} textAnchor="middle">{s.label}</text>
-                    </g>
-                  );
-                })}
+                  {/* Time & Score promo block */}
+                  <div style={{ textAlign: 'center', marginTop: 'auto', marginBottom: 'auto' }}>
+                    <div style={{ fontSize: '9px', fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '2px' }}>Tiempo Objetivo</div>
+                    <div style={{ fontSize: '42px', fontWeight: 900, fontFamily: 'monospace', color: '#2dd4bf', textShadow: '0 4px 20px rgba(45,212,191,0.2)', lineHeight: 1 }}>{props.projectedTime}</div>
+                    <div style={{ display: 'inline-block', background: 'rgba(45,212,191,0.1)', border: '1px solid rgba(45,212,191,0.3)', borderRadius: '20px', padding: '2px 10px', fontSize: '9px', fontWeight: 900, color: '#2dd4bf', marginTop: '6px' }}>
+                      Puntos Andes: {props.sptcRange.mid}
+                    </div>
+                  </div>
 
-                {/* Nutrition Items stacked vertically */}
-                {Object.entries(
-                  (props.nutritionItems || []).filter(n => n.km > 0).reduce((acc, item) => {
-                    const key = item.km.toFixed(1);
-                    if (!acc[key]) acc[key] = [];
-                    acc[key].push(item);
-                    return acc;
-                  }, {} as Record<string, any[]>)
-                ).map(([kmStr, nItemsVal], i) => {
-                  const nItems = nItemsVal as any[];
-                  const km = parseFloat(kmStr);
-                  const x = getX(km);
-                  return (
-                    <g key={`nut-${i}`}>
-                      <line x1={x} y1={30} x2={x} y2={120} stroke="#8b5cf6" strokeWidth={0.7} strokeDasharray="1 2" opacity={0.5} />
-                      {nItems.map((it, idx) => (
-                        <text key={idx} x={x} y={32 + idx * 10} fontSize={9} textAnchor="middle" dominantBaseline="hanging">
-                          {EMOJIS[it.type] || '⚡'}
-                        </text>
-                      ))}
-                    </g>
-                  );
-                })}
-              </svg>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '8px', fontWeight: 700, color: '#a8a29e', marginTop: '2px' }}>
-              <span>0 km</span>
-              <span>{props.totalDistance.toFixed(1)} km</span>
-            </div>
-          </div>
+                  {/* Metrics */}
+                  <div style={{ display: 'flex', gap: '6px' }}>
+                    {[
+                      { v: `${props.totalDistance.toFixed(1)}km`, l: 'Dist' },
+                      { v: `${props.dPlus.toLocaleString()}m`, l: 'D+' },
+                      { v: `${props.dMinus.toLocaleString()}m`, l: 'D-' },
+                      { v: props.kme.toFixed(1), l: 'KmE' },
+                    ].map((s, i) => (
+                      <div key={i} style={{ flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '10px', padding: '8px 4px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '13px', fontWeight: 900, color: i === 3 ? '#2dd4bf' : 'white' }}>{s.v}</div>
+                        <div style={{ fontSize: '7px', fontWeight: 700, color: '#9ca3af', textTransform: 'uppercase' }}>{s.l}</div>
+                      </div>
+                    ))}
+                  </div>
 
-          {/* SPTC */}
-          <div style={{ background: 'linear-gradient(135deg, #ecfdf5, #f0fdfa)', border: '1px solid rgba(16,164,155,0.3)', borderRadius: '12px', padding: '14px', marginBottom: '16px', textAlign: 'center' }}>
-            <div style={{ fontSize: '9px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '10px' }}>
-              Proyección Puntos Andes
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', padding: '0 12px' }}>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '9px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase' }}>Pesimista</div>
-                <div style={{ fontSize: '20px', fontWeight: 900, color: '#57534e' }}>{props.sptcRange.low}</div>
-              </div>
-              <div style={{ width: '1px', height: '30px', background: '#d6d3d1' }}></div>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '9px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', background: 'white', padding: '2px 10px', borderRadius: '20px', border: '1px solid rgba(16,164,155,0.2)', display: 'inline-block' }}>Plan Realista</div>
-                <div style={{ fontSize: '40px', fontWeight: 900, color: '#10A49B', lineHeight: 1, margin: '4px 0' }}>{props.sptcRange.mid}</div>
-              </div>
-              <div style={{ width: '1px', height: '30px', background: '#d6d3d1' }}></div>
-              <div style={{ textAlign: 'center' }}>
-                <div style={{ fontSize: '9px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase' }}>Optimista</div>
-                <div style={{ fontSize: '20px', fontWeight: 900, color: '#57534e' }}>{props.sptcRange.high}</div>
-              </div>
-            </div>
-          </div>
+                  {/* Graph */}
+                  <div style={{ background: 'rgba(0,0,0,0.3)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '12px', padding: '10px' }}>
+                    <div style={{ fontSize: '8px', fontWeight: 900, color: '#2dd4bf', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>Altimetría y Puntos</div>
+                    {renderSvgProfile(300, 110, true)}
+                  </div>
 
-          {/* Footer branding */}
-          <div style={{ borderTop: '2px solid #e7e5e4', paddingTop: '12px', textAlign: 'center' }}>
-            <div style={{ fontSize: '9px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '2px' }}>
-              Generado con el Simulador de Carrera
+                  {/* Strategy Row */}
+                  <div style={{ display: 'flex', gap: '8px', background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.05)', borderRadius: '12px', padding: '10px' }}>
+                    <div style={{ flex: 1, textAlign: 'center' }}>
+                      <div style={{ fontSize: '8px', color: '#9ca3af', textTransform: 'uppercase' }}>Carbohidratos</div>
+                      <div style={{ fontSize: '16px', fontWeight: 900, color: '#60a5fa' }}>{props.carbsPerHour}<span style={{ fontSize: '9px', fontWeight: 400 }}>g/h</span></div>
+                    </div>
+                    <div style={{ width: '1px', background: 'rgba(255,255,255,0.1)' }}></div>
+                    <div style={{ flex: 1, textAlign: 'center' }}>
+                      <div style={{ fontSize: '8px', color: '#9ca3af', textTransform: 'uppercase' }}>Sodio</div>
+                      <div style={{ fontSize: '16px', fontWeight: 900, color: '#f3f4f6' }}>{props.sodiumPerHour}<span style={{ fontSize: '9px', fontWeight: 400 }}>mg/h</span></div>
+                    </div>
+                    <div style={{ width: '1px', background: 'rgba(255,255,255,0.1)' }}></div>
+                    <div style={{ flex: 1, textAlign: 'center' }}>
+                      <div style={{ fontSize: '8px', color: '#9ca3af', textTransform: 'uppercase' }}>Líquido</div>
+                      <div style={{ fontSize: '16px', fontWeight: 900, color: '#38bdf8' }}>{mlPerHour}<span style={{ fontSize: '9px', fontWeight: 400 }}>mL/h</span></div>
+                    </div>
+                  </div>
+
+                  {/* Bottom Tag */}
+                  <div style={{ textAlign: 'center', marginTop: '4px' }}>
+                    <span style={{ background: '#2dd4bf', color: '#111827', fontSize: '10px', fontWeight: 900, padding: '3px 12px', borderRadius: '20px', display: 'inline-block' }}>
+                      @puntosandes
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* === LAYOUT 3: HORIZONTAL === */}
+              {layoutMode === 'horizontal' && (
+                <div ref={reportRef} style={{ width: '600px', height: '337px', background: '#FDFBF7', padding: '20px', borderRadius: '16px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexShrink: 0 }}>
+                  {/* Top Header */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #e7e5e4', paddingBottom: '10px' }}>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                      <span style={{ fontSize: '16px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase' }}>Plan de Carrera</span>
+                      <span style={{ fontSize: '10px', fontWeight: 700, color: '#10A49B' }}>{props.totalDistance.toFixed(1)} km · {props.dPlus}m D+</span>
+                    </div>
+                    <img src="/logo.png" alt="Logo" style={{ height: '30px', objectFit: 'contain' }} crossOrigin="anonymous" />
+                  </div>
+
+                  {/* Split content */}
+                  <div style={{ display: 'flex', gap: '16px', flex: 1, marginTop: '12px' }}>
+                    {/* Left col */}
+                    <div style={{ width: '38%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      {/* Time block */}
+                      <div style={{ background: '#1c1917', color: 'white', borderRadius: '10px', padding: '12px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '8px', color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px' }}>Tiempo Estimado</div>
+                        <div style={{ fontSize: '30px', fontWeight: 900, fontFamily: 'monospace', lineHeight: 1, marginTop: '2px' }}>{props.projectedTime}</div>
+                      </div>
+
+                      {/* Strategy */}
+                      <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '8px', padding: '8px' }}>
+                        <div style={{ fontSize: '8px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', marginBottom: '6px' }}>Nutrición por Hora</div>
+                        <div style={{ display: 'flex', justifyContent: 'space-around', textAlign: 'center' }}>
+                          <div>
+                            <div style={{ fontSize: '14px', fontWeight: 900, color: '#3b82f6' }}>{props.carbsPerHour}g</div>
+                            <div style={{ fontSize: '7px', color: '#78716c' }}>CH/h</div>
+                          </div>
+                          <div style={{ width: '1px', background: '#e7e5e4' }}></div>
+                          <div>
+                            <div style={{ fontSize: '14px', fontWeight: 900, color: '#44403c' }}>{props.sodiumPerHour}mg</div>
+                            <div style={{ fontSize: '7px', color: '#78716c' }}>Na/h</div>
+                          </div>
+                          <div style={{ width: '1px', background: '#e7e5e4' }}></div>
+                          <div>
+                            <div style={{ fontSize: '14px', fontWeight: 900, color: '#2563eb' }}>{mlPerHour}mL</div>
+                            <div style={{ fontSize: '7px', color: '#78716c' }}>Líquido/h</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Score */}
+                      <div style={{ background: '#ecfdf5', border: '1px solid rgba(16,164,155,0.3)', borderRadius: '8px', padding: '6px', textAlign: 'center' }}>
+                        <span style={{ fontSize: '9px', fontWeight: 900, color: '#10A49B' }}>Puntos Andes: {props.sptcRange.mid}</span>
+                      </div>
+                    </div>
+
+                    {/* Right col: graph */}
+                    <div style={{ flex: 1, background: 'white', border: '1px solid #e7e5e4', borderRadius: '10px', padding: '10px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <div style={{ fontSize: '8px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px' }}>📈 Perfil de Elevación y Puntos Estratégicos</div>
+                      {renderSvgProfile(330, 160)}
+                      <div style={{ fontSize: '8px', color: '#a8a29e', textAlign: 'center', fontFamily: 'monospace' }}>
+                        📦 Totales: {sortedItems.reduce((s, i) => s + i.qty, 0)} productos · {totalCarbsAll}g CH · {totalSodiumAll}mg Na · {totalMl}mL
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Bottom banner */}
+                  <div style={{ borderTop: '1px solid #e7e5e4', paddingTop: '6px', textAlign: 'right', fontSize: '8px', color: '#a8a29e', marginTop: '6px' }}>
+                    Simulador Puntos Andes · <span style={{ fontWeight: 900, color: '#10A49B' }}>puntosandes.cl</span>
+                  </div>
+                </div>
+              )}
+
             </div>
-            <div style={{ fontSize: '13px', fontWeight: 900, color: '#10A49B', marginTop: '2px' }}>
-              puntosandes.cl
-            </div>
-            <div style={{ fontSize: '7px', color: '#d6d3d1', marginTop: '4px' }}>
-              © {new Date().getFullYear()} Puntos Andes · Planificación y Nutrición para Trail Running
+
+            {/* Action buttons */}
+            <div className="flex gap-2">
+              <button
+                onClick={() => setIsOpen(false)}
+                className="flex-1 py-3 rounded-xl border border-stone-200 text-stone-600 font-bold hover:bg-stone-50 text-xs uppercase tracking-wider transition-all"
+              >
+                Volver
+              </button>
+              <button
+                onClick={handleExport}
+                disabled={exporting}
+                className="flex-[2] bg-[#10A49B] hover:bg-teal-600 text-white font-black py-3 rounded-xl shadow transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-50"
+              >
+                {exporting ? 'Generando archivo PNG...' : '📥 Guardar Imagen'}
+              </button>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }
