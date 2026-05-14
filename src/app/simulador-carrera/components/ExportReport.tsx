@@ -313,11 +313,11 @@ export default function ExportReport(props: Props) {
                       <div style={{ fontSize: '8px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px' }}>🗺️ Segmentos</div>
                       {segmentDetails.map((seg, i) => (
                         <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '4px', padding: '3px 0', borderBottom: i < segmentDetails.length - 1 ? '1px solid #f5f5f4' : 'none', fontSize: '8px' }}>
-                          <span style={{ fontWeight: 700, color: '#1c1917', flex: 1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{seg.from} → {seg.to}</span>
+                          <span style={{ fontWeight: 700, color: '#1c1917', flex: 1 }}>{seg.from} - {seg.to}</span>
                           <span style={{ fontFamily: 'monospace', color: '#78716c', whiteSpace: 'nowrap' }}>{seg.km}km</span>
-                          <span style={{ color: '#16a34a', fontWeight: 700, whiteSpace: 'nowrap' }}>↑{seg.dPlus}m</span>
-                          <span style={{ color: '#dc2626', fontWeight: 700, whiteSpace: 'nowrap' }}>↓{seg.dMinus}m</span>
-                          <span style={{ color: '#6366f1', fontWeight: 700, whiteSpace: 'nowrap' }}>⏱{seg.timeStr}</span>
+                          <span style={{ color: '#16a34a', fontWeight: 700, whiteSpace: 'nowrap' }}>+{seg.dPlus}m</span>
+                          <span style={{ color: '#dc2626', fontWeight: 700, whiteSpace: 'nowrap' }}>-{seg.dMinus}m</span>
+                          <span style={{ color: '#6366f1', fontWeight: 700, whiteSpace: 'nowrap' }}>{seg.timeStr}</span>
                         </div>
                       ))}
                     </div>
@@ -521,13 +521,13 @@ export default function ExportReport(props: Props) {
                           <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(segmentDetails.length, 5)}, 1fr)`, gap: '6px' }}>
                             {segmentDetails.map((seg, i) => (
                               <div key={i} style={{ background: '#fafaf9', border: '1px solid #e7e5e4', borderRadius: '6px', padding: '6px', textAlign: 'center' }}>
-                                <div style={{ fontSize: '8px', fontWeight: 900, color: '#1c1917', marginBottom: '3px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{seg.from} → {seg.to}</div>
+                                <div style={{ fontSize: '7px', fontWeight: 900, color: '#1c1917', marginBottom: '3px', lineHeight: '1.3' }}>{seg.from} - {seg.to}</div>
                                 <div style={{ fontSize: '10px', fontWeight: 900, color: '#78716c', fontFamily: 'monospace' }}>{seg.km} km</div>
                                 <div style={{ display: 'flex', justifyContent: 'center', gap: '4px', marginTop: '2px' }}>
-                                  <span style={{ fontSize: '8px', fontWeight: 700, color: '#16a34a' }}>↑{seg.dPlus}m</span>
-                                  <span style={{ fontSize: '8px', fontWeight: 700, color: '#dc2626' }}>↓{seg.dMinus}m</span>
+                                  <span style={{ fontSize: '8px', fontWeight: 700, color: '#16a34a' }}>+{seg.dPlus}m</span>
+                                  <span style={{ fontSize: '8px', fontWeight: 700, color: '#dc2626' }}>-{seg.dMinus}m</span>
                                 </div>
-                                <div style={{ fontSize: '8px', color: '#6366f1', fontWeight: 700, marginTop: '2px' }}>⏱ {seg.timeStr}</div>
+                                <div style={{ fontSize: '8px', color: '#6366f1', fontWeight: 700, marginTop: '2px' }}>{seg.timeStr}</div>
                               </div>
                             ))}
                           </div>
