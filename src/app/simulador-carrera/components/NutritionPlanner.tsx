@@ -7,7 +7,8 @@ const TIPOS = [
   { value: 'solido',      label: 'Sólido',     emoji: '🍌' },
   { value: 'sal',         label: 'Sal',        emoji: '🧂' },
   { value: 'cafeina',     label: 'Cafeína',    emoji: '☕' },
-  { value: 'hidratacion', label: 'Isotónico',  emoji: '💧' },
+  { value: 'isotonico',   label: 'Isotónico',  emoji: '💧' },
+  { value: 'agua',        label: 'Agua',       emoji: '🚰' },
 ];
 
 interface Props {

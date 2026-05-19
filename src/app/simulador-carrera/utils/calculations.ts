@@ -5,7 +5,7 @@ export interface NutritionItem {
   km: number;
   minuteMark: number;
   mode: 'km' | 'tiempo';
-  type: 'gel' | 'solido' | 'sal' | 'cafeina' | 'hidratacion';
+  type: 'gel' | 'solido' | 'sal' | 'cafeina' | 'isotonico' | 'agua';
   quantity: number;
   nota: string;
   customLabel: string;
@@ -16,7 +16,7 @@ export interface NutritionItem {
 // Modelo agrupado: una "parada" de nutrición con múltiples sub-items
 export interface NutritionSubItem {
   id: string;
-  type: 'gel' | 'solido' | 'sal' | 'cafeina' | 'hidratacion';
+  type: 'gel' | 'solido' | 'sal' | 'cafeina' | 'isotonico' | 'agua';
   customLabel: string;
   quantity: number;
   customCarbs: number | null;
@@ -34,11 +34,11 @@ export interface NutritionStop {
 }
 
 export const DEFAULT_CARBS: Record<string, number> = {
-  gel: 25, solido: 40, sal: 0, cafeina: 0, hidratacion: 15,
+  gel: 25, solido: 40, sal: 0, cafeina: 0, isotonico: 15, agua: 0,
 };
 
 export const DEFAULT_SODIUM: Record<string, number> = {
-  gel: 50, solido: 80, sal: 300, cafeina: 0, hidratacion: 200,
+  gel: 50, solido: 80, sal: 300, cafeina: 0, isotonico: 200, agua: 0,
 };
 
 // Flatten stops into flat NutritionItem[] for chart compatibility

@@ -22,6 +22,7 @@ export default function SimuladorCarreraPage() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [dataMode, setDataMode] = useState<'file' | 'manual'>('manual');
+  const [activityName, setActivityName] = useState<string>('');
 
   // Datos manuales (cuando no hay archivo)
   const [manualDist, setManualDist] = useState<number>(0);
@@ -128,6 +129,18 @@ export default function SimuladorCarreraPage() {
           ))}
         </div>
 
+        {/* Nombre de la Actividad */}
+        <div className="bg-white p-3 rounded-lg border border-stone-200 shadow-sm space-y-2">
+          <h3 className="text-[10px] font-black text-stone-400 uppercase tracking-widest border-b border-stone-100 pb-1">Nombre de la Actividad</h3>
+          <input
+            type="text"
+            value={activityName}
+            onChange={(e) => setActivityName(e.target.value)}
+            placeholder="Ej: Zutrail 42K, Entrenamiento Cerro..."
+            className="w-full bg-white border border-stone-300 rounded-md px-3 py-2 text-stone-800 text-sm focus:outline-none focus:border-[#10A49B] focus:ring-1 focus:ring-[#10A49B] shadow-sm transition-colors"
+          />
+        </div>
+
         {/* ══════ DATOS DEL RECORRIDO ══════ */}
         <div className="bg-white border border-stone-200 rounded-xl shadow-sm overflow-hidden">
           {/* Tabs */}
@@ -164,7 +177,7 @@ export default function SimuladorCarreraPage() {
                       <span className="text-[10px] text-stone-400">Extrae automáticamente altimetría y desniveles</span>
                     )}
                   </div>
-                  <input type="file" accept=".gpx,.kml,application/gpx+xml,application/vnd.google-earth.kml+xml,application/xml,text/xml,*/*" onChange={handleFileUpload} className="hidden" />
+                  <input type="file" accept=".gpx,.kml,application/gpx+xml,application/vnd.google-earth.kml+xml,application/xml,text/xml" onChange={handleFileUpload} className="hidden" />
                 </label>
                 {trackData && (
                   <button onClick={resetAll}
@@ -324,7 +337,7 @@ export default function SimuladorCarreraPage() {
             <ResultsPanel projectedTime={results.projectedTime} carbsPerHour={results.carbsPerHour}
               sodiumPerHour={results.sodiumPerHour} totalCarbs={results.totalCarbs}
               sptcRange={results.sptcRange} kme={effKme} totalDistance={effDist} dPlus={effDPlus}
-              nutritionStops={nutritionStops} totalEstimatedMinutes={totalEstimatedMinutes} />
+              nutritionStops={nutritionStops} totalEstimatedMinutes={totalEstimatedMinutes} activityName={activityName} />
           </div>
         )}
 
@@ -340,6 +353,7 @@ export default function SimuladorCarreraPage() {
             totalEstimatedMinutes={totalEstimatedMinutes}
             points={trackData?.points || []}
             nutritionItems={nutritionItems}
+            activityName={activityName}
           />
         )}
 

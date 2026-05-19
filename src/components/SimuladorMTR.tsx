@@ -102,6 +102,7 @@ export default function SimuladorMTR() {
   const [nightHours, setNightHours] = useState<number>(0);
   const [gender, setGender] = useState<'H' | 'M'>('H');
   const [targetScoreInput, setTargetScoreInput] = useState<string>('');
+  const [activityName, setActivityName] = useState<string>('');
 
   const [scoreData, setScoreData] = useState<any>(null);
 
@@ -141,6 +142,26 @@ export default function SimuladorMTR() {
   const [exportLayout, setExportLayout] = useState<'standard' | 'story' | 'horizontal'>('standard');
   const exportRef = useRef<HTMLDivElement>(null);
   const [exporting, setExporting] = useState(false);
+  const [whiteLogoUrl, setWhiteLogoUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.src = '/logo.png';
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(img, 0, 0);
+        ctx.globalCompositeOperation = 'source-in';
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        setWhiteLogoUrl(canvas.toDataURL());
+      }
+    };
+  }, []);
 
   const safeDistance = isNaN(distance) || distance <= 0 ? 0.01 : distance;
   const safeDPlus = isNaN(dPlus) ? 0 : dPlus;
@@ -249,7 +270,8 @@ export default function SimuladorMTR() {
         backgroundColor: exportLayout === 'story' ? '#111827' : '#FDFBF7',
       });
       const link = document.createElement('a');
-      link.download = `puntos-andes-score-${exportLayout}-${Date.now()}.png`;
+      const safeName = activityName ? `${activityName.replace(/[^a-z0-9]/gi, '-').toLowerCase()}-` : '';
+      link.download = `puntos-andes-${safeName}${exportLayout}-${Date.now()}.png`;
       link.href = canvas.toDataURL('image/png');
       link.click();
     } catch (err) {
@@ -349,6 +371,18 @@ export default function SimuladorMTR() {
         {/* Inputs Grid */}
         <div className="flex flex-col gap-4">
 
+          {/* Nombre de la Actividad */}
+          <div className="bg-white p-3 rounded-lg border border-stone-200 shadow-sm space-y-2">
+            <h3 className="text-[10px] font-black text-stone-400 uppercase tracking-widest border-b border-stone-100 pb-1">Nombre de la Actividad</h3>
+            <input
+              type="text"
+              value={activityName}
+              onChange={(e) => setActivityName(e.target.value)}
+              placeholder="Ej: Zutrail 42K, Entrenamiento Cerro..."
+              className="w-full bg-white border border-stone-300 rounded-md px-3 py-2 text-stone-800 text-sm focus:outline-none focus:border-[#10A49B] focus:ring-1 focus:ring-[#10A49B] shadow-sm transition-colors"
+            />
+          </div>
+
           {/* Carga de Archivo GPX */}
           <div className="bg-white p-3 rounded-lg border border-stone-200 shadow-sm space-y-2">
             <div className="flex justify-between items-center border-b border-stone-100 pb-1">
@@ -372,7 +406,7 @@ export default function SimuladorMTR() {
                   {gpxFileName ? 'Altimetría y desniveles cargados' : 'Extrae distancia, D+, D- y altitud media'}
                 </span>
               </div>
-              <input type="file" accept=".gpx,.kml,application/gpx+xml,application/vnd.google-earth.kml+xml,application/xml,text/xml,*/*" onChange={handleFileUpload} className="hidden" />
+              <input type="file" accept=".gpx,.kml,application/gpx+xml,application/vnd.google-earth.kml+xml,application/xml,text/xml" onChange={handleFileUpload} className="hidden" />
             </label>
             {loadingGpx && <p className="text-[10px] font-bold text-[#10A49B] animate-pulse text-center">Procesando archivo...</p>}
             {gpxError && <p className="text-[10px] font-bold text-red-500 bg-red-50 p-1.5 rounded border border-red-100 text-center">{gpxError}</p>}
@@ -594,7 +628,7 @@ export default function SimuladorMTR() {
                 <div ref={exportRef} style={{ width: '400px', background: '#FDFBF7', padding: '24px', borderRadius: '16px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', flexShrink: 0 }}>
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', borderBottom: '2px solid #e7e5e4', paddingBottom: '12px', marginBottom: '20px' }}>
                     <div>
-                      <div style={{ fontSize: '18px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase', letterSpacing: '-0.5px' }}>Resultado Oficial</div>
+                      <div style={{ fontSize: '18px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase', letterSpacing: '-0.5px' }}>{activityName || 'Resultado Oficial'}</div>
                       <div style={{ fontSize: '9px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '2px' }}>Simulador Puntos Andes</div>
                     </div>
                     <img src="/logo.png" alt="Logo" style={{ height: '40px', objectFit: 'contain' }} crossOrigin="anonymous" />
@@ -647,8 +681,8 @@ export default function SimuladorMTR() {
               {exportLayout === 'story' && (
                 <div ref={exportRef} style={{ width: '360px', height: '640px', background: 'linear-gradient(145deg, #111827, #1f2937)', padding: '40px 24px', borderRadius: '24px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', color: 'white', flexShrink: 0 }}>
                   <div style={{ textAlign: 'center' }}>
-                    <img src="/logo.png" alt="Logo" style={{ height: '45px', objectFit: 'contain', margin: '0 auto 10px', filter: 'brightness(0) invert(1)' }} crossOrigin="anonymous" />
-                    <div style={{ fontSize: '10px', fontWeight: 900, color: '#2dd4bf', textTransform: 'uppercase', letterSpacing: '4px' }}>Resultado Oficial</div>
+                    <img src={whiteLogoUrl || "/logo.png"} alt="Logo" style={{ height: '45px', objectFit: 'contain', margin: '0 auto 10px' }} crossOrigin="anonymous" />
+                    <div style={{ fontSize: '12px', fontWeight: 900, color: '#2dd4bf', textTransform: 'uppercase', letterSpacing: '2px' }}>{activityName || 'Resultado Oficial'}</div>
                   </div>
 
                   <div style={{ margin: '40px 0' }}>
@@ -687,7 +721,10 @@ export default function SimuladorMTR() {
               {exportLayout === 'horizontal' && (
                 <div ref={exportRef} style={{ width: '600px', height: '337px', background: '#FDFBF7', padding: '30px', borderRadius: '16px', fontFamily: 'system-ui, sans-serif', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flexShrink: 0 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '2px solid #e7e5e4', paddingBottom: '12px' }}>
-                    <div style={{ fontSize: '20px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase' }}>Simulador Puntos Andes</div>
+                    <div>
+                      <div style={{ fontSize: '20px', fontWeight: 900, color: '#1c1917', textTransform: 'uppercase' }}>{activityName || 'Simulador Puntos Andes'}</div>
+                      {activityName && <div style={{ fontSize: '10px', fontWeight: 700, color: '#a8a29e', textTransform: 'uppercase', marginTop: '2px' }}>Simulador Puntos Andes</div>}
+                    </div>
                     <img src="/logo.png" alt="Logo" style={{ height: '35px', objectFit: 'contain' }} crossOrigin="anonymous" />
                   </div>
 

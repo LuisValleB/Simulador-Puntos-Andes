@@ -12,6 +12,7 @@ interface Props {
   dPlus: number;
   nutritionStops: NutritionStop[];
   totalEstimatedMinutes: number;
+  activityName?: string;
 }
 
 function carbsStatus(g: number) {
@@ -22,13 +23,13 @@ function carbsStatus(g: number) {
 }
 
 const EMOJIS: Record<string, string> = {
-  gel: '⚡', solido: '🍌', sal: '🧂', cafeina: '☕', hidratacion: '💧',
+  gel: '⚡', solido: '🍌', sal: '🧂', cafeina: '☕', isotonico: '💧', agua: '🚰',
 };
 
 export default function ResultsPanel({
   projectedTime, carbsPerHour, sodiumPerHour, totalCarbs,
   sptcRange, kme, totalDistance, dPlus,
-  nutritionStops, totalEstimatedMinutes,
+  nutritionStops, totalEstimatedMinutes, activityName
 }: Props) {
   const status = carbsStatus(carbsPerHour);
 
@@ -72,6 +73,12 @@ export default function ResultsPanel({
 
   return (
     <div className="space-y-4 font-sans">
+      
+      {activityName && (
+        <div className="text-center pb-2">
+          <h2 className="text-lg font-black text-[#10A49B] uppercase tracking-tight">{activityName}</h2>
+        </div>
+      )}
 
       {/* Métricas de ruta */}
       <div className="grid grid-cols-3 gap-3 text-center">
