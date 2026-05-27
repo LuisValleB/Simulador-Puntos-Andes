@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import Link from 'next/link';
-import SimuladorMTR from '@/components/SimuladorMTR';
+import SimuladorMTR from '@/components/SimuladorPuntosAndes';
 
 export default function Home() {
   return (
