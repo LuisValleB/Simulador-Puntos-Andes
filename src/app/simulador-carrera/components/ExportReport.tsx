@@ -514,7 +514,7 @@ export default function ExportReport(props: Props) {
                         <div style={{ fontSize: '12px', fontWeight: 800, color: '#000000', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '25px', borderBottom: '2px solid #F3F4F6', paddingBottom: '15px' }}>
                           NUTRICIÓN / HORA
                         </div>
-                        <div style={{ spaceY: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <div style={{ gap: '20px', display: 'flex', flexDirection: 'column' }}>
                           {[
                             { v: props.carbsPerHour, l: 'CARBOS', u: 'g/h' },
                             { v: props.sodiumPerHour, l: 'SODIO', u: 'mg/h' },
