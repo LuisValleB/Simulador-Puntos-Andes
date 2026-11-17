@@ -1,0 +1,12 @@
+﻿{
+  "slug": "frontera-trail-2026",
+  "name": "CMPC Frontera Trail 2026",
+  "date": "2026-10-25",
+  "location": "Temuco, Chile",
+  "courses": [
+    { "sheet": "40K", "id": "40K", "label": "Short Trail 40K", "discipline": "Short Trail", "km": 39.27, "dPlus": 1813, "dMinus": 1813, "terrain": 3, "climate": 3 },
+    { "sheet": "15K", "id": "15K", "label": "Classic Trail 15K", "discipline": "Classic Trail", "km": 15.17, "dPlus": 895, "dMinus": 895, "terrain": 3, "climate": 3 },
+    { "sheet": "7K", "id": "7K", "label": "U20 7K", "discipline": "U20", "km": 8, "dPlus": 441, "dMinus": 441, "terrain": 3, "climate": 3 }
+  ]
+}
+

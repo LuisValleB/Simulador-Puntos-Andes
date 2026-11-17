@@ -1,0 +1,4278 @@
+{
+ "slug": "frontera-trail-2026",
+ "name": "CMPC Frontera Trail 2026",
+ "date": "2026-10-25",
+ "location": "Temuco, Chile",
+ "courses": [
+  {
+   "terrain": 3,
+   "climate": 3,
+   "altitude": 0,
+   "nightHours": 0,
+   "id": "40K",
+   "label": "Short Trail 40K",
+   "discipline": "Short Trail",
+   "km": 39.27,
+   "dPlus": 1813,
+   "dMinus": 1813
+  },
+  {
+   "terrain": 3,
+   "climate": 3,
+   "altitude": 0,
+   "nightHours": 0,
+   "id": "15K",
+   "label": "Classic Trail 15K",
+   "discipline": "Classic Trail",
+   "km": 15.17,
+   "dPlus": 895,
+   "dMinus": 895
+  },
+  {
+   "terrain": 3,
+   "climate": 3,
+   "altitude": 0,
+   "nightHours": 0,
+   "id": "7K",
+   "label": "U20 7K",
+   "discipline": "U20",
+   "km": 8,
+   "dPlus": 441,
+   "dMinus": 441
+  }
+ ],
+ "results": [
+  {
+   "course": "40K",
+   "name": "Luis Geraldo Barra Soto",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "03:24:30"
+  },
+  {
+   "course": "40K",
+   "name": "Jorge Vera Riquelme",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "03:30:53"
+  },
+  {
+   "course": "40K",
+   "name": "Matias Barros",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "03:32:21"
+  },
+  {
+   "course": "40K",
+   "name": "Javier Rodrigo Schlegel Torres",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "03:36:27"
+  },
+  {
+   "course": "40K",
+   "name": "Nicolas Guiaquin Alvarado",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 18 - 29",
+   "time": "03:38:07"
+  },
+  {
+   "course": "40K",
+   "name": "Nicolás Alfredo Saldias Valenzuela",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 18 - 29",
+   "time": "03:43:38"
+  },
+  {
+   "course": "40K",
+   "name": "Sebastian Barbosa",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 18 - 29",
+   "time": "03:44:00"
+  },
+  {
+   "course": "40K",
+   "name": "Andrés Sanhueza",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "04:08:51"
+  },
+  {
+   "course": "40K",
+   "name": "Maria Jose Saavedra Calderon",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "40K Damas 18 - 29",
+   "time": "04:11:14"
+  },
+  {
+   "course": "40K",
+   "name": "Diego Andrés Nova Rebolledo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "04:17:18"
+  },
+  {
+   "course": "40K",
+   "name": "Jeanette Macarena Cayuqueo Domihual",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "40K Damas 30 - 39",
+   "time": "04:18:07"
+  },
+  {
+   "course": "40K",
+   "name": "Victor Alexis Muñoz Arias",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 40 - 49",
+   "time": "04:19:46"
+  },
+  {
+   "course": "40K",
+   "name": "Fredd Isaías Padilla Antonietti",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "04:19:59"
+  },
+  {
+   "course": "40K",
+   "name": "Pablo Arredondo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "04:21:14"
+  },
+  {
+   "course": "40K",
+   "name": "Patricio Jeldres",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "04:23:53"
+  },
+  {
+   "course": "40K",
+   "name": "Eduardo Salgado Antilaf",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 18 - 29",
+   "time": "04:29:08"
+  },
+  {
+   "course": "40K",
+   "name": "Pamela Angel Mancilla",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "40K Damas 30 - 39",
+   "time": "04:29:37"
+  },
+  {
+   "course": "40K",
+   "name": "Elizabeth Fuentes",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "40K Damas 30 - 39",
+   "time": "04:31:40"
+  },
+  {
+   "course": "40K",
+   "name": "Mauricio Zúñiga",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 18 - 29",
+   "time": "04:33:31"
+  },
+  {
+   "course": "40K",
+   "name": "Alejandro Hugo Pérez Zúñiga",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 18 - 29",
+   "time": "04:39:31"
+  },
+  {
+   "course": "40K",
+   "name": "Sofia Cofré Saphier",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "40K Damas 30 - 39",
+   "time": "04:40:08"
+  },
+  {
+   "course": "40K",
+   "name": "Alfonso Mariangel",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 18 - 29",
+   "time": "04:40:30"
+  },
+  {
+   "course": "40K",
+   "name": "Miguel Ángel Painenao Arriagada",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 50 - 59",
+   "time": "04:51:47"
+  },
+  {
+   "course": "40K",
+   "name": "Maribel Cares Saldivia",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "40K Damas 30 - 39",
+   "time": "04:55:13"
+  },
+  {
+   "course": "40K",
+   "name": "Marcelo Sánchez Núñez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 40 - 49",
+   "time": "04:55:59"
+  },
+  {
+   "course": "40K",
+   "name": "Guillermo Schulz Escalona",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 40 - 49",
+   "time": "04:56:05"
+  },
+  {
+   "course": "40K",
+   "name": "Javier Calfin",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "04:56:20"
+  },
+  {
+   "course": "40K",
+   "name": "Jeannette Bello Iturra",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "40K Damas 40 - 49",
+   "time": "04:57:51"
+  },
+  {
+   "course": "40K",
+   "name": "Marcos Daniel Vivanco Guerrero",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 40 - 49",
+   "time": "04:58:54"
+  },
+  {
+   "course": "40K",
+   "name": "Jose Bon",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 50 - 59",
+   "time": "04:59:54"
+  },
+  {
+   "course": "40K",
+   "name": "Romina Bellemo Filonzi",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "40K Damas 40 - 49",
+   "time": "05:02:24"
+  },
+  {
+   "course": "40K",
+   "name": "Jorge Sanhueza Silva",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 40 - 49",
+   "time": "05:12:39"
+  },
+  {
+   "course": "40K",
+   "name": "Javiera Kalajzic Salamanca",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "40K Damas 30 - 39",
+   "time": "05:18:34"
+  },
+  {
+   "course": "40K",
+   "name": "Andres Flores Donoso",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "05:21:34"
+  },
+  {
+   "course": "40K",
+   "name": "Victor Carvajal Mardones",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 40 - 49",
+   "time": "05:21:34"
+  },
+  {
+   "course": "40K",
+   "name": "Juan Pablo Galleguillos",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "05:22:57"
+  },
+  {
+   "course": "40K",
+   "name": "Andres Cordero Guaman",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 40 - 49",
+   "time": "05:23:51"
+  },
+  {
+   "course": "40K",
+   "name": "Alison Mella Cuevas",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "40K Damas 30 - 39",
+   "time": "05:24:20"
+  },
+  {
+   "course": "40K",
+   "name": "Rocio Perez Sanhueza",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "40K Damas 30 - 39",
+   "time": "05:24:59"
+  },
+  {
+   "course": "40K",
+   "name": "Sofia Sanchez Cresp",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "40K Damas 30 - 39",
+   "time": "05:31:15"
+  },
+  {
+   "course": "40K",
+   "name": "Yanet Palavecino Fuentes",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "40K Damas 40 - 49",
+   "time": "05:32:25"
+  },
+  {
+   "course": "40K",
+   "name": "Sebastián Cárdenas Velásquez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "05:35:09"
+  },
+  {
+   "course": "40K",
+   "name": "Christian Esveile",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 40 - 49",
+   "time": "05:48:12"
+  },
+  {
+   "course": "40K",
+   "name": "Antonio Garces Petit-Laurent",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 50 - 59",
+   "time": "05:53:28"
+  },
+  {
+   "course": "40K",
+   "name": "Cesar Manqui",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "06:13:55"
+  },
+  {
+   "course": "40K",
+   "name": "Ignacio Manqui",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 18 - 29",
+   "time": "06:18:13"
+  },
+  {
+   "course": "40K",
+   "name": "Jaime Urrutia Méndez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "06:28:54"
+  },
+  {
+   "course": "40K",
+   "name": "Miguel Aranda Núñez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "06:58:00"
+  },
+  {
+   "course": "40K",
+   "name": "Titouan Massart",
+   "country": "Francia",
+   "sex": "M",
+   "ageCategory": "40K Varones 18 - 29",
+   "time": "07:00:34"
+  },
+  {
+   "course": "40K",
+   "name": "Alejandro Fierro Guajardo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 40 - 49",
+   "time": "07:20:11"
+  },
+  {
+   "course": "40K",
+   "name": "Geronimo Fierro Guajardo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "40K Varones 30 - 39",
+   "time": "07:20:14"
+  },
+  {
+   "course": "15K",
+   "name": "Luis Valle Barrientos",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:12:08"
+  },
+  {
+   "course": "15K",
+   "name": "Diego Ignacio Díaz Inostroza",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:15:26"
+  },
+  {
+   "course": "15K",
+   "name": "Juan Pedro Poblete Zapata",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "01:15:58"
+  },
+  {
+   "course": "15K",
+   "name": "Daniel Esteban Palma Gamonal",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:16:35"
+  },
+  {
+   "course": "15K",
+   "name": "Nicolás Miranda Zamora",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:24:17"
+  },
+  {
+   "course": "15K",
+   "name": "Diego Alejandro Chiguay Caniulef",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:24:25"
+  },
+  {
+   "course": "15K",
+   "name": "Johnny Roberto Cabezas Melendez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:24:42"
+  },
+  {
+   "course": "15K",
+   "name": "Pablo Wladimir Millapoco Aravena",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:24:42"
+  },
+  {
+   "course": "15K",
+   "name": "Felipe Silva Aguilar",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:27:16"
+  },
+  {
+   "course": "15K",
+   "name": "Felipe Marileo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "01:28:12"
+  },
+  {
+   "course": "15K",
+   "name": "Andres Azocar",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:28:30"
+  },
+  {
+   "course": "15K",
+   "name": "Edison Sánchez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "01:29:35"
+  },
+  {
+   "course": "15K",
+   "name": "Alex Alarcon",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:32:07"
+  },
+  {
+   "course": "15K",
+   "name": "Alexis Melipillan Parancan",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:32:12"
+  },
+  {
+   "course": "15K",
+   "name": "Claudio Ignacio Barbosa Millañir",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:32:48"
+  },
+  {
+   "course": "15K",
+   "name": "Victor Fabian Mancilla Cerpa",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "01:33:53"
+  },
+  {
+   "course": "15K",
+   "name": "Javier Avendaño",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "01:34:00"
+  },
+  {
+   "course": "15K",
+   "name": "Carlos Muñoz",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:34:06"
+  },
+  {
+   "course": "15K",
+   "name": "Cristobal Gonzalez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "01:34:11"
+  },
+  {
+   "course": "15K",
+   "name": "María Ignacia Vergara",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "01:34:21"
+  },
+  {
+   "course": "15K",
+   "name": "Celso Candia Arellano",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:35:30"
+  },
+  {
+   "course": "15K",
+   "name": "Alan Rios Villena",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:36:28"
+  },
+  {
+   "course": "15K",
+   "name": "Fabian Soperrey Guzmán",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "01:37:23"
+  },
+  {
+   "course": "15K",
+   "name": "Antonia Sanchez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 18 - 29",
+   "time": "01:37:28"
+  },
+  {
+   "course": "15K",
+   "name": "Marcelo Rosas Pérez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "01:37:35"
+  },
+  {
+   "course": "15K",
+   "name": "Rafael Sepúlveda Catalán",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:38:45"
+  },
+  {
+   "course": "15K",
+   "name": "Matías Núñez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:38:55"
+  },
+  {
+   "course": "15K",
+   "name": "Joaquin Sepulveda",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "01:39:19"
+  },
+  {
+   "course": "15K",
+   "name": "John Kevin Cuitiño Quitiño",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:39:31"
+  },
+  {
+   "course": "15K",
+   "name": "Andres Haro",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "01:41:11"
+  },
+  {
+   "course": "15K",
+   "name": "Luis Díaz Sepúlveda",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "01:41:13"
+  },
+  {
+   "course": "15K",
+   "name": "Julia Elizabeth Aros Gamboa",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "01:41:21"
+  },
+  {
+   "course": "15K",
+   "name": "Victor Caviedes Streb",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:41:51"
+  },
+  {
+   "course": "15K",
+   "name": "José Vallejos",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "01:43:23"
+  },
+  {
+   "course": "15K",
+   "name": "Marcelo Sanchez Reyes",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:44:00"
+  },
+  {
+   "course": "15K",
+   "name": "Javier Navarro Ramos",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:44:09"
+  },
+  {
+   "course": "15K",
+   "name": "Hugo Antican Navarro",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "01:44:15"
+  },
+  {
+   "course": "15K",
+   "name": "Juan Manuel Sepúlveda Castro",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "01:44:32"
+  },
+  {
+   "course": "15K",
+   "name": "Joaquin Benavente Bascur",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "01:44:48"
+  },
+  {
+   "course": "15K",
+   "name": "Felipe Mansilla Mancini",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "01:45:08"
+  },
+  {
+   "course": "15K",
+   "name": "Gerardo Espinoza Sobarzo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "01:45:26"
+  },
+  {
+   "course": "15K",
+   "name": "Renato Fuentes Fuentes",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "01:45:29"
+  },
+  {
+   "course": "15K",
+   "name": "Christian Andre Inostroza Soferrey",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "01:46:21"
+  },
+  {
+   "course": "15K",
+   "name": "Deiby Esteban San Martin Monsalve",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:46:44"
+  },
+  {
+   "course": "15K",
+   "name": "José Calvuqueo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "01:46:52"
+  },
+  {
+   "course": "15K",
+   "name": "Cristian Danilo Díaz Villar",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:47:17"
+  },
+  {
+   "course": "15K",
+   "name": "Vicente Sáez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "01:48:38"
+  },
+  {
+   "course": "15K",
+   "name": "Jonathan Soto Astete",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:48:46"
+  },
+  {
+   "course": "15K",
+   "name": "Isidora Contador Baeza",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 18 - 29",
+   "time": "01:49:14"
+  },
+  {
+   "course": "15K",
+   "name": "Jose Tomás Ordoñez Abuerto",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "01:49:19"
+  },
+  {
+   "course": "15K",
+   "name": "Paula Alexandra Sanchez Reyes",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "01:49:24"
+  },
+  {
+   "course": "15K",
+   "name": "Josefa Paz Garay Gonzalez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "01:49:30"
+  },
+  {
+   "course": "15K",
+   "name": "María Soledad Aravena Ramos",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "01:51:32"
+  },
+  {
+   "course": "15K",
+   "name": "Mariela Andrea Sepúlveda Castro",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "01:52:12"
+  },
+  {
+   "course": "15K",
+   "name": "Javier Ignacio Quezada Muñoz",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "01:52:34"
+  },
+  {
+   "course": "15K",
+   "name": "Joaquin Medina Lopez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:53:22"
+  },
+  {
+   "course": "15K",
+   "name": "Paz Sepulveda",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "01:53:22"
+  },
+  {
+   "course": "15K",
+   "name": "Pablo Castillo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "01:53:31"
+  },
+  {
+   "course": "15K",
+   "name": "Martin Tranamil Vidal",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "01:53:56"
+  },
+  {
+   "course": "15K",
+   "name": "Victor Fernández Escobar",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "01:54:35"
+  },
+  {
+   "course": "15K",
+   "name": "Jose Zuñiga Segura",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "01:55:16"
+  },
+  {
+   "course": "15K",
+   "name": "Camilo Jara Bravo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "01:55:24"
+  },
+  {
+   "course": "15K",
+   "name": "Sebastian Andres Quiñemil",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "01:55:32"
+  },
+  {
+   "course": "15K",
+   "name": "Huilcan Rene Francisco",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 60 y más",
+   "time": "01:56:25"
+  },
+  {
+   "course": "15K",
+   "name": "Italo Pinilla Vidal",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "01:57:01"
+  },
+  {
+   "course": "15K",
+   "name": "Bernarda Burgos",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "01:58:11"
+  },
+  {
+   "course": "15K",
+   "name": "Sole Acuña Muñoz",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "01:58:15"
+  },
+  {
+   "course": "15K",
+   "name": "Laura Henríquez Peñailillo",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 18 - 29",
+   "time": "01:59:56"
+  },
+  {
+   "course": "15K",
+   "name": "Antonella Perez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 18 - 29",
+   "time": "02:00:03"
+  },
+  {
+   "course": "15K",
+   "name": "Yonathan Gonzalez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:00:41"
+  },
+  {
+   "course": "15K",
+   "name": "Alejandra Carolina Saavedra Paez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 50 - 59",
+   "time": "02:00:49"
+  },
+  {
+   "course": "15K",
+   "name": "Lestter Cofre Cisternas",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:00:51"
+  },
+  {
+   "course": "15K",
+   "name": "Barbara Castel",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:01:25"
+  },
+  {
+   "course": "15K",
+   "name": "Karinna Echeverría",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:01:38"
+  },
+  {
+   "course": "15K",
+   "name": "Clarence Piña",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "02:02:11"
+  },
+  {
+   "course": "15K",
+   "name": "Deysi Segura Lagos",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:02:27"
+  },
+  {
+   "course": "15K",
+   "name": "Javiera Betanzo Salazar",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:02:28"
+  },
+  {
+   "course": "15K",
+   "name": "Javier Tapia Opazo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 60 y más",
+   "time": "02:02:30"
+  },
+  {
+   "course": "15K",
+   "name": "Manuel Zuñiga",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:02:37"
+  },
+  {
+   "course": "15K",
+   "name": "Jacqueline Quezada Ramos",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:02:51"
+  },
+  {
+   "course": "15K",
+   "name": "Oscar Muñoz",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 60 y más",
+   "time": "02:03:12"
+  },
+  {
+   "course": "15K",
+   "name": "Cesar Bravo Millar",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:03:27"
+  },
+  {
+   "course": "15K",
+   "name": "Hadisson González Ríos",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:03:28"
+  },
+  {
+   "course": "15K",
+   "name": "Catherinne Osses Cofre",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:03:38"
+  },
+  {
+   "course": "15K",
+   "name": "Israel Inostroza",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:03:41"
+  },
+  {
+   "course": "15K",
+   "name": "Hector Alfonso Llancaman Faundez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:03:59"
+  },
+  {
+   "course": "15K",
+   "name": "Osvaldo Riquelme López",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:04:23"
+  },
+  {
+   "course": "15K",
+   "name": "Betsie Catrín Cariqueo",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:04:26"
+  },
+  {
+   "course": "15K",
+   "name": "Javier Castillo Candia",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:04:52"
+  },
+  {
+   "course": "15K",
+   "name": "Vanessa Jiménez Aravena",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:05:37"
+  },
+  {
+   "course": "15K",
+   "name": "Tomás Alcalde Negrón",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "02:05:42"
+  },
+  {
+   "course": "15K",
+   "name": "Nayareth Neira Ferrada",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:06:35"
+  },
+  {
+   "course": "15K",
+   "name": "Sergio Urbina",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:07:03"
+  },
+  {
+   "course": "15K",
+   "name": "Fabian Cuevas Hernandez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:07:17"
+  },
+  {
+   "course": "15K",
+   "name": "Cesar Enríquez Torrent",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:08:04"
+  },
+  {
+   "course": "15K",
+   "name": "Evelyn Celis Vejar",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:08:09"
+  },
+  {
+   "course": "15K",
+   "name": "Felipe Alberto Jesus Soto Zepeda",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:08:51"
+  },
+  {
+   "course": "15K",
+   "name": "Jorge Aedo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:09:00"
+  },
+  {
+   "course": "15K",
+   "name": "Jose Luis Acuña Utreras",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:09:04"
+  },
+  {
+   "course": "15K",
+   "name": "Pamela Aicon Almendra",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 50 - 59",
+   "time": "02:09:10"
+  },
+  {
+   "course": "15K",
+   "name": "Christian Daniel Malagueño Ubilla",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:09:15"
+  },
+  {
+   "course": "15K",
+   "name": "Joaquin Danke",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:09:30"
+  },
+  {
+   "course": "15K",
+   "name": "Leandro Guillermo Navarrete Cruces",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:10:11"
+  },
+  {
+   "course": "15K",
+   "name": "Marcelo Latorre",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:10:24"
+  },
+  {
+   "course": "15K",
+   "name": "Hector Cruces",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 60 y más",
+   "time": "02:11:08"
+  },
+  {
+   "course": "15K",
+   "name": "Cesar Mora Hoffmann",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:11:19"
+  },
+  {
+   "course": "15K",
+   "name": "Bernardo Acuna Munoz",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "02:11:21"
+  },
+  {
+   "course": "15K",
+   "name": "Yasna Figueroa",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:11:31"
+  },
+  {
+   "course": "15K",
+   "name": "Carolyn Bello Muñoz",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 18 - 29",
+   "time": "02:11:41"
+  },
+  {
+   "course": "15K",
+   "name": "Beba Cayul",
+   "country": "Argentina",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:12:10"
+  },
+  {
+   "course": "15K",
+   "name": "Matias Parodi",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:12:16"
+  },
+  {
+   "course": "15K",
+   "name": "Victor Herrera",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:12:42"
+  },
+  {
+   "course": "15K",
+   "name": "Pilar Lillo Barra",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:13:11"
+  },
+  {
+   "course": "15K",
+   "name": "Mario Cristóbal Soto Ulloa",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "02:13:26"
+  },
+  {
+   "course": "15K",
+   "name": "Luis Isla",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "02:13:53"
+  },
+  {
+   "course": "15K",
+   "name": "Felipe Gatica",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:14:40"
+  },
+  {
+   "course": "15K",
+   "name": "Vanessa Quidel Mariano",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:14:52"
+  },
+  {
+   "course": "15K",
+   "name": "Matías Chavarría Ortiz",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:15:29"
+  },
+  {
+   "course": "15K",
+   "name": "Francisto Torres Figueroa",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:15:52"
+  },
+  {
+   "course": "15K",
+   "name": "Giancarlos Ortega Diaz",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "02:15:53"
+  },
+  {
+   "course": "15K",
+   "name": "Josefina Luchsinger Martimez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:15:56"
+  },
+  {
+   "course": "15K",
+   "name": "Maricel Arias Marin",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 50 - 59",
+   "time": "02:16:01"
+  },
+  {
+   "course": "15K",
+   "name": "Sergio Ivan Celedon Torres",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:16:12"
+  },
+  {
+   "course": "15K",
+   "name": "Javier Ignacio Padilla Llano",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "02:16:18"
+  },
+  {
+   "course": "15K",
+   "name": "Cristóbal Pavez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:16:26"
+  },
+  {
+   "course": "15K",
+   "name": "Claudia Berg",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:16:36"
+  },
+  {
+   "course": "15K",
+   "name": "Ornella Denise Pizarro Muñoz",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:17:21"
+  },
+  {
+   "course": "15K",
+   "name": "Monica Garcia",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 50 - 59",
+   "time": "02:17:23"
+  },
+  {
+   "course": "15K",
+   "name": "Felipe Mendoza Campos",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:17:37"
+  },
+  {
+   "course": "15K",
+   "name": "Nicolas Benitez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:17:45"
+  },
+  {
+   "course": "15K",
+   "name": "Paulina Manriquez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:18:10"
+  },
+  {
+   "course": "15K",
+   "name": "Ivan Esteban Aburto Teran",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:18:22"
+  },
+  {
+   "course": "15K",
+   "name": "Paulo Carrasco Baeza",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:18:50"
+  },
+  {
+   "course": "15K",
+   "name": "Jaime Torres Jaramillo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:19:12"
+  },
+  {
+   "course": "15K",
+   "name": "Matías Ignacio Pereira Barra",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:19:18"
+  },
+  {
+   "course": "15K",
+   "name": "Camila Fernández Rodríguez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:19:35"
+  },
+  {
+   "course": "15K",
+   "name": "Matias Sáez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 15 - 17",
+   "time": "02:19:59"
+  },
+  {
+   "course": "15K",
+   "name": "Dedy Ines Lincoqueo",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:20:06"
+  },
+  {
+   "course": "15K",
+   "name": "Emilio Velasquez Cerpa",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:20:08"
+  },
+  {
+   "course": "15K",
+   "name": "José Miguel Vallejos",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:20:23"
+  },
+  {
+   "course": "15K",
+   "name": "Lisbeth Padilla Torres",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:21:20"
+  },
+  {
+   "course": "15K",
+   "name": "Cristian Morales Hueichaleo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:21:46"
+  },
+  {
+   "course": "15K",
+   "name": "Cristian Marcelo Sanhueza Rivas",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:22:00"
+  },
+  {
+   "course": "15K",
+   "name": "Victor Caro Sanchez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:22:37"
+  },
+  {
+   "course": "15K",
+   "name": "Marcos Pizzeghello Ríos",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 60 y más",
+   "time": "02:22:41"
+  },
+  {
+   "course": "15K",
+   "name": "Paola Pino Gonzalez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:22:52"
+  },
+  {
+   "course": "15K",
+   "name": "Melissa Ferreira Sanzana",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:24:14"
+  },
+  {
+   "course": "15K",
+   "name": "Sebastian Reinike Herman",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:24:23"
+  },
+  {
+   "course": "15K",
+   "name": "Victoria Reinike",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 15 - 17",
+   "time": "02:24:23"
+  },
+  {
+   "course": "15K",
+   "name": "Sonia Eliana Peldoza Neira",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:24:45"
+  },
+  {
+   "course": "15K",
+   "name": "Daniela Martínez Salgado",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:25:26"
+  },
+  {
+   "course": "15K",
+   "name": "Antonia Sandoval Leal",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 18 - 29",
+   "time": "02:26:08"
+  },
+  {
+   "course": "15K",
+   "name": "Rafael Vilches",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:26:19"
+  },
+  {
+   "course": "15K",
+   "name": "Manuel Alcamán Caifal",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:26:58"
+  },
+  {
+   "course": "15K",
+   "name": "Rocío Ojeda",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:27:09"
+  },
+  {
+   "course": "15K",
+   "name": "Rodrigo Sotomayor Pino",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:27:41"
+  },
+  {
+   "course": "15K",
+   "name": "Dellanira Villa Curifuta",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:27:51"
+  },
+  {
+   "course": "15K",
+   "name": "Víctor Joaquín Fritz Arias",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 15 - 17",
+   "time": "02:29:11"
+  },
+  {
+   "course": "15K",
+   "name": "Paola Andrea Rivera Cuevas",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:29:32"
+  },
+  {
+   "course": "15K",
+   "name": "Karem Manqueñir Sánchez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:30:13"
+  },
+  {
+   "course": "15K",
+   "name": "Leslie Diaz",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:30:36"
+  },
+  {
+   "course": "15K",
+   "name": "Ximena Jara Salgado",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 50 - 59",
+   "time": "02:30:36"
+  },
+  {
+   "course": "15K",
+   "name": "Carlos Manqui Ampuero",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:30:54"
+  },
+  {
+   "course": "15K",
+   "name": "Alejandra Jocelyn Bello Fernández",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:30:56"
+  },
+  {
+   "course": "15K",
+   "name": "Luis Rogelio Garrido Palavecino",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:30:59"
+  },
+  {
+   "course": "15K",
+   "name": "Constanza Rodriguez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:31:40"
+  },
+  {
+   "course": "15K",
+   "name": "Camila Cruces",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:31:49"
+  },
+  {
+   "course": "15K",
+   "name": "Nelly Yáñez Calbún",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "Sin Categoria",
+   "time": "02:32:25"
+  },
+  {
+   "course": "15K",
+   "name": "Maria Paz Gonzalez Diaz",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:32:37"
+  },
+  {
+   "course": "15K",
+   "name": "Alejandrina Pérez Zuñiga",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 50 - 59",
+   "time": "02:32:46"
+  },
+  {
+   "course": "15K",
+   "name": "Giannina Massiel Cubillos Arancibia",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:32:51"
+  },
+  {
+   "course": "15K",
+   "name": "Noelia Guzman",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:32:51"
+  },
+  {
+   "course": "15K",
+   "name": "René Eduardo Vásquez Manosalva",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:33:20"
+  },
+  {
+   "course": "15K",
+   "name": "Claudio Urzua Candia",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:33:42"
+  },
+  {
+   "course": "15K",
+   "name": "Emilio Breve Ulloa",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:34:28"
+  },
+  {
+   "course": "15K",
+   "name": "Nataly Iturra Lillo",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:34:29"
+  },
+  {
+   "course": "15K",
+   "name": "Almendra Rojas Agurto",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 18 - 29",
+   "time": "02:35:08"
+  },
+  {
+   "course": "15K",
+   "name": "Rodrigo Antinao Muñoz",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:35:14"
+  },
+  {
+   "course": "15K",
+   "name": "Agustín Alcalde",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:35:45"
+  },
+  {
+   "course": "15K",
+   "name": "Edison Delgado",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:36:34"
+  },
+  {
+   "course": "15K",
+   "name": "Arturo Alonso Gutierrez Medina",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:37:09"
+  },
+  {
+   "course": "15K",
+   "name": "Daniella Alexia Daniella Perez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:37:55"
+  },
+  {
+   "course": "15K",
+   "name": "María Olivia Castro Marín",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 50 - 59",
+   "time": "02:38:12"
+  },
+  {
+   "course": "15K",
+   "name": "Gloria Schopf",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 60 y más",
+   "time": "02:38:42"
+  },
+  {
+   "course": "15K",
+   "name": "Carlos Luchsinger Martinez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:39:38"
+  },
+  {
+   "course": "15K",
+   "name": "Karen Flores Escobar",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:39:48"
+  },
+  {
+   "course": "15K",
+   "name": "Didier Cares Iraira",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:40:31"
+  },
+  {
+   "course": "15K",
+   "name": "Macarena Bustos Cares",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:41:43"
+  },
+  {
+   "course": "15K",
+   "name": "Anarrosa Opazo",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:41:58"
+  },
+  {
+   "course": "15K",
+   "name": "Jessica Concha Arias",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:43:12"
+  },
+  {
+   "course": "15K",
+   "name": "Marianela Romero Riquelme",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:44:08"
+  },
+  {
+   "course": "15K",
+   "name": "Sebastián Hertzer Mendoza",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:44:23"
+  },
+  {
+   "course": "15K",
+   "name": "Claudio Farbinger",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:44:59"
+  },
+  {
+   "course": "15K",
+   "name": "Marcelo Sáez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:45:51"
+  },
+  {
+   "course": "15K",
+   "name": "Natalia Lopez Lopez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:46:28"
+  },
+  {
+   "course": "15K",
+   "name": "Frida Schweitzer",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 50 - 59",
+   "time": "02:46:29"
+  },
+  {
+   "course": "15K",
+   "name": "Carolina Solis Sotomayor",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:47:34"
+  },
+  {
+   "course": "15K",
+   "name": "Carlos Bustamante",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:48:03"
+  },
+  {
+   "course": "15K",
+   "name": "Fabiola Morales Valdebenito",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:48:07"
+  },
+  {
+   "course": "15K",
+   "name": "Cecilia Belen Zavala Alvial",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:48:13"
+  },
+  {
+   "course": "15K",
+   "name": "Constanza Rocio Marin",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 18 - 29",
+   "time": "02:50:11"
+  },
+  {
+   "course": "15K",
+   "name": "Jovita Pailla Yañez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 60 y más",
+   "time": "02:50:14"
+  },
+  {
+   "course": "15K",
+   "name": "Ana Jocelynne Cruces Pereira",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "02:50:25"
+  },
+  {
+   "course": "15K",
+   "name": "Camila Merino Aravena",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:50:38"
+  },
+  {
+   "course": "15K",
+   "name": "Jorge Armando Matamala Matamala",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:51:31"
+  },
+  {
+   "course": "15K",
+   "name": "Miguel Benitez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "02:52:11"
+  },
+  {
+   "course": "15K",
+   "name": "Jorge Hernan Angulo Vargas",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "02:52:58"
+  },
+  {
+   "course": "15K",
+   "name": "Ximena Garces",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 50 - 59",
+   "time": "02:55:31"
+  },
+  {
+   "course": "15K",
+   "name": "Francisco Rodríguez",
+   "country": "Argentina",
+   "sex": "M",
+   "ageCategory": "15K Varones 60 y más",
+   "time": "02:56:10"
+  },
+  {
+   "course": "15K",
+   "name": "Rafael Leal Illanes",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:56:54"
+  },
+  {
+   "course": "15K",
+   "name": "Lorena Cid Curutchet",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 50 - 59",
+   "time": "02:57:32"
+  },
+  {
+   "course": "15K",
+   "name": "Gabino Morales",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:57:58"
+  },
+  {
+   "course": "15K",
+   "name": "Elias Deumacan",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "02:58:02"
+  },
+  {
+   "course": "15K",
+   "name": "Maria Paz Zapata Zuñiga",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "02:58:04"
+  },
+  {
+   "course": "15K",
+   "name": "Yanira Carrasco",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 50 - 59",
+   "time": "02:58:05"
+  },
+  {
+   "course": "15K",
+   "name": "Joaquín Andres Cubillos Muñoz",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "03:01:31"
+  },
+  {
+   "course": "15K",
+   "name": "Claudia Valdebenito",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "03:01:56"
+  },
+  {
+   "course": "15K",
+   "name": "Felipe Ramirez Morales",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "03:01:59"
+  },
+  {
+   "course": "15K",
+   "name": "Pablo Aravena Neira",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 60 y más",
+   "time": "03:02:08"
+  },
+  {
+   "course": "15K",
+   "name": "Raul Enrique Garces Zuñiga",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "03:02:39"
+  },
+  {
+   "course": "15K",
+   "name": "Claudio Herrera",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 50 - 59",
+   "time": "03:03:42"
+  },
+  {
+   "course": "15K",
+   "name": "Leonor Alcalde Negrón",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 18 - 29",
+   "time": "03:04:08"
+  },
+  {
+   "course": "15K",
+   "name": "Bastian Daniel Grandón Quezaday",
+   "country": "Colombia",
+   "sex": "M",
+   "ageCategory": "15K Varones 18 - 29",
+   "time": "03:06:04"
+  },
+  {
+   "course": "15K",
+   "name": "Esteban Alexis Gatica Flores",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "03:06:07"
+  },
+  {
+   "course": "15K",
+   "name": "Maribel Eliana Riffo Vidal",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 40 - 49",
+   "time": "03:11:31"
+  },
+  {
+   "course": "15K",
+   "name": "Valentina Saez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "03:14:12"
+  },
+  {
+   "course": "15K",
+   "name": "Ignacio Diaz Catalán",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "03:16:38"
+  },
+  {
+   "course": "15K",
+   "name": "Paulina Faune Silva",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "03:20:09"
+  },
+  {
+   "course": "15K",
+   "name": "Margarita Alcalde Negrón",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 18 - 29",
+   "time": "03:25:55"
+  },
+  {
+   "course": "15K",
+   "name": "Elia Moron",
+   "country": "Argentina",
+   "sex": "F",
+   "ageCategory": "15K Damas 60 y más",
+   "time": "03:27:01"
+  },
+  {
+   "course": "15K",
+   "name": "Rodrigo Vargas",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "03:27:34"
+  },
+  {
+   "course": "15K",
+   "name": "Tamara Torres",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "03:35:39"
+  },
+  {
+   "course": "15K",
+   "name": "Tomás Lemunao Peña",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 40 - 49",
+   "time": "03:38:43"
+  },
+  {
+   "course": "15K",
+   "name": "Daniela Bustamante Lema",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "03:38:57"
+  },
+  {
+   "course": "15K",
+   "name": "Ingrid Cuevas",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 50 - 59",
+   "time": "03:51:04"
+  },
+  {
+   "course": "15K",
+   "name": "Jacqueline Gloor",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 60 y más",
+   "time": "03:55:47"
+  },
+  {
+   "course": "15K",
+   "name": "Danixza Morales Legal",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "15K Damas 30 - 39",
+   "time": "03:56:09"
+  },
+  {
+   "course": "15K",
+   "name": "Jorge Humberto Bastías",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 30 - 39",
+   "time": "03:59:52"
+  },
+  {
+   "course": "15K",
+   "name": "Pablo Segundo Grandón Sepúlveda",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "15K Varones 60 y más",
+   "time": "04:28:15"
+  },
+  {
+   "course": "7K",
+   "name": "Roberto Yovanni Soto Chamia",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 15 - 17",
+   "time": "00:44:36"
+  },
+  {
+   "course": "7K",
+   "name": "Angelo Carrillo Morales",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "00:45:46"
+  },
+  {
+   "course": "7K",
+   "name": "Kevin Vargas Fuentes",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "00:45:56"
+  },
+  {
+   "course": "7K",
+   "name": "Francisco Villagrán Funes",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 15 - 17",
+   "time": "00:46:00"
+  },
+  {
+   "course": "7K",
+   "name": "Andrés Nahuelpan",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "00:46:12"
+  },
+  {
+   "course": "7K",
+   "name": "Juan Manuel Tapia Molina",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "00:47:38"
+  },
+  {
+   "course": "7K",
+   "name": "Amaro Vázquez Collio",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "00:47:42"
+  },
+  {
+   "course": "7K",
+   "name": "Esteban Maldonado",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "00:48:56"
+  },
+  {
+   "course": "7K",
+   "name": "Sergio Guzmán",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "00:49:44"
+  },
+  {
+   "course": "7K",
+   "name": "Vicente Vicente Flores",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "00:50:12"
+  },
+  {
+   "course": "7K",
+   "name": "Maximiliano Donat",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "00:50:50"
+  },
+  {
+   "course": "7K",
+   "name": "Alex Osorio Aguilera",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "00:51:03"
+  },
+  {
+   "course": "7K",
+   "name": "Yicssel Llancapani",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "00:51:09"
+  },
+  {
+   "course": "7K",
+   "name": "Francisco Quinchavil",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "00:51:44"
+  },
+  {
+   "course": "7K",
+   "name": "Alberto Rebolledo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "00:52:11"
+  },
+  {
+   "course": "7K",
+   "name": "Matias Sanhueza",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "00:52:31"
+  },
+  {
+   "course": "7K",
+   "name": "Cristian Javier Alvarado Rivera",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "00:53:41"
+  },
+  {
+   "course": "7K",
+   "name": "Tomas Moral Saavedra",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "00:54:03"
+  },
+  {
+   "course": "7K",
+   "name": "Alex Campos",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 50 - 59",
+   "time": "00:54:08"
+  },
+  {
+   "course": "7K",
+   "name": "Jonathan Andres Jiménez Godoy",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "00:55:00"
+  },
+  {
+   "course": "7K",
+   "name": "Cristóbal Ignacio Gunckel Neira",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 15 - 17",
+   "time": "00:55:07"
+  },
+  {
+   "course": "7K",
+   "name": "Millaray Molina Varela",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 15 - 17",
+   "time": "00:55:08"
+  },
+  {
+   "course": "7K",
+   "name": "Darwin Conejeros Sagredo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "00:55:14"
+  },
+  {
+   "course": "7K",
+   "name": "Eddison Catalán",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "00:55:41"
+  },
+  {
+   "course": "7K",
+   "name": "Diego Ignacio Chavez Avello",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "00:55:48"
+  },
+  {
+   "course": "7K",
+   "name": "Nicole Madrid",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "00:55:54"
+  },
+  {
+   "course": "7K",
+   "name": "Franciska Rodríguez Cordova",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "00:56:15"
+  },
+  {
+   "course": "7K",
+   "name": "María José Arancibia Luna",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "00:56:34"
+  },
+  {
+   "course": "7K",
+   "name": "Amador Noriega Benavente",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 15 - 17",
+   "time": "00:56:39"
+  },
+  {
+   "course": "7K",
+   "name": "Leodan Edio Reyes Salazar",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "00:56:42"
+  },
+  {
+   "course": "7K",
+   "name": "Sergio Espinoza Contreras",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "00:57:14"
+  },
+  {
+   "course": "7K",
+   "name": "Nicola Hachim Fulgeri",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "00:57:57"
+  },
+  {
+   "course": "7K",
+   "name": "Heraldo Nicolas Muñoz Valdes",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "00:58:50"
+  },
+  {
+   "course": "7K",
+   "name": "Pepa Canales Rojas",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "00:58:52"
+  },
+  {
+   "course": "7K",
+   "name": "Samira Herrera",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "00:59:04"
+  },
+  {
+   "course": "7K",
+   "name": "Monserrat Schatter Sepúlveda",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 15 - 17",
+   "time": "00:59:06"
+  },
+  {
+   "course": "7K",
+   "name": "Luis Esteban Contreras Retamal",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "00:59:18"
+  },
+  {
+   "course": "7K",
+   "name": "Sofia Ignacia Paredes Poblete",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 15 - 17",
+   "time": "00:59:20"
+  },
+  {
+   "course": "7K",
+   "name": "Camilo Bustamante",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 15 - 17",
+   "time": "00:59:42"
+  },
+  {
+   "course": "7K",
+   "name": "Cristian De La Fuente",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 15 - 17",
+   "time": "00:59:51"
+  },
+  {
+   "course": "7K",
+   "name": "Matías Ignacio Ampuero Teiguel",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "00:59:59"
+  },
+  {
+   "course": "7K",
+   "name": "Helmuth Espinoza Jara",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:00:40"
+  },
+  {
+   "course": "7K",
+   "name": "Nelson Burgos Contreras",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:00:40"
+  },
+  {
+   "course": "7K",
+   "name": "Mathias Briones",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:00:45"
+  },
+  {
+   "course": "7K",
+   "name": "Miguel Jesus Medina Albornoz",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:00:47"
+  },
+  {
+   "course": "7K",
+   "name": "Alejandro Navarro Rebolledo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:00:51"
+  },
+  {
+   "course": "7K",
+   "name": "Myllanu Shaida Antonella Lavin Gonzales",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 15 - 17",
+   "time": "01:00:54"
+  },
+  {
+   "course": "7K",
+   "name": "Escarlet Andrea Pedrero Paillamilla",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:00:56"
+  },
+  {
+   "course": "7K",
+   "name": "Fernanda Scarlet Gutiérrez Gallegos",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 15 - 17",
+   "time": "01:00:56"
+  },
+  {
+   "course": "7K",
+   "name": "Valentina Leiva Viveros",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:01:30"
+  },
+  {
+   "course": "7K",
+   "name": "Yazmin Alejandra Bombin Melipil",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:01:50"
+  },
+  {
+   "course": "7K",
+   "name": "Lorena Reyes Otth",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:03:08"
+  },
+  {
+   "course": "7K",
+   "name": "César Bruna Díaz",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:03:28"
+  },
+  {
+   "course": "7K",
+   "name": "Juan Pablo Sandoval",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:03:44"
+  },
+  {
+   "course": "7K",
+   "name": "Denis Solis Hermosilla",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:03:49"
+  },
+  {
+   "course": "7K",
+   "name": "Rocio Guerrero Guerrero Cárdenas",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:03:52"
+  },
+  {
+   "course": "7K",
+   "name": "Deicy Ruminot Conejeros",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:04:14"
+  },
+  {
+   "course": "7K",
+   "name": "Pedro Trecaman",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:04:32"
+  },
+  {
+   "course": "7K",
+   "name": "Darlin Miranda",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:04:37"
+  },
+  {
+   "course": "7K",
+   "name": "Roberto Martinez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:04:42"
+  },
+  {
+   "course": "7K",
+   "name": "Pedro Enrique Riquelme Arriagada",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:04:45"
+  },
+  {
+   "course": "7K",
+   "name": "Christian Puentes",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:05:02"
+  },
+  {
+   "course": "7K",
+   "name": "Danica Drazic Beni",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:06:06"
+  },
+  {
+   "course": "7K",
+   "name": "Jorge Eduardo Rivas Coello",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:06:10"
+  },
+  {
+   "course": "7K",
+   "name": "Richard Cruz Arias",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:06:23"
+  },
+  {
+   "course": "7K",
+   "name": "Eduardo Pineda Sandoval",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:06:52"
+  },
+  {
+   "course": "7K",
+   "name": "Ana Peñailillo",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:06:57"
+  },
+  {
+   "course": "7K",
+   "name": "Camila Baeza Azema",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:06:57"
+  },
+  {
+   "course": "7K",
+   "name": "Cristóbal Artigas Sapiain",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 50 - 59",
+   "time": "01:06:59"
+  },
+  {
+   "course": "7K",
+   "name": "Olivia Estela Huichacura Lienqueo",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:07:11"
+  },
+  {
+   "course": "7K",
+   "name": "Joaquin Vargas",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:07:12"
+  },
+  {
+   "course": "7K",
+   "name": "Fabian Llinquiman",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:07:32"
+  },
+  {
+   "course": "7K",
+   "name": "Rocio Fernandez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:07:38"
+  },
+  {
+   "course": "7K",
+   "name": "Ruben Villarreal Barrios",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:07:53"
+  },
+  {
+   "course": "7K",
+   "name": "Danitza Morales Jofré",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:07:55"
+  },
+  {
+   "course": "7K",
+   "name": "Maria De Los Angeles Perez Morales",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:08:07"
+  },
+  {
+   "course": "7K",
+   "name": "Matías Ignacio Echeverría Flores",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:08:13"
+  },
+  {
+   "course": "7K",
+   "name": "Maribel Bascur A",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 50 - 59",
+   "time": "01:08:39"
+  },
+  {
+   "course": "7K",
+   "name": "Hugo Aros Toro",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 50 - 59",
+   "time": "01:08:46"
+  },
+  {
+   "course": "7K",
+   "name": "Constanza Becker Peña",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:08:49"
+  },
+  {
+   "course": "7K",
+   "name": "Benjamin Eduardo Sanchez Mosquera",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 15 - 17",
+   "time": "01:09:08"
+  },
+  {
+   "course": "7K",
+   "name": "Diego Manuel Ledos Pachano",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:09:26"
+  },
+  {
+   "course": "7K",
+   "name": "Bruno Rolf Hauenstein Araya",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 50 - 59",
+   "time": "01:09:39"
+  },
+  {
+   "course": "7K",
+   "name": "Nicole Becker Peña",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:09:56"
+  },
+  {
+   "course": "7K",
+   "name": "Emanuel Gaete Bustos",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:10:03"
+  },
+  {
+   "course": "7K",
+   "name": "Daniela Bodaleo Vásquez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:10:04"
+  },
+  {
+   "course": "7K",
+   "name": "Sebastian Raúl Avello Fernandez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:10:05"
+  },
+  {
+   "course": "7K",
+   "name": "Karla Villena Fernandez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:10:24"
+  },
+  {
+   "course": "7K",
+   "name": "Francisco De La Torre",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:11:08"
+  },
+  {
+   "course": "7K",
+   "name": "Eugenia Sánchez Cadiu",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 15 - 17",
+   "time": "01:11:33"
+  },
+  {
+   "course": "7K",
+   "name": "Diego Alfredo Quinteros Torrent",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:12:16"
+  },
+  {
+   "course": "7K",
+   "name": "Fernanda Navarrete Poblete",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:12:19"
+  },
+  {
+   "course": "7K",
+   "name": "Pablo Provoste Corona",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:12:19"
+  },
+  {
+   "course": "7K",
+   "name": "Carlos Rivera Hurtado",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:12:20"
+  },
+  {
+   "course": "7K",
+   "name": "Paz Alexandra Vergara Villar",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:12:21"
+  },
+  {
+   "course": "7K",
+   "name": "Mateo Herrera Roquelme",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 15 - 17",
+   "time": "01:12:23"
+  },
+  {
+   "course": "7K",
+   "name": "Karina Soledad Muñoz Barrenechea",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:12:26"
+  },
+  {
+   "course": "7K",
+   "name": "Soledad Levillan",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:12:35"
+  },
+  {
+   "course": "7K",
+   "name": "Luis Alarcon Antil",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:12:45"
+  },
+  {
+   "course": "7K",
+   "name": "Camila Sandoval Cifuentes",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:12:48"
+  },
+  {
+   "course": "7K",
+   "name": "Daniela Peña Álvarez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:12:53"
+  },
+  {
+   "course": "7K",
+   "name": "Francisco Gutierrez Gutierrez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:12:59"
+  },
+  {
+   "course": "7K",
+   "name": "Javier Alejandro Muñoz Fernández",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:12:59"
+  },
+  {
+   "course": "7K",
+   "name": "Jocelyn Cruces Estrada",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:13:00"
+  },
+  {
+   "course": "7K",
+   "name": "Yasna Elgueta Contreras",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:13:11"
+  },
+  {
+   "course": "7K",
+   "name": "María Fernanda Aedo Mathieu",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:13:27"
+  },
+  {
+   "course": "7K",
+   "name": "Matias Damian Pineda Villegas",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:13:30"
+  },
+  {
+   "course": "7K",
+   "name": "Martin Bastidas Pino",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 15 - 17",
+   "time": "01:13:35"
+  },
+  {
+   "course": "7K",
+   "name": "Melissa Hauri Vidal",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:13:35"
+  },
+  {
+   "course": "7K",
+   "name": "Gino Andrés Lavin Lantaño",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:14:24"
+  },
+  {
+   "course": "7K",
+   "name": "Carlos Sepulveda",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 50 - 59",
+   "time": "01:14:29"
+  },
+  {
+   "course": "7K",
+   "name": "Agustin Alejandro Lagos Ghisellini",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:14:40"
+  },
+  {
+   "course": "7K",
+   "name": "Antonio Delpiano Bravo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:14:54"
+  },
+  {
+   "course": "7K",
+   "name": "Tania Marchant",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 50 - 59",
+   "time": "01:15:20"
+  },
+  {
+   "course": "7K",
+   "name": "Hans Roth Salas",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:15:22"
+  },
+  {
+   "course": "7K",
+   "name": "Nicolas Palacios Palacios",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:15:31"
+  },
+  {
+   "course": "7K",
+   "name": "Juan Ignacio Ibar",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:15:39"
+  },
+  {
+   "course": "7K",
+   "name": "Maria Jose Peña Herrera",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:15:58"
+  },
+  {
+   "course": "7K",
+   "name": "María José Medina Martínez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:16:11"
+  },
+  {
+   "course": "7K",
+   "name": "Claudia Patricia Espinoza Cabrera",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:16:19"
+  },
+  {
+   "course": "7K",
+   "name": "Javier Bernardo Saavedra Venegas",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:16:20"
+  },
+  {
+   "course": "7K",
+   "name": "Karina Rivas Navarrete",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:16:58"
+  },
+  {
+   "course": "7K",
+   "name": "Manuel Gonzalez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:17:07"
+  },
+  {
+   "course": "7K",
+   "name": "Marcela Pavez Fernandez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:17:07"
+  },
+  {
+   "course": "7K",
+   "name": "María José Lagos Roa",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:17:09"
+  },
+  {
+   "course": "7K",
+   "name": "Edgardo Lienqueo Pino",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 50 - 59",
+   "time": "01:17:18"
+  },
+  {
+   "course": "7K",
+   "name": "Carlos Rios Garrido",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:17:38"
+  },
+  {
+   "course": "7K",
+   "name": "Loreto Fonseca",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:18:20"
+  },
+  {
+   "course": "7K",
+   "name": "Analía Alejandra Grandón Quezada",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:18:37"
+  },
+  {
+   "course": "7K",
+   "name": "Nicole Sanchez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:18:48"
+  },
+  {
+   "course": "7K",
+   "name": "Alex Mellado Gonzalez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:19:00"
+  },
+  {
+   "course": "7K",
+   "name": "Paulina Villagran Belmar",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:19:02"
+  },
+  {
+   "course": "7K",
+   "name": "Luis Quiñiñir",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:19:06"
+  },
+  {
+   "course": "7K",
+   "name": "Cristóbal Azócar Bizama",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:19:11"
+  },
+  {
+   "course": "7K",
+   "name": "Felipe Espinoza Olate",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:19:50"
+  },
+  {
+   "course": "7K",
+   "name": "Fernanda Osses",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:20:04"
+  },
+  {
+   "course": "7K",
+   "name": "Liz Meier Cid",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:20:15"
+  },
+  {
+   "course": "7K",
+   "name": "Fernanda Lemus",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:20:18"
+  },
+  {
+   "course": "7K",
+   "name": "Carlos Alvarez Turrieta",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:20:27"
+  },
+  {
+   "course": "7K",
+   "name": "Mario Cortesi Luchsinger",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 15 - 17",
+   "time": "01:20:30"
+  },
+  {
+   "course": "7K",
+   "name": "Rodrigo Oñate Rodriguez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:20:33"
+  },
+  {
+   "course": "7K",
+   "name": "Cesar Curaqueo",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:20:43"
+  },
+  {
+   "course": "7K",
+   "name": "Daisy Macarena Iturra Suárez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:21:11"
+  },
+  {
+   "course": "7K",
+   "name": "Alejandra Jara Lagos",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:21:14"
+  },
+  {
+   "course": "7K",
+   "name": "Carla Núñez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:21:18"
+  },
+  {
+   "course": "7K",
+   "name": "Paola Fuentes Ramos",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:21:18"
+  },
+  {
+   "course": "7K",
+   "name": "Maritza Vergara Bello",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:21:20"
+  },
+  {
+   "course": "7K",
+   "name": "Diego Lagos",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:21:24"
+  },
+  {
+   "course": "7K",
+   "name": "Jeny Vergara",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:21:25"
+  },
+  {
+   "course": "7K",
+   "name": "Luz Gallegos Flores",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 60 y más",
+   "time": "01:21:25"
+  },
+  {
+   "course": "7K",
+   "name": "Maria Jose Conejeros Schweitzer",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:21:27"
+  },
+  {
+   "course": "7K",
+   "name": "Valentina Conejeros Schweitzer",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:21:27"
+  },
+  {
+   "course": "7K",
+   "name": "Helena Rocha",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:23:09"
+  },
+  {
+   "course": "7K",
+   "name": "Angelica María López Barrenechea",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:23:15"
+  },
+  {
+   "course": "7K",
+   "name": "Camila Mella Sepúlveda",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:23:30"
+  },
+  {
+   "course": "7K",
+   "name": "Miguel Angel Llancaqueo Alan",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:23:36"
+  },
+  {
+   "course": "7K",
+   "name": "Karen Maryolin Arias De La Vega",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:23:40"
+  },
+  {
+   "course": "7K",
+   "name": "Stephan Smitmans Bonilla",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:23:44"
+  },
+  {
+   "course": "7K",
+   "name": "Christian Ortiz Valdebenito",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:23:48"
+  },
+  {
+   "course": "7K",
+   "name": "Matías Ignacio Reyes Alarcón",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:23:52"
+  },
+  {
+   "course": "7K",
+   "name": "Florencia Leonor Santander Rodríguez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:23:53"
+  },
+  {
+   "course": "7K",
+   "name": "Camila Nicole Martinez Elgueta",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:24:34"
+  },
+  {
+   "course": "7K",
+   "name": "Catalina Norambuena Torres",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:24:48"
+  },
+  {
+   "course": "7K",
+   "name": "Amalia Braithwaite Carrasco",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:24:51"
+  },
+  {
+   "course": "7K",
+   "name": "Cristian Cerda Pérez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:24:57"
+  },
+  {
+   "course": "7K",
+   "name": "Natalia Wagner Seguel",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:24:58"
+  },
+  {
+   "course": "7K",
+   "name": "Joselinne Roa Sepulveda",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:25:00"
+  },
+  {
+   "course": "7K",
+   "name": "Liliana Medina Hennigs",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:25:12"
+  },
+  {
+   "course": "7K",
+   "name": "Pamela Cofré",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:25:34"
+  },
+  {
+   "course": "7K",
+   "name": "Jorge Ivan Acuña Morales",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 60 y más",
+   "time": "01:25:47"
+  },
+  {
+   "course": "7K",
+   "name": "Doris Macarena Rey Ubilla",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:26:08"
+  },
+  {
+   "course": "7K",
+   "name": "Oscar Emilio Orrego Canseco",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 60 y más",
+   "time": "01:26:08"
+  },
+  {
+   "course": "7K",
+   "name": "Marisol Ríos Garces",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 60 y más",
+   "time": "01:27:17"
+  },
+  {
+   "course": "7K",
+   "name": "Camila Contreras Melín",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:27:49"
+  },
+  {
+   "course": "7K",
+   "name": "Andrea Sánchez Carrillo",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:27:57"
+  },
+  {
+   "course": "7K",
+   "name": "Javier Carrasco Ruiz",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:28:11"
+  },
+  {
+   "course": "7K",
+   "name": "Carolina Mellado Ossandon",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 15 - 17",
+   "time": "01:28:18"
+  },
+  {
+   "course": "7K",
+   "name": "Yerson Sáez González",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:28:19"
+  },
+  {
+   "course": "7K",
+   "name": "Sofia Mellado González",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 15 - 17",
+   "time": "01:28:22"
+  },
+  {
+   "course": "7K",
+   "name": "Tamara Lopez Pineda",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:28:24"
+  },
+  {
+   "course": "7K",
+   "name": "Marlene Mariangel Peldoza",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:28:26"
+  },
+  {
+   "course": "7K",
+   "name": "Pamela López Gacitua",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:28:30"
+  },
+  {
+   "course": "7K",
+   "name": "Eliana Quezada Ramos",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 50 - 59",
+   "time": "01:28:39"
+  },
+  {
+   "course": "7K",
+   "name": "María Camila Paillamil Jara",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:28:42"
+  },
+  {
+   "course": "7K",
+   "name": "Andrés Riquelme Pacheco",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:29:34"
+  },
+  {
+   "course": "7K",
+   "name": "Camila Peña Alarcon",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:29:34"
+  },
+  {
+   "course": "7K",
+   "name": "Esteban Molina Morales",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:29:37"
+  },
+  {
+   "course": "7K",
+   "name": "Cristina Alarcón",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:30:21"
+  },
+  {
+   "course": "7K",
+   "name": "Isidora Olavarria Osses Fernández",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:30:24"
+  },
+  {
+   "course": "7K",
+   "name": "Solange Quijada",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:30:31"
+  },
+  {
+   "course": "7K",
+   "name": "Victor Salvador Jarpa Nuñez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 60 y más",
+   "time": "01:31:12"
+  },
+  {
+   "course": "7K",
+   "name": "César Antonio Farías Daza",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 50 - 59",
+   "time": "01:32:21"
+  },
+  {
+   "course": "7K",
+   "name": "Diego Parra Riquelme",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 18 - 29",
+   "time": "01:32:31"
+  },
+  {
+   "course": "7K",
+   "name": "Loreto Quintrequeo Lincon",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:32:31"
+  },
+  {
+   "course": "7K",
+   "name": "Angela Munoz",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:32:49"
+  },
+  {
+   "course": "7K",
+   "name": "Pilar Hermosilla Valdebenito",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:33:08"
+  },
+  {
+   "course": "7K",
+   "name": "Felipe Cariman Pinto",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:33:15"
+  },
+  {
+   "course": "7K",
+   "name": "Juan Carlos Torres Valdebenito",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 50 - 59",
+   "time": "01:33:47"
+  },
+  {
+   "course": "7K",
+   "name": "Angela Ramírez De La Fuente",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:34:09"
+  },
+  {
+   "course": "7K",
+   "name": "Mariela Mardones Guzmán",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 50 - 59",
+   "time": "01:34:13"
+  },
+  {
+   "course": "7K",
+   "name": "Iván Ávila Gutiérrez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 50 - 59",
+   "time": "01:35:21"
+  },
+  {
+   "course": "7K",
+   "name": "Leslie Vásquez Troncoso",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:35:21"
+  },
+  {
+   "course": "7K",
+   "name": "Elena Palacio Parra",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:37:18"
+  },
+  {
+   "course": "7K",
+   "name": "Katalina Mellado Ossandon",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:37:20"
+  },
+  {
+   "course": "7K",
+   "name": "Francisco Oliva Cruces",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 50 - 59",
+   "time": "01:37:21"
+  },
+  {
+   "course": "7K",
+   "name": "Gustavo Arriagada Neculman",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:37:22"
+  },
+  {
+   "course": "7K",
+   "name": "Yasna Escalona Colipi",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:37:22"
+  },
+  {
+   "course": "7K",
+   "name": "Beatriz Cancino Martinez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:37:39"
+  },
+  {
+   "course": "7K",
+   "name": "John Zuñiga Quiroz",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:37:45"
+  },
+  {
+   "course": "7K",
+   "name": "Elizabeth Osses Fernández",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 50 - 59",
+   "time": "01:40:05"
+  },
+  {
+   "course": "7K",
+   "name": "Alondra Rosas",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 15 - 17",
+   "time": "01:40:07"
+  },
+  {
+   "course": "7K",
+   "name": "María Ossandon Jara",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:40:50"
+  },
+  {
+   "course": "7K",
+   "name": "Luisa Toro",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:41:02"
+  },
+  {
+   "course": "7K",
+   "name": "Carlos San Martin",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:41:04"
+  },
+  {
+   "course": "7K",
+   "name": "Alejandra Greys Darwintg Inostroza",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:41:11"
+  },
+  {
+   "course": "7K",
+   "name": "Catherine Alejandra Marquard Cadin",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:41:24"
+  },
+  {
+   "course": "7K",
+   "name": "Mayra Figueroa Marchant",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:41:27"
+  },
+  {
+   "course": "7K",
+   "name": "Solange Braithwaite",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:41:50"
+  },
+  {
+   "course": "7K",
+   "name": "Javiera Andrea Solís Muñoz",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "01:42:17"
+  },
+  {
+   "course": "7K",
+   "name": "Mariana Rodriguez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 60 y más",
+   "time": "01:44:17"
+  },
+  {
+   "course": "7K",
+   "name": "Patricio Gonzalez",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 50 - 59",
+   "time": "01:46:43"
+  },
+  {
+   "course": "7K",
+   "name": "Humberto Oviedo Stegmann",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 40 - 49",
+   "time": "01:47:37"
+  },
+  {
+   "course": "7K",
+   "name": "Jacqueline Araya Vargas",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 50 - 59",
+   "time": "01:48:36"
+  },
+  {
+   "course": "7K",
+   "name": "Patricia Contreras Fuentealba",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "01:49:21"
+  },
+  {
+   "course": "7K",
+   "name": "Soledad Muñoz",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:49:21"
+  },
+  {
+   "course": "7K",
+   "name": "Josselin Oñate Henriquez",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:49:24"
+  },
+  {
+   "course": "7K",
+   "name": "Manuel Aguirre Droguett",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "01:50:26"
+  },
+  {
+   "course": "7K",
+   "name": "Irma Jimenez Acosta",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "01:53:34"
+  },
+  {
+   "course": "7K",
+   "name": "Fernando Brun Chaperon",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "02:03:48"
+  },
+  {
+   "course": "7K",
+   "name": "Daniela Reyes Olavarria",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "02:04:42"
+  },
+  {
+   "course": "7K",
+   "name": "Denisse Jara Villarroel",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "02:08:19"
+  },
+  {
+   "course": "7K",
+   "name": "Rosa Leontina Díaz Santander",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 60 y más",
+   "time": "02:09:52"
+  },
+  {
+   "course": "7K",
+   "name": "Constanza Rivas Aguilera",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 18 - 29",
+   "time": "02:09:53"
+  },
+  {
+   "course": "7K",
+   "name": "David Reyes Diaz",
+   "country": "Chile",
+   "sex": "M",
+   "ageCategory": "7K Varones 30 - 39",
+   "time": "02:12:22"
+  },
+  {
+   "course": "7K",
+   "name": "Claudia González Guzmán",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 40 - 49",
+   "time": "02:20:31"
+  },
+  {
+   "course": "7K",
+   "name": "Silvia Barros Sandoval",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "02:20:32"
+  },
+  {
+   "course": "7K",
+   "name": "Ana Karen Torres Montecinos",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 30 - 39",
+   "time": "02:42:53"
+  },
+  {
+   "course": "7K",
+   "name": "Emilia Rosario Montecinos Carcamo",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 50 - 59",
+   "time": "02:42:53"
+  },
+  {
+   "course": "7K",
+   "name": "Viviana Lara Michellod",
+   "country": "Chile",
+   "sex": "F",
+   "ageCategory": "7K Damas 50 - 59",
+   "time": "02:51:34"
+  }
+ ]
+}

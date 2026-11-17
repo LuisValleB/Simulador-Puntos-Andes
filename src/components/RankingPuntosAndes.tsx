@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import {
-  FRONTERA_TRAIL_2026_RESULTS,
-  RankingDiscipline,
-  RunnerRankingEntry,
-} from "../data/rankingData";
+import Link from "next/link";
+import { getAllEntries } from "@/lib/races";
+import type { RankingDiscipline, RunnerRankingEntry } from "@/lib/raceTypes";
+
+const ALL_ENTRIES: RunnerRankingEntry[] = getAllEntries();
+const SEASONS: number[] = Array.from(new Set(ALL_ENTRIES.map((e) => e.season))).sort((a, b) => b - a);
 
 const DISCIPLINES: { id: RankingDiscipline; label: string; desc: string }[] = [
   { id: "General", label: "General", desc: "Todas las distancias y modalidades" },
@@ -57,7 +58,7 @@ function getInitials(fullName: string) {
   return `${firstInitial}${lastInitial}`.toUpperCase();
 }
 
-function ScoreBadge({ score, gender }: { score: number; gender: "H" | "M" }) {
+export function ScoreBadge({ score, gender }: { score: number; gender: "H" | "M" }) {
   const cat = getPuntosAndesCategory(score, gender);
   return (
     <div
@@ -97,31 +98,28 @@ export default function RankingPuntosAndes() {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [visibleCount, setVisibleCount] = useState<number>(10);
 
-  // Deduplicate by runner name (keep highest score per runner within the selected discipline)
+  const [season, setSeason] = useState<string>("ALL"); // "ALL" = histórico
+
+  // Mejor resultado por corredor dentro de la modalidad y temporada elegidas
   const disciplineRunners = useMemo(() => {
-    let filtered: RunnerRankingEntry[] = [];
-    if (selectedDiscipline === "General") {
-      filtered = FRONTERA_TRAIL_2026_RESULTS;
-    } else if (selectedDiscipline === "U20") {
-      // U20 includes all 15-17 youth runners in the championship
-      filtered = FRONTERA_TRAIL_2026_RESULTS.filter((r) => r.isU20);
-    } else {
-      filtered = FRONTERA_TRAIL_2026_RESULTS.filter(
-        (r) => r.discipline === selectedDiscipline
-      );
+    let filtered = ALL_ENTRIES;
+    if (season !== "ALL") filtered = filtered.filter((r) => String(r.season) === season);
+    if (selectedDiscipline === "U20") {
+      filtered = filtered.filter((r) => r.isU20);
+    } else if (selectedDiscipline !== "General") {
+      filtered = filtered.filter((r) => r.discipline === selectedDiscipline);
     }
 
     const bestByRunner = new Map<string, RunnerRankingEntry>();
     for (const r of filtered) {
-      const key = `${r.name.toLowerCase()}_${r.gender}`;
-      const existing = bestByRunner.get(key);
+      const existing = bestByRunner.get(r.runnerKey);
       if (!existing || r.score > existing.score) {
-        bestByRunner.set(key, r);
+        bestByRunner.set(r.runnerKey, r);
       }
     }
 
     return Array.from(bestByRunner.values()).sort((a, b) => b.score - a.score);
-  }, [selectedDiscipline]);
+  }, [selectedDiscipline, season]);
 
   // Top 3 Women & Top 3 Men for the selected discipline
   const top3Women = useMemo(
@@ -167,6 +165,7 @@ export default function RankingPuntosAndes() {
 
   const handleResetFilters = () => {
     setSelectedDiscipline("General");
+    setSeason("ALL");
     setGenderFilter("ALL");
     setAgeFilter("ALL");
     setSearchQuery("");
@@ -191,12 +190,9 @@ export default function RankingPuntosAndes() {
               Ranking Oficial Puntos Andes • Temporada 2026
             </span>
           </div>
-          <span className="text-[11px] text-stone-500 font-medium">
-            Evento cargado:{" "}
-            <strong className="text-stone-700">
-              CMPC Frontera Trail - Campeonato Nacional Classic (25 Oct 2026)
-            </strong>
-          </span>
+          <Link href="/carreras" className="text-[11px] text-[#10A49B] font-bold hover:underline">
+            Ver todas las carreras cargadas →
+          </Link>
         </div>
 
         {/* ==================== PART 1: TOP 3 NACIONAL ==================== */}
@@ -449,6 +445,23 @@ export default function RankingPuntosAndes() {
               ))}
             </select>
 
+            {/* Temporada / Histórico */}
+            <select
+              value={season}
+              onChange={(e) => {
+                setSeason(e.target.value);
+                setVisibleCount(10);
+              }}
+              className="bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs font-medium text-stone-700 focus:outline-none focus:border-[#10A49B] shadow-2xs"
+            >
+              <option value="ALL">Histórico (todas las temporadas)</option>
+              {SEASONS.map((s) => (
+                <option key={s} value={String(s)}>
+                  Temporada {s}
+                </option>
+              ))}
+            </select>
+
             {/* Nacionalidad */}
             <select
               defaultValue="CHI"
@@ -570,7 +583,10 @@ export default function RankingPuntosAndes() {
                                   <span className="font-bold">{last}</span>
                                 </div>
                                 <div className="text-[10px] text-stone-400 mt-0.5">
-                                  {runner.race} • {runner.distance} ({runner.time})
+                                  <Link href={`/carreras/${runner.raceSlug}`} className="hover:text-[#10A49B] hover:underline">
+                                    {runner.race}
+                                  </Link>{" "}
+                                  • {runner.distance} ({runner.time})
                                 </div>
                               </div>
                             </div>
