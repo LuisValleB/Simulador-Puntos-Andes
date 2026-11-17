@@ -61,15 +61,28 @@ function countryCode(country: string): string {
   if (!c || c === "chile" || c === "chi") return "CHI";
   if (c === "argentina" || c === "arg") return "ARG";
   if (c === "uruguay" || c === "uru") return "URU";
-  if (c === "francia" || c === "france" || c === "fra") return "FRA";
-  if (c === "colombia" || c === "col") return "COL";
-  if (c === "españa" || c === "esp") return "ESP";
-  if (c === "peru" || c === "perú" || c === "per") return "PER";
-  if (c === "suiza" || c === "sui") return "SUI";
+  if (c === "bolivia" || c === "bol") return "BOL";
   if (c === "brasil" || c === "bra") return "BRA";
+  if (c === "colombia" || c === "col") return "COL";
+  if (c === "ecuador" || c === "ecu") return "ECU";
+  if (c === "paraguay" || c === "par") return "PAR";
+  if (c === "peru" || c === "perú" || c === "per") return "PER";
   if (c === "venezuela" || c === "ven") return "VEN";
-  if (c === "costa rica" || c === "crc") return "CRC";
+  if (c === "francia" || c === "france" || c === "fra") return "FRA";
+  if (c === "españa" || c === "esp") return "ESP";
+  if (c === "suiza" || c === "sui") return "SUI";
+  if (c === "italia" || c === "ita") return "ITA";
+  if (c === "alemania" || c === "ger") return "GER";
+  if (c === "suecia" || c === "swe") return "SWE";
+  if (c === "finlandia" || c === "fin") return "FIN";
+  if (c === "polonia" || c === "pol") return "POL";
   if (c === "estados unidos" || c === "usa") return "USA";
+  if (c === "canadá" || c === "canada" || c === "can") return "CAN";
+  if (c === "méjico" || c === "mexico" || c === "mex") return "MEX";
+  if (c === "costa rica" || c === "crc") return "CRC";
+  if (c === "australia" || c === "aus") return "AUS";
+  if (c === "nueva zelandia" || c === "nueva zelanda" || c === "nzl") return "NZL";
+  if (c === "japón" || c === "japon" || c === "jpn") return "JPN";
   return country.trim().slice(0, 3).toUpperCase();
 }
 
