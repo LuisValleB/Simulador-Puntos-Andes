@@ -224,7 +224,7 @@ export default function RankingPuntosAndes() {
           ) : (
             <div className="mt-7 grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
               {/* Card MUJER */}
-              <div className="bg-white rounded-2xl border border-stone-200/90 shadow-sm p-5 sm:p-6">
+              <div className="bg-white rounded-2xl border border-stone-200/90 shadow-sm p-3.5 sm:p-6">
                 <div className="pb-3 mb-2 border-b border-stone-100 flex justify-between items-center">
                   <h3 className="text-xs font-black uppercase tracking-widest text-stone-800">
                     MUJER
@@ -242,46 +242,48 @@ export default function RankingPuntosAndes() {
                   <div className="divide-y divide-stone-100">
                     {top3Women.map((runner, idx) => {
                       const { first, last } = formatRunnerName(runner.name);
-                      const cat = getPuntosAndesCategory(runner.score, runner.gender);
                       return (
                         <div
                           key={runner.id}
-                          className="py-3.5 flex items-center justify-between gap-3"
+                          className="py-3 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-3"
                         >
                           <Link
                             href={`/corredores/${runnerSlug(runner.name)}`}
-                            className="group flex items-center gap-3.5 min-w-0 hover:opacity-95"
+                            className="group flex items-center gap-2.5 sm:gap-3.5 min-w-0 hover:opacity-95 flex-1 overflow-hidden"
                           >
-                            <span className="w-5 text-xl font-black italic text-stone-900 tabular-nums text-center">
+                            <span className="w-4 sm:w-5 text-lg sm:text-xl font-black italic text-stone-900 tabular-nums text-center flex-shrink-0">
                               {idx + 1}
                             </span>
                             <div
-                              className="w-11 h-11 rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 border-2 shadow-sm group-hover:scale-105 transition-transform"
+                              className="w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center font-black text-xs sm:text-sm flex-shrink-0 border-2 shadow-sm group-hover:scale-105 transition-transform"
                               style={{
-                                backgroundColor: `${cat.bg}22`,
-                                borderColor: cat.bg,
+                                backgroundColor: `${getPuntosAndesCategory(runner.score, runner.gender).bg}22`,
+                                borderColor: getPuntosAndesCategory(runner.score, runner.gender).bg,
                                 color: "#1c1917",
                               }}
                             >
                               {getInitials(runner.name)}
                             </div>
-                            <div className="min-w-0">
+                            <div className="min-w-0 flex-1 overflow-hidden">
                               <p className="text-xs sm:text-sm text-stone-800 truncate leading-snug group-hover:text-[#10A49B] transition-colors">
                                 <span className="font-medium">{first}</span>{" "}
                                 <span className="font-black tracking-tight">{last}</span>
                               </p>
-                              <div className="flex items-center gap-1.5 mt-1">
-                                <CountryFlag code={runner.countryCode} />
-                                <span className="text-[11px] font-bold text-stone-600">
+                              <div className="flex items-center gap-1 sm:gap-1.5 mt-0.5 whitespace-nowrap overflow-hidden">
+                                <CountryFlag code={runner.countryCode} className="w-3.5 h-3.5 flex-shrink-0" />
+                                <span className="text-[11px] font-bold text-stone-600 flex-shrink-0">
                                   {runner.countryCode}
                                 </span>
-                                <span className="text-[10px] text-stone-400">
-                                  • {runner.distance} ({runner.time})
+                                <span className="text-[10px] text-stone-400 truncate">
+                                  • {runner.distance}
+                                </span>
+                                <span className="text-[10px] text-stone-400 hidden sm:inline flex-shrink-0">
+                                  ({runner.time})
                                 </span>
                               </div>
                             </div>
                           </Link>
-                          <div className="flex-shrink-0">
+                          <div className="flex-shrink-0 self-center">
                             <ScoreBadge score={runner.score} gender={runner.gender} />
                           </div>
                         </div>
@@ -292,7 +294,7 @@ export default function RankingPuntosAndes() {
               </div>
 
               {/* Card HOMBRE */}
-              <div className="bg-white rounded-2xl border border-stone-200/90 shadow-sm p-5 sm:p-6">
+              <div className="bg-white rounded-2xl border border-stone-200/90 shadow-sm p-3.5 sm:p-6">
                 <div className="pb-3 mb-2 border-b border-stone-100 flex justify-between items-center">
                   <h3 className="text-xs font-black uppercase tracking-widest text-stone-800">
                     HOMBRE
@@ -310,46 +312,48 @@ export default function RankingPuntosAndes() {
                   <div className="divide-y divide-stone-100">
                     {top3Men.map((runner, idx) => {
                       const { first, last } = formatRunnerName(runner.name);
-                      const cat = getPuntosAndesCategory(runner.score, runner.gender);
                       return (
                         <div
                           key={runner.id}
-                          className="py-3.5 flex items-center justify-between gap-3"
+                          className="py-3 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-3"
                         >
                           <Link
                             href={`/corredores/${runnerSlug(runner.name)}`}
-                            className="group flex items-center gap-3.5 min-w-0 hover:opacity-95"
+                            className="group flex items-center gap-2.5 sm:gap-3.5 min-w-0 hover:opacity-95 flex-1 overflow-hidden"
                           >
-                            <span className="w-5 text-xl font-black italic text-stone-900 tabular-nums text-center">
+                            <span className="w-4 sm:w-5 text-lg sm:text-xl font-black italic text-stone-900 tabular-nums text-center flex-shrink-0">
                               {idx + 1}
                             </span>
                             <div
-                              className="w-11 h-11 rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 border-2 shadow-sm group-hover:scale-105 transition-transform"
+                              className="w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center font-black text-xs sm:text-sm flex-shrink-0 border-2 shadow-sm group-hover:scale-105 transition-transform"
                               style={{
-                                backgroundColor: `${cat.bg}22`,
-                                borderColor: cat.bg,
+                                backgroundColor: `${getPuntosAndesCategory(runner.score, runner.gender).bg}22`,
+                                borderColor: getPuntosAndesCategory(runner.score, runner.gender).bg,
                                 color: "#1c1917",
                               }}
                             >
                               {getInitials(runner.name)}
                             </div>
-                            <div className="min-w-0">
+                            <div className="min-w-0 flex-1 overflow-hidden">
                               <p className="text-xs sm:text-sm text-stone-800 truncate leading-snug group-hover:text-[#10A49B] transition-colors">
                                 <span className="font-medium">{first}</span>{" "}
                                 <span className="font-black tracking-tight">{last}</span>
                               </p>
-                              <div className="flex items-center gap-1.5 mt-1">
-                                <CountryFlag code={runner.countryCode} />
-                                <span className="text-[11px] font-bold text-stone-600">
+                              <div className="flex items-center gap-1 sm:gap-1.5 mt-0.5 whitespace-nowrap overflow-hidden">
+                                <CountryFlag code={runner.countryCode} className="w-3.5 h-3.5 flex-shrink-0" />
+                                <span className="text-[11px] font-bold text-stone-600 flex-shrink-0">
                                   {runner.countryCode}
                                 </span>
-                                <span className="text-[10px] text-stone-400">
-                                  • {runner.distance} ({runner.time})
+                                <span className="text-[10px] text-stone-400 truncate">
+                                  • {runner.distance}
+                                </span>
+                                <span className="text-[10px] text-stone-400 hidden sm:inline flex-shrink-0">
+                                  ({runner.time})
                                 </span>
                               </div>
                             </div>
                           </Link>
-                          <div className="flex-shrink-0">
+                          <div className="flex-shrink-0 self-center">
                             <ScoreBadge score={runner.score} gender={runner.gender} />
                           </div>
                         </div>

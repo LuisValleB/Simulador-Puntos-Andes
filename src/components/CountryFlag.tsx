@@ -22,15 +22,15 @@ export function ScoreBadge({ score, gender }: { score: number; gender: "H" | "M"
   const cat = getPuntosAndesCategory(score, gender);
   return (
     <div
-      className="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-bold shadow-sm whitespace-nowrap transition-transform"
+      className="inline-flex items-center rounded-md sm:rounded-lg px-2 sm:px-2.5 py-0.5 sm:py-1 text-xs font-bold shadow-sm whitespace-nowrap flex-shrink-0"
       style={{ backgroundColor: cat.bg, color: cat.text }}
     >
-      <span className="font-black text-sm tabular-nums tracking-tight">{score}</span>
+      <span className="font-black text-xs sm:text-sm tabular-nums tracking-tight">{score}</span>
       <span
-        className="mx-1.5 h-3.5 w-px opacity-40"
+        className="mx-1 sm:mx-1.5 h-3 sm:h-3.5 w-px opacity-40"
         style={{ backgroundColor: cat.text }}
       />
-      <span className="text-[11px] font-bold tracking-tight">{cat.name}</span>
+      <span className="text-[9.5px] sm:text-[11px] font-bold tracking-tight">{cat.name}</span>
     </div>
   );
 }
