@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { getRaces } from "@/lib/races";
+import { getRaces, getRaceCountryCode } from "@/lib/races";
+import { CountryFlag } from "@/components/CountryFlag";
 
 export const metadata = { title: "Carreras | Puntos Andes" };
 
@@ -17,15 +18,18 @@ export default function CarrerasPage() {
             <Link
               key={r.slug}
               href={`/carreras/${r.slug}`}
-              className="bg-white border border-stone-200 rounded-xl p-4 shadow-sm hover:border-[#10A49B] transition-colors flex justify-between items-center gap-3"
+              className="bg-white border border-stone-200 rounded-xl p-4 shadow-sm hover:border-[#10A49B] transition-colors flex justify-between items-center gap-3 group"
             >
-              <div>
-                <p className="font-black text-stone-900">{r.name}</p>
-                <p className="text-xs text-stone-500 mt-0.5">
-                  {r.date}{r.location ? ` • ${r.location}` : ""} • {r.courses.map((c) => c.id).join(" · ")}
-                </p>
+              <div className="flex items-center gap-3.5 min-w-0">
+                <CountryFlag code={getRaceCountryCode(r)} className="w-7 h-7 text-xs flex-shrink-0" />
+                <div className="min-w-0">
+                  <p className="font-black text-stone-900 group-hover:text-[#10A49B] transition-colors truncate">{r.name}</p>
+                  <p className="text-xs text-stone-500 mt-0.5 truncate">
+                    {r.date}{r.location ? ` • ${r.location}` : ""} • {r.courses.map((c) => c.id).join(" · ")}
+                  </p>
+                </div>
               </div>
-              <span className="text-xs font-bold text-[#10A49B] whitespace-nowrap">
+              <span className="text-xs font-bold text-[#10A49B] whitespace-nowrap flex-shrink-0">
                 {r.results.length} resultados →
               </span>
             </Link>

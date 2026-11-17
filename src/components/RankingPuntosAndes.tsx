@@ -2,8 +2,11 @@
 
 import React, { useState, useMemo } from "react";
 import Link from "next/link";
-import { getAllEntries } from "@/lib/races";
+import { getAllEntries, runnerSlug } from "@/lib/races";
 import type { RankingDiscipline, RunnerRankingEntry } from "@/lib/raceTypes";
+import { getPuntosAndesCategory, ScoreBadge, CountryFlag } from "./CountryFlag";
+
+export { getPuntosAndesCategory, ScoreBadge, CountryFlag };
 
 const ALL_ENTRIES: RunnerRankingEntry[] = getAllEntries();
 const SEASONS: number[] = Array.from(new Set(ALL_ENTRIES.map((e) => e.season))).sort((a, b) => b - a);
@@ -17,23 +20,18 @@ const DISCIPLINES: { id: RankingDiscipline; label: string; desc: string }[] = [
   { id: "Long Trail", label: "Long Trail", desc: "Ultra / Trail Largo" },
 ];
 
-export function getPuntosAndesCategory(score: number, gender: "H" | "M") {
-  if (gender === "H") {
-    if (score >= 900) return { name: "Élite Mundial", bg: "#1abc9c", text: "#ffffff" };
-    if (score >= 800) return { name: "Selección Nacional", bg: "#3498db", text: "#ffffff" };
-    if (score >= 700) return { name: "Nivel Avanzado", bg: "#f1c40f", text: "#1c1917" };
-    if (score >= 500) return { name: "Amateur Competitivo", bg: "#e67e22", text: "#ffffff" };
-    if (score >= 300) return { name: "En Desarrollo", bg: "#bdc3c7", text: "#1c1917" };
-    return { name: "Inicio del Camino", bg: "#d6eaf8", text: "#1c1917" };
-  } else {
-    if (score >= 800) return { name: "Élite Mundial", bg: "#1abc9c", text: "#ffffff" };
-    if (score >= 720) return { name: "Selección Nacional", bg: "#3498db", text: "#ffffff" };
-    if (score >= 620) return { name: "Nivel Avanzado", bg: "#f1c40f", text: "#1c1917" };
-    if (score >= 450) return { name: "Amateur Competitivo", bg: "#e67e22", text: "#ffffff" };
-    if (score >= 250) return { name: "En Desarrollo", bg: "#bdc3c7", text: "#1c1917" };
-    return { name: "Inicio del Camino", bg: "#d6eaf8", text: "#1c1917" };
-  }
-}
+export const PAISES_SUDAMERICA = [
+  { code: "ARG", name: "Argentina" },
+  { code: "BOL", name: "Bolivia" },
+  { code: "BRA", name: "Brasil" },
+  { code: "CHI", name: "Chile" },
+  { code: "COL", name: "Colombia" },
+  { code: "ECU", name: "Ecuador" },
+  { code: "PAR", name: "Paraguay" },
+  { code: "PER", name: "Perú" },
+  { code: "URU", name: "Uruguay" },
+  { code: "VEN", name: "Venezuela" },
+];
 
 function formatRunnerName(fullName: string) {
   const parts = fullName.trim().split(/\s+/);
@@ -58,42 +56,10 @@ function getInitials(fullName: string) {
   return `${firstInitial}${lastInitial}`.toUpperCase();
 }
 
-export function ScoreBadge({ score, gender }: { score: number; gender: "H" | "M" }) {
-  const cat = getPuntosAndesCategory(score, gender);
-  return (
-    <div
-      className="inline-flex items-center rounded-md px-2.5 py-1 text-xs font-bold shadow-sm whitespace-nowrap transition-transform"
-      style={{ backgroundColor: cat.bg, color: cat.text }}
-    >
-      <span className="font-black text-sm tabular-nums tracking-tight">{score}</span>
-      <span
-        className="mx-1.5 h-3.5 w-px opacity-40"
-        style={{ backgroundColor: cat.text }}
-      />
-      <span className="text-[11px] font-bold tracking-tight">{cat.name}</span>
-    </div>
-  );
-}
-
-function ChileFlag() {
-  return (
-    <span className="inline-flex items-center justify-center w-4 h-4 rounded-full overflow-hidden border border-stone-200 flex-shrink-0 shadow-[0_0_2px_rgba(0,0,0,0.15)]">
-      <svg viewBox="0 0 36 36" className="w-full h-full">
-        <path fill="#D52B1E" d="M0 18h36v18H0z" />
-        <path fill="#FFF" d="M18 0h18v18H18z" />
-        <path fill="#0039A6" d="M0 0h18v18H0z" />
-        <polygon
-          fill="#FFF"
-          points="9,4.5 10.3,8.5 14.5,8.5 11.1,11 12.4,15 9,12.5 5.6,15 6.9,11 3.5,8.5 7.7,8.5"
-        />
-      </svg>
-    </span>
-  );
-}
-
 export default function RankingPuntosAndes() {
   const [selectedDiscipline, setSelectedDiscipline] = useState<RankingDiscipline>("General");
   const [genderFilter, setGenderFilter] = useState<"ALL" | "M" | "H">("ALL");
+  const [nationalityFilter, setNationalityFilter] = useState<string>("ALL");
   const [ageFilter, setAgeFilter] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [visibleCount, setVisibleCount] = useState<number>(10);
@@ -147,6 +113,7 @@ export default function RankingPuntosAndes() {
   const tableRunners = useMemo(() => {
     return disciplineRunners.filter((r) => {
       if (genderFilter !== "ALL" && r.gender !== genderFilter) return false;
+      if (nationalityFilter !== "ALL" && r.countryCode !== nationalityFilter) return false;
       if (ageFilter !== "ALL" && r.ageCategory !== ageFilter) return false;
       if (
         searchQuery.trim() !== "" &&
@@ -156,7 +123,7 @@ export default function RankingPuntosAndes() {
       }
       return true;
     });
-  }, [disciplineRunners, genderFilter, ageFilter, searchQuery]);
+  }, [disciplineRunners, genderFilter, nationalityFilter, ageFilter, searchQuery]);
 
   const displayedRunners = useMemo(
     () => tableRunners.slice(0, visibleCount),
@@ -167,6 +134,7 @@ export default function RankingPuntosAndes() {
     setSelectedDiscipline("General");
     setSeason("ALL");
     setGenderFilter("ALL");
+    setNationalityFilter("ALL");
     setAgeFilter("ALL");
     setSearchQuery("");
     setVisibleCount(10);
@@ -195,11 +163,11 @@ export default function RankingPuntosAndes() {
           </Link>
         </div>
 
-        {/* ==================== PART 1: TOP 3 NACIONAL ==================== */}
+        {/* ==================== PART 1: TOP 3 SUDAMÉRICA ==================== */}
         <div className="px-4 sm:px-8 pt-8 pb-10 border-b border-stone-200">
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-black text-stone-900 tracking-tight">
-              Top 3 nacional
+              Top 3 Sudamérica
             </h2>
             <div className="mt-3 flex items-center justify-center gap-1.5">
               <span className="text-[11px] font-bold uppercase tracking-widest text-stone-500">
@@ -224,11 +192,10 @@ export default function RankingPuntosAndes() {
                     key={d.id}
                     type="button"
                     onClick={() => handleDisciplineChange(d.id)}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                      isActive
+                    className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${isActive
                         ? "bg-[#10A49B] text-white shadow-sm"
                         : "text-stone-600 hover:text-stone-900 hover:bg-white/60"
-                    }`}
+                      }`}
                   >
                     {d.label}
                   </button>
@@ -281,12 +248,15 @@ export default function RankingPuntosAndes() {
                           key={runner.id}
                           className="py-3.5 flex items-center justify-between gap-3"
                         >
-                          <div className="flex items-center gap-3.5 min-w-0">
+                          <Link
+                            href={`/corredores/${runnerSlug(runner.name)}`}
+                            className="group flex items-center gap-3.5 min-w-0 hover:opacity-95"
+                          >
                             <span className="w-5 text-xl font-black italic text-stone-900 tabular-nums text-center">
                               {idx + 1}
                             </span>
                             <div
-                              className="w-11 h-11 rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 border-2 shadow-sm"
+                              className="w-11 h-11 rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 border-2 shadow-sm group-hover:scale-105 transition-transform"
                               style={{
                                 backgroundColor: `${cat.bg}22`,
                                 borderColor: cat.bg,
@@ -296,12 +266,12 @@ export default function RankingPuntosAndes() {
                               {getInitials(runner.name)}
                             </div>
                             <div className="min-w-0">
-                              <p className="text-xs sm:text-sm text-stone-800 truncate leading-snug">
+                              <p className="text-xs sm:text-sm text-stone-800 truncate leading-snug group-hover:text-[#10A49B] transition-colors">
                                 <span className="font-medium">{first}</span>{" "}
                                 <span className="font-black tracking-tight">{last}</span>
                               </p>
                               <div className="flex items-center gap-1.5 mt-1">
-                                <ChileFlag />
+                                <CountryFlag code={runner.countryCode} />
                                 <span className="text-[11px] font-bold text-stone-600">
                                   {runner.countryCode}
                                 </span>
@@ -310,7 +280,7 @@ export default function RankingPuntosAndes() {
                                 </span>
                               </div>
                             </div>
-                          </div>
+                          </Link>
                           <div className="flex-shrink-0">
                             <ScoreBadge score={runner.score} gender={runner.gender} />
                           </div>
@@ -346,12 +316,15 @@ export default function RankingPuntosAndes() {
                           key={runner.id}
                           className="py-3.5 flex items-center justify-between gap-3"
                         >
-                          <div className="flex items-center gap-3.5 min-w-0">
+                          <Link
+                            href={`/corredores/${runnerSlug(runner.name)}`}
+                            className="group flex items-center gap-3.5 min-w-0 hover:opacity-95"
+                          >
                             <span className="w-5 text-xl font-black italic text-stone-900 tabular-nums text-center">
                               {idx + 1}
                             </span>
                             <div
-                              className="w-11 h-11 rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 border-2 shadow-sm"
+                              className="w-11 h-11 rounded-full flex items-center justify-center font-black text-sm flex-shrink-0 border-2 shadow-sm group-hover:scale-105 transition-transform"
                               style={{
                                 backgroundColor: `${cat.bg}22`,
                                 borderColor: cat.bg,
@@ -361,12 +334,12 @@ export default function RankingPuntosAndes() {
                               {getInitials(runner.name)}
                             </div>
                             <div className="min-w-0">
-                              <p className="text-xs sm:text-sm text-stone-800 truncate leading-snug">
+                              <p className="text-xs sm:text-sm text-stone-800 truncate leading-snug group-hover:text-[#10A49B] transition-colors">
                                 <span className="font-medium">{first}</span>{" "}
                                 <span className="font-black tracking-tight">{last}</span>
                               </p>
                               <div className="flex items-center gap-1.5 mt-1">
-                                <ChileFlag />
+                                <CountryFlag code={runner.countryCode} />
                                 <span className="text-[11px] font-bold text-stone-600">
                                   {runner.countryCode}
                                 </span>
@@ -375,7 +348,7 @@ export default function RankingPuntosAndes() {
                                 </span>
                               </div>
                             </div>
-                          </div>
+                          </Link>
                           <div className="flex-shrink-0">
                             <ScoreBadge score={runner.score} gender={runner.gender} />
                           </div>
@@ -389,14 +362,14 @@ export default function RankingPuntosAndes() {
           )}
         </div>
 
-        {/* ==================== PART 2: CLASIFICACIÓN OFICIAL TOP 10 NACIONAL ==================== */}
+        {/* ==================== PART 2: CLASIFICACIÓN OFICIAL TOP 10 SUDAMÉRICA ==================== */}
         <div className="px-4 sm:px-8 py-9 bg-[#FDFBF7]/50">
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-xl sm:text-2xl font-black text-stone-900 tracking-tight">
               Clasificación oficial del Ranking Puntos Andes
             </h2>
             <p className="text-xs text-stone-500 mt-1">
-              Top 10 Nacional • Filtrado por modalidad, género y categoría de edad
+              Top 10 Sudamérica • Filtrado por modalidad, género, país y categoría de edad
             </p>
           </div>
 
@@ -417,11 +390,10 @@ export default function RankingPuntosAndes() {
                       setGenderFilter(g.id as "ALL" | "M" | "H");
                       setVisibleCount(10);
                     }}
-                    className={`px-5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                      active
+                    className={`px-5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${active
                         ? "bg-[#10A49B] text-white shadow-xs"
                         : "text-stone-600 hover:text-stone-900"
-                    }`}
+                      }`}
                   >
                     {g.label}
                   </button>
@@ -462,12 +434,21 @@ export default function RankingPuntosAndes() {
               ))}
             </select>
 
-            {/* Nacionalidad */}
+            {/* País (Sudamérica) */}
             <select
-              defaultValue="CHI"
+              value={nationalityFilter}
+              onChange={(e) => {
+                setNationalityFilter(e.target.value);
+                setVisibleCount(10);
+              }}
               className="bg-white border border-stone-300 rounded-lg px-3 py-1.5 text-xs font-medium text-stone-700 focus:outline-none focus:border-[#10A49B] shadow-2xs"
             >
-              <option value="CHI">Nacionalidad: Chile (CHI)</option>
+              <option value="ALL">País: Toda Sudamérica</option>
+              {PAISES_SUDAMERICA.map((p) => (
+                <option key={p.code} value={p.code}>
+                  {p.name} ({p.code})
+                </option>
+              ))}
             </select>
 
             {/* Categoría de Edad */}
@@ -567,8 +548,9 @@ export default function RankingPuntosAndes() {
                           {/* Runner */}
                           <td className="py-3.5 px-4">
                             <div className="flex items-center gap-3">
-                              <div
-                                className="w-9 h-9 rounded-full flex items-center justify-center font-black text-xs flex-shrink-0 border"
+                              <Link
+                                href={`/corredores/${runnerSlug(runner.name)}`}
+                                className="w-9 h-9 rounded-full flex items-center justify-center font-black text-xs flex-shrink-0 border hover:scale-105 transition-transform"
                                 style={{
                                   backgroundColor: `${cat.bg}22`,
                                   borderColor: cat.bg,
@@ -576,12 +558,15 @@ export default function RankingPuntosAndes() {
                                 }}
                               >
                                 {getInitials(runner.name)}
-                              </div>
+                              </Link>
                               <div>
-                                <div className="text-stone-800 leading-tight">
+                                <Link
+                                  href={`/corredores/${runnerSlug(runner.name)}`}
+                                  className="text-stone-800 leading-tight hover:text-[#10A49B] transition-colors inline-block"
+                                >
                                   <span className="font-medium">{first}</span>{" "}
                                   <span className="font-bold">{last}</span>
-                                </div>
+                                </Link>
                                 <div className="text-[10px] text-stone-400 mt-0.5">
                                   <Link href={`/carreras/${runner.raceSlug}`} className="hover:text-[#10A49B] hover:underline">
                                     {runner.race}
@@ -595,7 +580,7 @@ export default function RankingPuntosAndes() {
                           {/* Nationality */}
                           <td className="py-3.5 px-4">
                             <div className="inline-flex items-center gap-2 font-semibold text-stone-700">
-                              <ChileFlag />
+                              <CountryFlag code={runner.countryCode} />
                               <span>{runner.countryCode}</span>
                             </div>
                           </td>
@@ -645,7 +630,7 @@ export default function RankingPuntosAndes() {
                       onClick={() => setVisibleCount(10)}
                       className="px-3.5 py-1.5 rounded-lg bg-stone-200/70 text-xs font-bold text-stone-700 hover:bg-stone-300/70 transition-colors cursor-pointer"
                     >
-                      Volver al Top 10 Nacional
+                      Volver al Top 10 Sudamérica
                     </button>
                   )}
                 </div>

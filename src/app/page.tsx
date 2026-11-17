@@ -23,7 +23,7 @@ export default function Home() {
       <main className="w-full max-w-5xl space-y-6">
         {/* Acceso a la nueva herramienta GPX */}
         <div className="flex justify-end px-1 max-w-lg mx-auto">
-          <Link 
+          <Link
             href="/simulador-carrera"
             className="text-[10px] font-bold text-[#10A49B] hover:text-teal-700 uppercase tracking-widest transition-colors flex items-center gap-1.5 border border-[#10A49B]/20 rounded-lg px-3 py-1.5 hover:bg-[#10A49B]/5"
           >
@@ -35,9 +35,9 @@ export default function Home() {
           </Link>
         </div>
 
-        <SimuladorMTR />
-
         <RankingPuntosAndes />
+
+        <SimuladorMTR />
       </main>
 
       {/* Footer */}

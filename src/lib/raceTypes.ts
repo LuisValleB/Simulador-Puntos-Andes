@@ -12,6 +12,8 @@ export interface CourseConfig {
   climate: number; // 1-5
   altitude: number; // altitud media (m)
   nightHours: number;
+  hasSplits?: boolean;
+  pointsEnabled?: boolean;
 }
 
 /** Resultado "crudo" tal como viene del Excel (sin puntos: se calculan al cargar). */
@@ -22,6 +24,10 @@ export interface RaceResultRaw {
   sex: "M" | "F"; // M = varón, F = dama
   ageCategory: string;
   time: string; // HH:MM:SS
+  splits?: {
+    k21?: { time: string; category?: string; score: number } | null;
+    k42?: { time: string; category?: string; score: number } | null;
+  };
 }
 
 export interface RaceData {
@@ -63,4 +69,48 @@ export interface RaceResultRow {
   ageCategory: string;
   time: string;
   score: number;
+  pointsEnabled?: boolean;
+  hasSplits?: boolean;
+  splits?: {
+    k21?: { time: string; category?: string; score: number } | null;
+    k42?: { time: string; category?: string; score: number } | null;
+  };
+}
+
+export interface RunnerRaceHistoryItem {
+  id: string;
+  raceSlug: string;
+  raceName: string;
+  raceDate: string;
+  raceLocation?: string;
+  raceCountryCode: string;
+  courseId: string;
+  courseLabel: string;
+  discipline: RankingDiscipline;
+  time: string;
+  score: number;
+  pointsEnabled: boolean;
+  hasSplits?: boolean;
+  splits?: {
+    k21?: { time: string; category?: string; score: number } | null;
+    k42?: { time: string; category?: string; score: number } | null;
+  };
+  km: number;
+  dPlus: number;
+  position?: number;
+}
+
+export interface RunnerProfile {
+  slug: string;
+  name: string;
+  country: string;
+  countryCode: string;
+  gender: "H" | "M";
+  ageCategory: string;
+  bestScore: number;
+  avgScore: number;
+  totalRaces: number;
+  totalKm: number;
+  totalDPlus: number;
+  history: RunnerRaceHistoryItem[];
 }

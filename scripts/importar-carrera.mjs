@@ -87,9 +87,17 @@ async function main() {
     ws.eachRow((row, i) => {
       if (i === 1) return;
       const time = validTime(cellText(row.getCell(cTime)));
-      const sex = cellText(row.getCell(cSex)).toUpperCase().charAt(0);
+      let sex = cellText(row.getCell(cSex)).toUpperCase().charAt(0);
       const name = cellText(row.getCell(cName));
-      if (!time || !name || (sex !== "M" && sex !== "F")) return void skipped++;
+      if (!time || !name) return void skipped++;
+      if (sex !== "M" && sex !== "F") {
+        const cat = cAge ? cellText(row.getCell(cAge)).toLowerCase() : "";
+        if (cat.includes("fem") || cat.includes("mujer") || cat.includes("dama")) {
+          sex = "F";
+        } else {
+          sex = "M";
+        }
+      }
       results.push({
         course: c.id,
         name,

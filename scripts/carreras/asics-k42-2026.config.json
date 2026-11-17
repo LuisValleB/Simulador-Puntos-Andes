@@ -1,0 +1,69 @@
+{
+  "slug": "asics-k42-2026",
+  "name": "ASICS K42 2026",
+  "date": "2026-11-07",
+  "location": "Villa La Angostura, Neuquén, Argentina",
+  "courses": [
+    {
+      "sheet": "Grand K",
+      "id": "Grand K",
+      "label": "Grand K (K21 + K42)",
+      "discipline": "Long Trail",
+      "km": 57.27,
+      "dPlus": 3036,
+      "dMinus": 3036,
+      "terrain": 3,
+      "climate": 3,
+      "hasSplits": true,
+      "pointsEnabled": false
+    },
+    {
+      "sheet": "42K",
+      "id": "42K",
+      "label": "K42 42K",
+      "discipline": "Short Trail",
+      "km": 39.49,
+      "dPlus": 2085,
+      "dMinus": 2085,
+      "terrain": 3,
+      "climate": 3,
+      "pointsEnabled": true
+    },
+    {
+      "sheet": "2x21K",
+      "id": "2x21K",
+      "label": "Postas 2x21K",
+      "discipline": "Classic Trail",
+      "km": 19.745,
+      "dPlus": 1042.5,
+      "dMinus": 1042.5,
+      "terrain": 3,
+      "climate": 3,
+      "pointsEnabled": false
+    },
+    {
+      "sheet": "21K",
+      "id": "21K",
+      "label": "K21 21K",
+      "discipline": "Classic Trail",
+      "km": 17.78,
+      "dPlus": 951,
+      "dMinus": 951,
+      "terrain": 3,
+      "climate": 3,
+      "pointsEnabled": true
+    },
+    {
+      "sheet": "10K",
+      "id": "10K",
+      "label": "K10 10K",
+      "discipline": "Classic Trail",
+      "km": 11.95,
+      "dPlus": 530,
+      "dMinus": 530,
+      "terrain": 3,
+      "climate": 3,
+      "pointsEnabled": true
+    }
+  ]
+}

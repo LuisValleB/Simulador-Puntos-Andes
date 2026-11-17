@@ -27,17 +27,17 @@ const NumberInput = ({ label, value, max, onChange, step = 1, min = 0 }: any) =>
 function getCategoryAndColor(score: number, gender: 'H' | 'M') {
   if (gender === 'H') {
     if (score >= 900) return { name: 'Élite Mundial', color: '#1abc9c' };
-    if (score >= 800) return { name: 'Selección Nacional', color: '#3498db' };
+    if (score >= 800) return { name: 'Élite Nacional', color: '#3498db' };
     if (score >= 700) return { name: 'Nivel Avanzado', color: '#f1c40f' };
     if (score >= 500) return { name: 'Amateur Competitivo', color: '#e67e22' };
     if (score >= 300) return { name: 'En Desarrollo', color: '#bdc3c7' };
     return { name: 'Inicio del Camino', color: '#d6eaf8' };
   } else {
     if (score >= 800) return { name: 'Élite Mundial', color: '#1abc9c' };
-    if (score >= 720) return { name: 'Selección Nacional', color: '#3498db' };
-    if (score >= 620) return { name: 'Nivel Avanzado', color: '#f1c40f' };
-    if (score >= 450) return { name: 'Amateur Competitivo', color: '#e67e22' };
-    if (score >= 250) return { name: 'En Desarrollo', color: '#bdc3c7' };
+    if (score >= 700) return { name: 'Élite Nacional', color: '#3498db' };
+    if (score >= 600) return { name: 'Nivel Avanzado', color: '#f1c40f' };
+    if (score >= 400) return { name: 'Amateur Competitivo', color: '#e67e22' };
+    if (score >= 200) return { name: 'En Desarrollo', color: '#bdc3c7' };
     return { name: 'Inicio del Camino', color: '#d6eaf8' };
   }
 }
@@ -45,11 +45,11 @@ function getCategoryAndColor(score: number, gender: 'H' | 'M') {
 const CategoriasLegend = () => {
   const cats = [
     { name: 'Élite Mundial', color: '#1abc9c', h: '900+', m: '800+' },
-    { name: 'Selección Nacional', color: '#3498db', h: '800 - 899', m: '720 - 799' },
-    { name: 'Nivel Avanzado', color: '#f1c40f', h: '700 - 799', m: '620 - 719' },
-    { name: 'Amateur Competitivo', color: '#e67e22', h: '500 - 699', m: '450 - 619' },
-    { name: 'En Desarrollo', color: '#bdc3c7', h: '300 - 499', m: '250 - 449' },
-    { name: 'Inicio del Camino', color: '#d6eaf8', h: '< 300', m: '< 250' },
+    { name: 'Élite Nacional', color: '#3498db', h: '800 - 899', m: '700 - 799' },
+    { name: 'Nivel Avanzado', color: '#f1c40f', h: '700 - 799', m: '600 - 699' },
+    { name: 'Amateur Competitivo', color: '#e67e22', h: '500 - 699', m: '400 - 599' },
+    { name: 'En Desarrollo', color: '#bdc3c7', h: '300 - 499', m: '200 - 399' },
+    { name: 'Inicio del Camino', color: '#d6eaf8', h: '< 300', m: '< 200' },
   ];
 
   return (

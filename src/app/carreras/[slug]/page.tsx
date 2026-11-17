@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { getRace, getRaces, getCourseRows } from "@/lib/races";
+import { getRace, getRaces, getCourseRows, getRaceCountryCode } from "@/lib/races";
+import { CountryFlag } from "@/components/CountryFlag";
 import ResultadosCarrera, { CourseView } from "@/components/ResultadosCarrera";
 
 export function generateStaticParams() {
@@ -25,6 +26,8 @@ export default async function CarreraPage({ params }: { params: Promise<{ slug: 
     km: c.km,
     dPlus: c.dPlus,
     dMinus: c.dMinus,
+    hasSplits: c.hasSplits,
+    pointsEnabled: c.pointsEnabled !== false,
     rows: getCourseRows(race, c.id),
   }));
 
@@ -34,15 +37,18 @@ export default async function CarreraPage({ params }: { params: Promise<{ slug: 
         <Link href="/carreras" className="text-[10px] font-bold text-[#10A49B] uppercase tracking-widest hover:underline">
           ← Todas las carreras
         </Link>
-        <header>
-          <h1 className="text-2xl sm:text-3xl font-black text-stone-900 tracking-tight">{race.name}</h1>
-          <p className="text-sm text-stone-500 mt-1">
-            {new Date(race.date + "T12:00:00").toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" })}
-            {race.location ? ` • ${race.location}` : ""}
-          </p>
-          <p className="text-[11px] text-stone-400 mt-1">
-            Puntos Andes calculados con terreno {race.courses[0]?.terrain} y clima {race.courses[0]?.climate}.
-          </p>
+        <header className="flex items-start gap-4">
+          <CountryFlag code={getRaceCountryCode(race)} className="w-10 h-10 text-sm mt-1 shadow-sm flex-shrink-0" />
+          <div>
+            <h1 className="text-2xl sm:text-3xl font-black text-stone-900 tracking-tight">{race.name}</h1>
+            <p className="text-sm text-stone-500 mt-1">
+              {new Date(race.date + "T12:00:00").toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" })}
+              {race.location ? ` • ${race.location}` : ""}
+            </p>
+            <p className="text-[11px] text-stone-400 mt-1">
+              Puntos Andes calculados con terreno {race.courses[0]?.terrain} y clima {race.courses[0]?.climate}.
+            </p>
+          </div>
         </header>
         <ResultadosCarrera courses={courses} />
       </main>
