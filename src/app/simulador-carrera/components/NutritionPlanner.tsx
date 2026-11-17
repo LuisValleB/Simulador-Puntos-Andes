@@ -11,6 +11,63 @@ const TIPOS = [
   { value: 'agua',        label: 'Agua',       emoji: '🚰' },
 ];
 
+const NutritionIcon = ({ type, className = "w-4 h-4", color }: { type: string, className?: string, color?: string }) => {
+  const finalColor = color || (type === 'solido' ? '#16a34a' : type === 'sal' ? '#0ea5e9' : type === 'cafeina' ? '#a16207' : type === 'hidratacion' || type === 'isotonico' ? '#06b6d4' : type === 'agua' ? '#2563eb' : '#8b5cf6');
+
+  switch (type) {
+    case 'gel':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke={finalColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M6 3h12l-2 3v15H8V6z" />
+          <path d="M6 3v3h12V3" />
+          <path d="M12 9l-2 3h4l-2 3" />
+        </svg>
+      );
+    case 'solido':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke={finalColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3 21c4-1 13-5 16-14 .5-1.5 1-2.5 2-3.5m-3 3.5C13 11 7 13 4.5 12" />
+          <path d="M19 7c1 1.5.5 3.5-1 5-2 2-6.5 4.5-11.5 5" />
+        </svg>
+      );
+    case 'sal':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke={finalColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <rect x="5" y="9" width="14" height="6" rx="3" transform="rotate(-45 12 12)" />
+          <path d="M12 7l5 5" />
+        </svg>
+      );
+    case 'cafeina':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke={finalColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <ellipse cx="12" cy="12" rx="5" ry="8" transform="rotate(-45 12 12)" />
+          <path d="M8 16c2-2 4-6 8-8" />
+        </svg>
+      );
+    case 'hidratacion':
+    case 'isotonico':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke={finalColor} strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M8.5 2h7l-1 4h-5l-1-4z" />
+          <path d="M7.5 6h9v15H7.5z" />
+          <path d="M10 12h4M12 10v4" />
+        </svg>
+      );
+    case 'agua':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke={finalColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z" />
+        </svg>
+      );
+    default:
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke={finalColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round">
+          <rect x="4" y="4" width="16" height="16" rx="2" />
+        </svg>
+      );
+  }
+};
+
 interface Props {
   stops: NutritionStop[];
   onChange: (stops: NutritionStop[]) => void;
@@ -198,12 +255,15 @@ export default function NutritionPlanner({ stops, onChange, totalDistanceKm, pla
               {stop.items.map(sub => (
                 <div key={sub.id} className="flex flex-wrap gap-x-2 gap-y-1 items-center bg-white p-2 rounded-lg border border-stone-150">
                   {/* Type selector */}
-                  <select value={sub.type}
-                    onChange={e => updateSubItem(stop.id, sub.id, 'type', e.target.value)}
-                    className="text-xs border border-stone-200 bg-stone-50 rounded px-1 py-0.5 focus:outline-none focus:border-[#8b5cf6] w-12"
-                    title="Tipo">
-                    {TIPOS.map(t => <option key={t.value} value={t.value}>{t.emoji}</option>)}
-                  </select>
+                  <div className="flex items-center gap-1.5 flex-shrink-0">
+                    <NutritionIcon type={sub.type} className="w-4 h-4" />
+                    <select value={sub.type}
+                      onChange={e => updateSubItem(stop.id, sub.id, 'type', e.target.value)}
+                      className="text-xs border border-stone-200 bg-stone-50 rounded px-1.5 py-0.5 focus:outline-none focus:border-[#8b5cf6] w-20 font-bold text-stone-700"
+                      title="Tipo">
+                      {TIPOS.map(t => <option key={t.value} value={t.value}>{t.label}</option>)}
+                    </select>
+                  </div>
 
                   {/* Editable name */}
                   <input type="text" value={sub.customLabel}
@@ -270,7 +330,9 @@ export default function NutritionPlanner({ stops, onChange, totalDistanceKm, pla
 
       <button onClick={addStop}
         className="w-full bg-[#8b5cf6]/10 border-2 border-[#8b5cf6]/30 hover:bg-[#8b5cf6]/20 hover:border-[#8b5cf6]/50 rounded-xl py-3 text-sm font-black text-[#8b5cf6] transition-colors flex items-center justify-center gap-2">
-        <span className="text-base">⚡</span> Nueva parada de nutrición
+        <svg className="w-4 h-4 text-[#8b5cf6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+        </svg> Nueva parada de nutrición
       </button>
     </div>
   );

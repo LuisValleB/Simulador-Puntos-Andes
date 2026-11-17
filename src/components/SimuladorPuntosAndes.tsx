@@ -103,6 +103,7 @@ export default function SimuladorMTR() {
   const [gender, setGender] = useState<'H' | 'M'>('H');
   const [targetScoreInput, setTargetScoreInput] = useState<string>('');
   const [activityName, setActivityName] = useState<string>('');
+  const [dataMode, setDataMode] = useState<'file' | 'manual'>('manual');
 
   const [scoreData, setScoreData] = useState<any>(null);
 
@@ -383,63 +384,146 @@ export default function SimuladorMTR() {
             />
           </div>
 
-          {/* Carga de Archivo GPX */}
-          <div className="bg-white p-3 rounded-lg border border-stone-200 shadow-sm space-y-2">
-            <div className="flex justify-between items-center border-b border-stone-100 pb-1">
-              <h3 className="text-[10px] font-black text-stone-400 uppercase tracking-widest">Archivo GPX / KML</h3>
-              {gpxFileName && (
-                <button
-                  onClick={() => setGpxFileName(null)}
-                  className="text-[9px] text-red-500 hover:underline font-bold"
-                >
-                  Quitar archivo
-                </button>
+          {/* Datos del Recorrido (Ingreso Manual / Archivo GPX) */}
+          <div className="bg-white border border-stone-200 rounded-xl shadow-sm overflow-hidden">
+            {/* Tabs */}
+            <div className="flex border-b border-stone-200">
+              <button
+                type="button"
+                onClick={() => setDataMode('manual')}
+                className={`flex-1 py-3 text-xs font-black uppercase tracking-wider transition-all text-center
+                  ${dataMode === 'manual' ? 'bg-white text-[#10A49B] border-b-2 border-[#10A49B]' : 'bg-stone-50 text-stone-400 hover:text-stone-600'}`}
+              >
+                Ingreso Manual
+              </button>
+              <button
+                type="button"
+                onClick={() => setDataMode('file')}
+                className={`flex-1 py-3 text-xs font-black uppercase tracking-wider transition-all text-center
+                  ${dataMode === 'file' ? 'bg-white text-[#10A49B] border-b-2 border-[#10A49B]' : 'bg-stone-50 text-stone-400 hover:text-stone-600'}`}
+              >
+                Archivo GPX / KML
+              </button>
+            </div>
+
+            <div className="p-4 space-y-3">
+              {/* File upload area */}
+              {dataMode === 'file' && (
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center border-b border-stone-100 pb-1">
+                    <h3 className="text-[10px] font-black text-stone-400 uppercase tracking-widest">Archivo GPX / KML</h3>
+                    {gpxFileName && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setGpxFileName(null);
+                          setDistance(37.91);
+                          setDPlus(2065);
+                          setDMinus(2065);
+                          setMeanAltitude(0);
+                        }}
+                        className="text-[9px] text-red-500 hover:underline font-bold"
+                      >
+                        Quitar archivo
+                      </button>
+                    )}
+                  </div>
+                  <label className={`flex items-center gap-3 border-2 border-dashed rounded-lg px-3 py-2.5 cursor-pointer transition-colors ${loadingGpx ? 'opacity-50 bg-stone-50 border-stone-200' : gpxFileName ? 'border-[#10A49B]/40 bg-[#10A49B]/[0.03]' : 'border-stone-300 hover:border-[#10A49B] hover:bg-stone-50/50'}`}>
+                    {gpxFileName ? (
+                      <svg className="w-5 h-5 text-[#10A49B] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                      </svg>
+                    ) : (
+                      <svg className="w-5 h-5 text-stone-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                      </svg>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <span className="font-bold text-xs text-stone-700 block truncate">
+                        {gpxFileName ? gpxFileName : 'Subir archivo GPX o KML'}
+                      </span>
+                      <span className="text-[9px] text-stone-400 block">
+                        {gpxFileName ? 'Altimetría y desniveles cargados' : 'Extrae distancia, D+, D- y altitud media'}
+                      </span>
+                    </div>
+                    <input type="file" accept=".gpx,.kml,application/gpx+xml,application/vnd.google-earth.kml+xml,application/xml,text/xml" onChange={handleFileUpload} className="hidden" />
+                  </label>
+                  {loadingGpx && <p className="text-[10px] font-bold text-[#10A49B] animate-pulse text-center">Procesando archivo...</p>}
+                  {gpxError && <p className="text-[10px] font-bold text-red-500 bg-red-50 p-1.5 rounded border border-red-100 text-center">{gpxError}</p>}
+                </div>
               )}
-            </div>
-            <label className={`flex items-center gap-3 border-2 border-dashed rounded-lg px-3 py-2.5 cursor-pointer transition-colors ${loadingGpx ? 'opacity-50 bg-stone-50 border-stone-200' : gpxFileName ? 'border-[#10A49B]/40 bg-[#10A49B]/[0.03]' : 'border-stone-300 hover:border-[#10A49B] hover:bg-stone-50/50'}`}>
-              <span className="text-lg">{gpxFileName ? '✅' : '📁'}</span>
-              <div className="flex-1 min-w-0">
-                <span className="font-bold text-xs text-stone-700 block truncate">
-                  {gpxFileName ? gpxFileName : 'Subir archivo GPX o KML'}
-                </span>
-                <span className="text-[9px] text-stone-400 block">
-                  {gpxFileName ? 'Altimetría y desniveles cargados' : 'Extrae distancia, D+, D- y altitud media'}
-                </span>
-              </div>
-              <input type="file" accept=".gpx,.kml,application/gpx+xml,application/vnd.google-earth.kml+xml,application/xml,text/xml" onChange={handleFileUpload} className="hidden" />
-            </label>
-            {loadingGpx && <p className="text-[10px] font-bold text-[#10A49B] animate-pulse text-center">Procesando archivo...</p>}
-            {gpxError && <p className="text-[10px] font-bold text-red-500 bg-red-50 p-1.5 rounded border border-red-100 text-center">{gpxError}</p>}
-          </div>
 
-          {/* Recorrido */}
-          <div className="bg-white p-3 rounded-lg border border-stone-200 shadow-sm">
-            <h3 className="text-[10px] font-black text-stone-400 mb-2 uppercase tracking-widest border-b border-stone-100 pb-1">Recorrido</h3>
-            <div className="grid grid-cols-3 gap-3">
-              <NumberInput label="Dist (km)" value={distance} max={300} step={0.1} onChange={setDistance} />
-              <NumberInput label="D+ (m)" value={dPlus} max={20000} step={100} onChange={setDPlus} />
-              <NumberInput label="D- (m)" value={dMinus} max={20000} step={100} onChange={setDMinus} />
-            </div>
+              {/* Recorrido fields */}
+              <div className="space-y-3">
+                {dataMode === 'file' && !gpxFileName && (
+                  <p className="text-[10px] text-stone-500 text-center bg-stone-50 rounded-lg py-2 px-3 border border-stone-100">
+                    Sube un archivo GPX/KML para extraer los datos del recorrido, o usa la pestaña <strong>Ingreso Manual</strong>.
+                  </p>
+                )}
 
-            {/* Gradient Graph */}
-            <div className="w-full mt-3 pt-2 border-t border-stone-100">
-              <div className="flex justify-between items-end mb-1.5">
-                <span className="text-[9px] font-black tracking-widest text-stone-400 uppercase">Gradiente</span>
-                <span className="text-[11px] font-bold text-stone-700 leading-none">{gradientVal.toFixed(1)}%</span>
-              </div>
-              <div className="h-2 w-full bg-stone-200 rounded-full overflow-hidden flex relative border border-stone-300">
-                <div className="h-full bg-[#10A49B] transition-all duration-500" style={{ width: `${Math.min((gradientVal / 40) * 100, 37.5)}%` }}></div>
-                {gradientVal > 15 && (
-                  <div className="h-full bg-amber-500 transition-all duration-500" style={{ width: `${Math.min(((gradientVal - 15) / 40) * 100, 37.5)}%` }}></div>
-                )}
-                {gradientVal > 30 && (
-                  <div className="h-full bg-red-500 transition-all duration-500" style={{ width: `${Math.min(((gradientVal - 30) / 40) * 100, 25)}%` }}></div>
-                )}
-              </div>
-              <div className="flex justify-between mt-1 px-0.5">
-                <span className="text-[8px] text-stone-400 font-bold">0%</span>
-                <span className="text-[8px] text-stone-400 font-bold">15% Muro</span>
-                <span className="text-[8px] text-stone-400 font-bold">40% Extremo</span>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="flex flex-col">
+                    <label className="text-[9px] font-bold text-stone-500 uppercase mb-1 leading-tight min-h-[24px] flex items-end">Dist (km)</label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="300"
+                      step="0.1"
+                      value={isNaN(distance) ? '' : distance}
+                      onChange={(e) => { if (dataMode === 'manual') setDistance(parseFloat(e.target.value) || 0); }}
+                      readOnly={dataMode === 'file'}
+                      className={`w-full border rounded-md px-2 py-1.5 text-sm font-mono focus:outline-none focus:border-[#10A49B] focus:ring-1 focus:ring-[#10A49B] shadow-sm transition-colors text-center ${dataMode === 'file' ? 'bg-stone-50 border-stone-200 text-stone-500' : 'bg-white border-stone-300 text-stone-800'}`}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-[9px] font-bold text-stone-500 uppercase mb-1 leading-tight min-h-[24px] flex items-end">D+ (m)</label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="20000"
+                      step="100"
+                      value={isNaN(dPlus) ? '' : dPlus}
+                      onChange={(e) => { if (dataMode === 'manual') setDPlus(parseFloat(e.target.value) || 0); }}
+                      readOnly={dataMode === 'file'}
+                      className={`w-full border rounded-md px-2 py-1.5 text-sm font-mono focus:outline-none focus:border-[#10A49B] focus:ring-1 focus:ring-[#10A49B] shadow-sm transition-colors text-center ${dataMode === 'file' ? 'bg-stone-50 border-stone-200 text-stone-500' : 'bg-white border-stone-300 text-stone-800'}`}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <label className="text-[9px] font-bold text-stone-500 uppercase mb-1 leading-tight min-h-[24px] flex items-end">D- (m)</label>
+                    <input
+                      type="number"
+                      min="0"
+                      max="20000"
+                      step="100"
+                      value={isNaN(dMinus) ? '' : dMinus}
+                      onChange={(e) => { if (dataMode === 'manual') setDMinus(parseFloat(e.target.value) || 0); }}
+                      readOnly={dataMode === 'file'}
+                      className={`w-full border rounded-md px-2 py-1.5 text-sm font-mono focus:outline-none focus:border-[#10A49B] focus:ring-1 focus:ring-[#10A49B] shadow-sm transition-colors text-center ${dataMode === 'file' ? 'bg-stone-50 border-stone-200 text-stone-500' : 'bg-white border-stone-300 text-stone-800'}`}
+                    />
+                  </div>
+                </div>
+
+                {/* Gradient Graph */}
+                <div className="w-full mt-3 pt-2 border-t border-stone-100">
+                  <div className="flex justify-between items-end mb-1.5">
+                    <span className="text-[9px] font-black tracking-widest text-stone-400 uppercase">Gradiente</span>
+                    <span className="text-[11px] font-bold text-stone-700 leading-none">{gradientVal.toFixed(1)}%</span>
+                  </div>
+                  <div className="h-2 w-full bg-stone-200 rounded-full overflow-hidden flex relative border border-stone-300">
+                    <div className="h-full bg-[#10A49B] transition-all duration-500" style={{ width: `${Math.min((gradientVal / 40) * 100, 37.5)}%` }}></div>
+                    {gradientVal > 15 && (
+                      <div className="h-full bg-amber-500 transition-all duration-500" style={{ width: `${Math.min(((gradientVal - 15) / 40) * 100, 37.5)}%` }}></div>
+                    )}
+                    {gradientVal > 30 && (
+                      <div className="h-full bg-red-500 transition-all duration-500" style={{ width: `${Math.min(((gradientVal - 30) / 40) * 100, 25)}%` }}></div>
+                    )}
+                  </div>
+                  <div className="flex justify-between mt-1 px-0.5">
+                    <span className="text-[8px] text-stone-400 font-bold">0%</span>
+                    <span className="text-[8px] text-stone-400 font-bold">15% Muro</span>
+                    <span className="text-[8px] text-stone-400 font-bold">40% Extremo</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -509,7 +593,7 @@ export default function SimuladorMTR() {
                   </ul>
                   <p><strong className="text-stone-800">Ejemplo:</strong> Si partes a 800m y la cumbre está a 2.400m ➝ (800 + 2.400) ÷ 2 = 1.600m de altitud media.</p>
                   <p><strong className="text-stone-800">Por qué importa:</strong> A mayor altitud, menor es la presión de oxígeno. Esto obliga a tu sistema cardiovascular a trabajar mucho más duro para mantener el esfuerzo, aumentando la dificultad de la ruta.</p>
-                  <p className="bg-white p-2 rounded border border-stone-200 shadow-sm mt-2">🏔️ <strong className="text-stone-800">Regla Puntos Andes:</strong> La altitud comienza a ser un factor de bonificación de manera progresiva. Ten en cuenta que los valores de altitud media inferiores a 1.500 metros no suman puntos extra en este indicador.</p>
+                  <p className="bg-white p-2 rounded border border-stone-200 shadow-sm mt-2"><strong className="text-stone-800">Regla Puntos Andes:</strong> La altitud comienza a ser un factor de bonificación de manera progresiva. Ten en cuenta que los valores de altitud media inferiores a 1.500 metros no suman puntos extra en este indicador.</p>
                 </div>
 
                 <h4 className="font-bold text-stone-800 mt-5 mb-1">HORAS DE NOCHE</h4>
@@ -523,7 +607,7 @@ export default function SimuladorMTR() {
                     <li><strong className="text-stone-800">Ultra:</strong> Largada 00:00 (medianoche) ➝ Meta 12:00 PM = 6 horas (corres a oscuras desde las 00:00 hasta las 6:00 AM).</li>
                   </ul>
                   <p><strong className="text-stone-800">Por qué importa:</strong> Correr de noche exige mayor concentración, disminuye la visibilidad en terrenos técnicos, suele traer bajas temperaturas y acelera la fatiga mental. Todo este esfuerzo extra hace que tu carrera tenga una mayor valoración en el algoritmo de puntos.</p>
-                  <p className="bg-white p-2 rounded border border-stone-200 shadow-sm mt-2">💡 <strong className="text-stone-800">Tip:</strong> Si tienes dudas o el tramo oscuro es insignificante, ingresa 0. Para carreras largas, simplemente calcula todo el tiempo en el que dependerás de tu linterna frontal.</p>
+                  <p className="bg-white p-2 rounded border border-stone-200 shadow-sm mt-2"><strong className="text-stone-800">Tip:</strong> Si tienes dudas o el tramo oscuro es insignificante, ingresa 0. Para carreras largas, simplemente calcula todo el tiempo en el que dependerás de tu linterna frontal.</p>
                 </div>
               </div>
             </details>
@@ -580,7 +664,9 @@ export default function SimuladorMTR() {
           onClick={() => setIsExportOpen(true)}
           className="w-full mt-4 bg-gradient-to-r from-[#10A49B] to-teal-600 text-white font-black py-3 rounded-xl shadow-md hover:shadow-lg transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 border border-teal-500/30"
         >
-          <span className="text-lg">📸</span> Compartir / Descargar Resultado
+          <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg> Compartir / Descargar Resultado
         </button>
 
 

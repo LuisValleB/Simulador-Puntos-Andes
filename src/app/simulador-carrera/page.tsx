@@ -148,12 +148,12 @@ export default function SimuladorCarreraPage() {
             <button onClick={() => { setDataMode('manual'); }}
               className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-black uppercase tracking-wider transition-all
                 ${dataMode === 'manual' && !trackData ? 'bg-white text-[#10A49B] border-b-2 border-[#10A49B]' : 'bg-stone-50 text-stone-400 hover:text-stone-600'}`}>
-              <span className="text-sm">✏️</span> Ingreso Manual
+              Ingreso Manual
             </button>
             <button onClick={() => setDataMode('file')}
               className={`flex-1 flex items-center justify-center gap-1.5 py-3 text-xs font-black uppercase tracking-wider transition-all
                 ${dataMode === 'file' || trackData ? 'bg-white text-[#10A49B] border-b-2 border-[#10A49B]' : 'bg-stone-50 text-stone-400 hover:text-stone-600'}`}>
-              <span className="text-sm">📁</span> Archivo GPX / KML
+              Archivo GPX / KML
             </button>
           </div>
 
@@ -163,7 +163,15 @@ export default function SimuladorCarreraPage() {
               <div className="space-y-2">
                 <label className={`flex items-center gap-3 border-2 border-dashed rounded-lg px-4 py-3 cursor-pointer transition-colors
                   ${loading ? 'opacity-50 bg-stone-50 border-stone-200' : trackData ? 'border-[#10A49B]/30 bg-[#10A49B]/[0.03]' : 'border-stone-300 hover:border-[#10A49B] hover:bg-stone-50/50'}`}>
-                  <span className="text-xl">{trackData ? '✅' : '📁'}</span>
+                  {trackData ? (
+                    <svg className="w-5 h-5 text-[#10A49B] flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5 text-stone-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                  )}
                   <div className="flex-1 min-w-0">
                     <span className="font-bold text-xs text-stone-700 block">
                       {trackData ? 'Archivo cargado' : 'Selecciona tu archivo GPX o KML'}
@@ -193,7 +201,7 @@ export default function SimuladorCarreraPage() {
             {/* Manual or file-derived fields */}
             {(!trackData && dataMode === 'manual') && (
               <p className="text-[10px] text-stone-500 text-center bg-stone-50 rounded-lg py-2 px-3 border border-stone-100">
-                ℹ️ Ingresa los datos de tu carrera manualmente. Si tienes un archivo GPX/KML, usa la pestaña <strong>Archivo</strong>.
+                Ingresa los datos de tu carrera manualmente. Si tienes un archivo GPX/KML, usa la pestaña <strong>Archivo</strong>.
               </p>
             )}
 
@@ -236,7 +244,7 @@ export default function SimuladorCarreraPage() {
         <div className="bg-white border border-stone-200 rounded-xl p-4 shadow-sm space-y-3">
           <div className="flex justify-between items-end border-b border-stone-100 pb-1.5">
             <div>
-              <p className="text-xs font-black text-stone-700 uppercase tracking-tight">⏱️ Tiempo Estimado</p>
+              <p className="text-xs font-black text-stone-700 uppercase tracking-tight">Tiempo Estimado</p>
               <p className="text-[9px] font-medium text-stone-400 mt-0.5">Se sincroniza con el gráfico</p>
             </div>
             {hasValidTime && results && (
@@ -274,7 +282,9 @@ export default function SimuladorCarreraPage() {
         <div className="bg-white border border-stone-200 rounded-xl p-4 shadow-sm space-y-3">
           <div className="flex items-center gap-2 border-b border-stone-100 pb-2">
             <div className="w-5 h-5 bg-[#e67e22] rounded-full flex items-center justify-center">
-              <span className="text-white text-[9px] font-black">📦</span>
+              <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+              </svg>
             </div>
             <div>
               <p className="text-xs font-black text-stone-800 uppercase tracking-tight">Puntos de Abastecimiento</p>
@@ -290,7 +300,9 @@ export default function SimuladorCarreraPage() {
         <div className="bg-white border border-stone-200 rounded-xl p-4 shadow-sm space-y-3">
           <div className="flex items-center gap-2 border-b border-stone-100 pb-2">
             <div className="w-5 h-5 bg-[#8b5cf6] rounded-full flex items-center justify-center">
-              <span className="text-white text-[9px] font-black">⚡</span>
+              <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
             </div>
             <div>
               <p className="text-xs font-black text-stone-800 uppercase tracking-tight">Plan de Nutrición</p>

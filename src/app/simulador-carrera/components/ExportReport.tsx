@@ -4,8 +4,107 @@ import html2canvas from 'html2canvas';
 import { NutritionStop, DEFAULT_CARBS, DEFAULT_SODIUM } from '../utils/calculations';
 import { AidStation } from './ElevationChart';
 
-const EMOJIS: Record<string, string> = {
-  gel: '⚡', solido: '🍌', sal: '🧂', cafeina: '☕', isotonico: '💧', agua: '🚰',
+const NutritionIcon = ({ type, className = "w-4 h-4", color }: { type: string, className?: string, color?: string }) => {
+  const finalColor = color || (type === 'solido' ? '#16a34a' : type === 'sal' ? '#0ea5e9' : type === 'cafeina' ? '#a16207' : type === 'hidratacion' || type === 'isotonico' ? '#06b6d4' : type === 'agua' ? '#2563eb' : '#8b5cf6');
+
+  switch (type) {
+    case 'gel':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke={finalColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+          <path d="M6 3h12l-2 3v15H8V6z" />
+          <path d="M6 3v3h12V3" />
+          <path d="M12 9l-2 3h4l-2 3" />
+        </svg>
+      );
+    case 'solido':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke={finalColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+          <path d="M3 21c4-1 13-5 16-14 .5-1.5 1-2.5 2-3.5m-3 3.5C13 11 7 13 4.5 12" />
+          <path d="M19 7c1 1.5.5 3.5-1 5-2 2-6.5 4.5-11.5 5" />
+        </svg>
+      );
+    case 'sal':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke={finalColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+          <rect x="5" y="9" width="14" height="6" rx="3" transform="rotate(-45 12 12)" />
+          <path d="M12 7l5 5" />
+        </svg>
+      );
+    case 'cafeina':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke={finalColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+          <ellipse cx="12" cy="12" rx="5" ry="8" transform="rotate(-45 12 12)" />
+          <path d="M8 16c2-2 4-6 8-8" />
+        </svg>
+      );
+    case 'hidratacion':
+    case 'isotonico':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke={finalColor} strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+          <path d="M8.5 2h7l-1 4h-5l-1-4z" />
+          <path d="M7.5 6h9v15H7.5z" />
+          <path d="M10 12h4M12 10v4" />
+        </svg>
+      );
+    case 'agua':
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke={finalColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+          <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z" />
+        </svg>
+      );
+    default:
+      return (
+        <svg className={className} viewBox="0 0 24 24" fill="none" stroke={finalColor} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', verticalAlign: 'middle' }}>
+          <rect x="4" y="4" width="16" height="16" rx="2" />
+        </svg>
+      );
+  }
+};
+
+const SVG_PATHS: Record<string, React.ReactNode> = {
+  gel: (
+    <g stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M-3 -5 h6 l-1 2 v8 h-4 v-8 z" />
+      <path d="M0 -2 l-1 1.5 h2 l-1 1.5" />
+    </g>
+  ),
+  solido: (
+    <g stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M-4 4 C-2 3.5 4 1.5 5.5 -2.5" />
+      <path d="M-4 1.5 C-0.5 0 2 0 4 1" />
+    </g>
+  ),
+  sal: (
+    <g stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="-2" y="-4" width="4" height="8" rx="1.5" transform="rotate(-45)" />
+      <line x1="-1" y1="-1" x2="1" y2="1" />
+    </g>
+  ),
+  cafeina: (
+    <g stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <ellipse cx="0" cy="0" rx="2.5" ry="4" transform="rotate(-45)" />
+      <path d="M-1.5 1.5 c1 -1 1.5 -2.5 3 -3.5" />
+    </g>
+  ),
+  hidratacion: (
+    <g stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M-1.5 -5 h3 l-0.5 1.5 h-2 z" />
+      <path d="M-2.2 -3.5 h4.4 v7 h-4.4 z" />
+      <path d="M-1 0.5 h2 M0 -0.5 v2" />
+    </g>
+  ),
+  isotonico: (
+    <g stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M-1.5 -5 h3 l-0.5 1.5 h-2 z" />
+      <path d="M-2.2 -3.5 h4.4 v7 h-4.4 z" />
+      <path d="M-1 0.5 h2 M0 -0.5 v2" />
+    </g>
+  ),
+  agua: (
+    <g stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M0 -4.5 C0 -4.5 3 -1 3 1 A3 3 0 0 1 -3 1 C-3 -1 0 -4.5 0 -4.5 Z" />
+    </g>
+  )
 };
 
 interface Props {
@@ -224,11 +323,15 @@ export default function ExportReport(props: Props) {
             return (
               <g key={`nut-${i}`}>
                 <line x1={x} y1={basePad} x2={x} y2={graphH} stroke="#8b5cf6" strokeWidth={0.7} strokeDasharray="1 2" opacity={0.6} />
-                {nItems.map((it, idx) => (
-                  <text key={idx} x={x} y={basePad + 2 + idx * 10} fontSize={10} textAnchor="middle" dominantBaseline="hanging">
-                    {EMOJIS[it.type] || '⚡'}
-                  </text>
-                ))}
+                {nItems.map((it, idx) => {
+                  const iconG = SVG_PATHS[it.type] || SVG_PATHS.gel;
+                  const color = it.type === 'solido' ? '#16a34a' : it.type === 'sal' ? '#0ea5e9' : it.type === 'cafeina' ? '#a16207' : it.type === 'hidratacion' || it.type === 'isotonico' ? '#06b6d4' : it.type === 'agua' ? '#2563eb' : '#8b5cf6';
+                  return (
+                    <g key={idx} transform={`translate(${x}, ${basePad + 2 + idx * 13 + 6})`} color={color}>
+                      {iconG}
+                    </g>
+                  );
+                })}
               </g>
             );
           })}
@@ -249,7 +352,9 @@ export default function ExportReport(props: Props) {
         onClick={() => setIsOpen(true)}
         className="w-full bg-gradient-to-r from-[#10A49B] to-teal-600 text-white font-black py-3 rounded-xl shadow-md hover:shadow-lg transition-all text-sm uppercase tracking-wider flex items-center justify-center gap-2 border border-teal-500/30"
       >
-        <span className="text-lg">📸</span> Compartir / Descargar Plan
+        <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+        </svg> Compartir / Descargar Plan
       </button>
 
       {/* Export modal overlay */}
@@ -322,7 +427,7 @@ export default function ExportReport(props: Props) {
                   {/* Graph */}
                   <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '12px', padding: '12px', marginBottom: '16px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
-                      <span style={{ fontSize: '9px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px' }}>📈 Altimetría</span>
+                      <span style={{ fontSize: '9px', fontWeight: 900, color: '#10A49B', textTransform: 'uppercase', letterSpacing: '1px' }}>Altimetría</span>
                       {props.altitudeAvg && props.altitudeAvg > 0 ? <span style={{ fontSize: '8px', fontWeight: 700, color: '#a8a29e' }}>Alt. media: {Math.round(props.altitudeAvg)}m</span> : null}
                     </div>
                     {renderSvgProfile(370, 140)}
@@ -331,7 +436,7 @@ export default function ExportReport(props: Props) {
                   {/* Segment detail table */}
                   {segmentDetails.length > 1 && (
                     <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '12px', padding: '12px', marginBottom: '16px' }}>
-                      <div style={{ fontSize: '9px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>🗺️ Segmentos</div>
+                      <div style={{ fontSize: '9px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px' }}>Segmentos</div>
                       {segmentDetails.map((seg, i) => (
                         <div key={i} style={{ padding: '6px 0', borderBottom: i < segmentDetails.length - 1 ? '1px solid #f5f5f4' : 'none' }}>
                           <div style={{ fontSize: '10px', fontWeight: 800, color: '#1c1917', marginBottom: '3px' }}>{seg.from} - {seg.to}</div>
@@ -348,7 +453,7 @@ export default function ExportReport(props: Props) {
 
                   {/* Nutrition */}
                   <div style={{ background: 'white', border: '1px solid #e7e5e4', borderRadius: '12px', padding: '12px', marginBottom: '16px' }}>
-                    <div style={{ fontSize: '9px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>⚡ Estrategia Nutricional</div>
+                    <div style={{ fontSize: '9px', fontWeight: 900, color: '#a8a29e', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '10px' }}>Estrategia Nutricional</div>
                     <div style={{ display: 'flex', gap: '8px', marginBottom: '10px' }}>
                       <div style={{ flex: 1, background: '#eff6ff', border: '1px solid #bfdbfe', borderRadius: '8px', padding: '8px', textAlign: 'center' }}>
                         <div style={{ fontSize: '16px', fontWeight: 900, color: '#3b82f6' }}>{props.carbsPerHour}</div>
@@ -368,7 +473,7 @@ export default function ExportReport(props: Props) {
                       <div style={{ borderTop: '1px solid #f5f5f4', paddingTop: '8px' }}>
                         {sortedItems.map((item, i) => (
                           <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '6px', background: '#fafaf9', borderRadius: '6px', padding: '4px 8px', marginBottom: '4px', fontSize: '10px' }}>
-                            <span>{EMOJIS[item.type] || '📦'}</span>
+                             <NutritionIcon type={item.type} className="w-3.5 h-3.5 flex-shrink-0" />
                             <span style={{ fontWeight: 700, color: '#1c1917', flex: 1 }}>{item.label}</span>
                             <span style={{ fontWeight: 900, color: '#8b5cf6', fontFamily: 'monospace', marginRight: '6px' }}>×{item.qty}</span>
                             <span style={{ fontFamily: 'monospace', color: '#78716c', fontSize: '9px' }}>{item.carbs}g</span>
@@ -534,9 +639,7 @@ export default function ExportReport(props: Props) {
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                               {sortedItems.map((item, i) => (
                                 <div key={i} style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
-                                  <span style={{ fontSize: '18px' }}>
-                                    {item.type === 'hidratacion' || item.type === 'isotonico' ? '💧' : item.type === 'agua' ? '🚰' : EMOJIS[item.type] || '⚡'}
-                                  </span>
+                                  <NutritionIcon type={item.type} className="w-4.5 h-4.5 flex-shrink-0" />
                                   <span style={{ flex: 1, fontSize: '14px', color: '#000000', fontWeight: 700 }}>{item.label}</span>
                                   <span style={{ color: '#10A49B', fontWeight: 900, fontSize: '16px' }}>x{item.qty}</span>
                                 </div>

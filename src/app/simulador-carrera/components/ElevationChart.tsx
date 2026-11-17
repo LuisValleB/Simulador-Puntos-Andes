@@ -40,8 +40,50 @@ function fmtTimeShort(minutes: number): string {
   return `${m}'`;
 }
 
-const EMOJIS: Record<string, string> = {
-  gel: '⚡', solido: '🍌', sal: '🧂', cafeina: '☕', hidratacion: '💧',
+const SVG_PATHS: Record<string, React.ReactNode> = {
+  gel: (
+    <g stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M-3 -5 h6 l-1 2 v8 h-4 v-8 z" />
+      <path d="M0 -2 l-1 1.5 h2 l-1 1.5" />
+    </g>
+  ),
+  solido: (
+    <g stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M-4 4 C-2 3.5 4 1.5 5.5 -2.5" />
+      <path d="M-4 1.5 C-0.5 0 2 0 4 1" />
+    </g>
+  ),
+  sal: (
+    <g stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="-2" y="-4" width="4" height="8" rx="1.5" transform="rotate(-45)" />
+      <line x1="-1" y1="-1" x2="1" y2="1" />
+    </g>
+  ),
+  cafeina: (
+    <g stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <ellipse cx="0" cy="0" rx="2.5" ry="4" transform="rotate(-45)" />
+      <path d="M-1.5 1.5 c1 -1 1.5 -2.5 3 -3.5" />
+    </g>
+  ),
+  hidratacion: (
+    <g stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M-1.5 -5 h3 l-0.5 1.5 h-2 z" />
+      <path d="M-2.2 -3.5 h4.4 v7 h-4.4 z" />
+      <path d="M-1 0.5 h2 M0 -0.5 v2" />
+    </g>
+  ),
+  isotonico: (
+    <g stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M-1.5 -5 h3 l-0.5 1.5 h-2 z" />
+      <path d="M-2.2 -3.5 h4.4 v7 h-4.4 z" />
+      <path d="M-1 0.5 h2 M0 -0.5 v2" />
+    </g>
+  ),
+  agua: (
+    <g stroke="currentColor" strokeWidth={1.5} fill="none" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M0 -4.5 C0 -4.5 3 -1 3 1 A3 3 0 0 1 -3 1 C-3 -1 0 -4.5 0 -4.5 Z" />
+    </g>
+  )
 };
 
 // Tiny label on top of reference line
@@ -55,12 +97,15 @@ function TopLabel({ viewBox, value, fill, offset = 0 }: any) {
 function VerticalNutritionLabel({ viewBox, items, offset = 0 }: any) {
   return (
     <g>
-      {items.map((it: any, idx: number) => (
-        <text key={idx} x={viewBox.x} y={4 + offset + idx * 11} fontSize={10}
-          textAnchor="middle" dominantBaseline="hanging">
-          {EMOJIS[it.type] || '⚡'}
-        </text>
-      ))}
+      {items.map((it: any, idx: number) => {
+        const iconG = SVG_PATHS[it.type] || SVG_PATHS.gel;
+        const color = NUTRITION_COLORS[it.type] || '#8b5cf6';
+        return (
+          <g key={idx} transform={`translate(${viewBox.x}, ${4 + offset + idx * 13 + 6})`} color={color}>
+            {iconG}
+          </g>
+        );
+      })}
     </g>
   );
 }
@@ -218,7 +263,7 @@ export default function ElevationChart({ points, aidStations, nutritionItems, to
             {/* Finish */}
             {totalDistanceKm > 0 && (
               <ReferenceLine x={totalDistanceKm} stroke="#a8a29e" strokeWidth={1} strokeDasharray="3 3">
-                <Label content={<TopLabel value="🏁" fill="#78716c" />} />
+                <Label content={<TopLabel value="META" fill="#78716c" />} />
               </ReferenceLine>
             )}
           </AreaChart>

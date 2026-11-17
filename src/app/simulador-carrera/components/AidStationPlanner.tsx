@@ -91,7 +91,6 @@ export default function AidStationPlanner({ stations, onChange, totalDistanceKm,
               </div>
               {hasTime && (
                 <div className="flex items-center gap-1 flex-shrink-0">
-                  <span className="text-[10px] text-[#10A49B]">⏱</span>
                   <input
                     type="number" min={0} max={totalEstimatedMinutes} step={1}
                     value={station.segmentMinutes || ''}
@@ -136,7 +135,7 @@ export default function AidStationPlanner({ stations, onChange, totalDistanceKm,
             <div className="flex items-center gap-1 text-[9px] font-bold text-stone-500 flex-1 min-w-0 flex-wrap">
               <span className="truncate">{lastSt.label}</span>
               <span className="text-stone-300">→</span>
-              <span>Meta 🏁</span>
+              <span>Meta</span>
               {lastSegmentKm > 0 && <span className="text-stone-300 flex-shrink-0">({lastSegmentKm.toFixed(1)}km)</span>}
               {hasGpx && (ldp > 0 || ldm > 0) && (
                 <span className="flex gap-1 flex-shrink-0">
@@ -147,7 +146,7 @@ export default function AidStationPlanner({ stations, onChange, totalDistanceKm,
             </div>
             {hasTime && (
               <span className={`text-[10px] font-mono font-bold flex-shrink-0 ${remainingMinutes >= 0 ? 'text-[#10A49B]' : 'text-red-500'}`}>
-                ≈ {formatTime(Math.abs(remainingMinutes))} {remainingMinutes < 0 ? '⚠️' : ''}
+                ≈ {formatTime(Math.abs(remainingMinutes))} {remainingMinutes < 0 ? '(límite superado)' : ''}
               </span>
             )}
           </div>
@@ -168,7 +167,9 @@ export default function AidStationPlanner({ stations, onChange, totalDistanceKm,
 
       <button onClick={addStation}
         className="w-full bg-[#e67e22]/10 border-2 border-[#e67e22]/30 hover:bg-[#e67e22]/20 hover:border-[#e67e22]/50 rounded-xl py-3 text-sm font-black text-[#e67e22] transition-colors flex items-center justify-center gap-2 mt-1">
-        <span className="text-base">📦</span> Agregar punto de abastecimiento
+        <svg className="w-4 h-4 text-[#e67e22]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" />
+        </svg> Agregar punto de abastecimiento
       </button>
     </div>
   );
