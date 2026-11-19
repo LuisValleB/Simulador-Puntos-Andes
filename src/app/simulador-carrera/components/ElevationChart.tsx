@@ -210,7 +210,7 @@ export default function ElevationChart({ points, aidStations, nutritionItems, to
       <div className="px-3 pt-3 sm:px-4 sm:pt-4">
         {!hasElevationData && (
           <div className="mb-2 px-3 py-1 bg-amber-50 border border-amber-200 rounded text-center">
-            <p className="text-[10px] font-bold text-amber-600">⚠️ Sin datos de altitud</p>
+            <p className="text-[10px] font-bold text-amber-600">Aviso: Sin datos de altitud</p>
           </div>
         )}
 

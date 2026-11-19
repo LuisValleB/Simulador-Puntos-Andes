@@ -26,10 +26,15 @@ export default async function CarreraPage({ params }: { params: Promise<{ slug: 
     km: c.km,
     dPlus: c.dPlus,
     dMinus: c.dMinus,
+    terrain: c.terrain ?? 3,
+    climate: c.climate ?? 3,
     hasSplits: c.hasSplits,
     pointsEnabled: c.pointsEnabled !== false,
     rows: getCourseRows(race, c.id),
   }));
+
+  const mainTerrain = race.courses[0]?.terrain ?? 3;
+  const mainClimate = race.courses[0]?.climate ?? 3;
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-stone-800 font-sans flex flex-col items-center py-10 px-4 sm:px-6">
@@ -39,15 +44,22 @@ export default async function CarreraPage({ params }: { params: Promise<{ slug: 
         </Link>
         <header className="flex items-start gap-4">
           <CountryFlag code={getRaceCountryCode(race)} className="w-10 h-10 text-sm mt-1 shadow-sm flex-shrink-0" />
-          <div>
+          <div className="flex-1 min-w-0">
             <h1 className="text-2xl sm:text-3xl font-black text-stone-900 tracking-tight">{race.name}</h1>
             <p className="text-sm text-stone-500 mt-1">
               {new Date(race.date + "T12:00:00").toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" })}
               {race.location ? ` • ${race.location}` : ""}
             </p>
-            <p className="text-[11px] text-stone-400 mt-1">
-              Puntos Andes calculados con terreno {race.courses[0]?.terrain} y clima {race.courses[0]?.climate}.
-            </p>
+            <div className="flex items-center gap-2 mt-2.5 flex-wrap">
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200/80 px-2.5 py-1 rounded-lg shadow-2xs">
+                <span>Dificultad Terreno:</span>
+                <span className="font-black font-mono">{mainTerrain}/5</span>
+              </span>
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold bg-sky-50 text-sky-800 border border-sky-200/80 px-2.5 py-1 rounded-lg shadow-2xs">
+                <span>Dificultad Clima:</span>
+                <span className="font-black font-mono">{mainClimate}/5</span>
+              </span>
+            </div>
           </div>
         </header>
         <ResultadosCarrera courses={courses} />

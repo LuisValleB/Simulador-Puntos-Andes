@@ -64,6 +64,8 @@ export interface RunnerRankingEntry {
 export interface RaceResultRow {
   position: number;
   name: string;
+  canonicalSlug?: string;
+  canonicalName?: string;
   countryCode: string;
   gender: "H" | "M";
   ageCategory: string;
@@ -97,6 +99,8 @@ export interface RunnerRaceHistoryItem {
   };
   km: number;
   dPlus: number;
+  terrain?: number;
+  climate?: number;
   position?: number;
 }
 

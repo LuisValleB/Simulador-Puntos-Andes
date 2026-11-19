@@ -29,11 +29,17 @@ function getInitials(name: string): string {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
-function formatRunnerName(name: string): { first: string; last: string } {
-  const parts = name.trim().split(/\s+/);
-  if (parts.length <= 1) return { first: name, last: "" };
-  const first = parts.slice(0, -1).join(" ");
-  const last = parts[parts.length - 1].toUpperCase();
+function formatRunnerName(fullName: string): { first: string; last: string } {
+  const parts = fullName.trim().split(/\s+/);
+  if (parts.length <= 1) return { first: fullName, last: "" };
+  if (parts.length === 2) {
+    return { first: parts[0], last: parts[1].toUpperCase() };
+  }
+  if (parts.length === 3) {
+    return { first: parts[0], last: `${parts[1]} ${parts[2]}`.toUpperCase() };
+  }
+  const first = parts.slice(0, 2).join(" ");
+  const last = parts.slice(2).join(" ").toUpperCase();
   return { first, last };
 }
 
@@ -224,6 +230,13 @@ export default async function CorredorPage({
                       )}
                       <span>•</span>
                       <span className="font-mono">{item.km} km (+{item.dPlus}m)</span>
+                      <span>•</span>
+                      <span className="inline-flex items-center text-amber-800 bg-amber-50 border border-amber-200/60 px-1.5 py-0.5 rounded text-[10px] font-bold">
+                        Terreno {item.terrain ?? 3}/5
+                      </span>
+                      <span className="inline-flex items-center text-sky-800 bg-sky-50 border border-sky-200/60 px-1.5 py-0.5 rounded text-[10px] font-bold">
+                        Clima {item.climate ?? 3}/5
+                      </span>
                     </div>
                   </div>
 

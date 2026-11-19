@@ -3,12 +3,12 @@ import React from 'react';
 import { NutritionStop, NutritionSubItem, DEFAULT_CARBS, DEFAULT_SODIUM } from '../utils/calculations';
 
 const TIPOS = [
-  { value: 'gel',         label: 'Gel',        emoji: '⚡' },
-  { value: 'solido',      label: 'Sólido',     emoji: '🍌' },
-  { value: 'sal',         label: 'Sal',        emoji: '🧂' },
-  { value: 'cafeina',     label: 'Cafeína',    emoji: '☕' },
-  { value: 'isotonico',   label: 'Isotónico',  emoji: '💧' },
-  { value: 'agua',        label: 'Agua',       emoji: '🚰' },
+  { value: 'gel',         label: 'Gel' },
+  { value: 'solido',      label: 'Sólido' },
+  { value: 'sal',         label: 'Sal' },
+  { value: 'cafeina',     label: 'Cafeína' },
+  { value: 'isotonico',   label: 'Isotónico' },
+  { value: 'agua',        label: 'Agua' },
 ];
 
 const NutritionIcon = ({ type, className = "w-4 h-4", color }: { type: string, className?: string, color?: string }) => {

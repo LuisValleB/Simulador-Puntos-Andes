@@ -21,12 +21,22 @@ export default function CarrerasPage() {
               className="bg-white border border-stone-200 rounded-xl p-4 shadow-sm hover:border-[#10A49B] transition-colors flex justify-between items-center gap-3 group"
             >
               <div className="flex items-center gap-3.5 min-w-0">
-                <CountryFlag code={getRaceCountryCode(r)} className="w-7 h-7 text-xs flex-shrink-0" />
+                <CountryFlag code={getRaceCountryCode(r)} className="w-8 h-8 text-xs flex-shrink-0 shadow-2xs" />
                 <div className="min-w-0">
                   <p className="font-black text-stone-900 group-hover:text-[#10A49B] transition-colors truncate">{r.name}</p>
                   <p className="text-xs text-stone-500 mt-0.5 truncate">
                     {r.date}{r.location ? ` • ${r.location}` : ""} • {r.courses.map((c) => c.id).join(" · ")}
                   </p>
+                  <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider bg-amber-50 text-amber-800 border border-amber-200/80 px-2 py-0.5 rounded-md">
+                      <span>Terreno</span>
+                      <span className="font-mono font-black">{r.courses[0]?.terrain ?? 3}/5</span>
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider bg-sky-50 text-sky-800 border border-sky-200/80 px-2 py-0.5 rounded-md">
+                      <span>Clima</span>
+                      <span className="font-mono font-black">{r.courses[0]?.climate ?? 3}/5</span>
+                    </span>
+                  </div>
                 </div>
               </div>
               <span className="text-xs font-bold text-[#10A49B] whitespace-nowrap flex-shrink-0">

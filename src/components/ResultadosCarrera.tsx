@@ -12,6 +12,8 @@ export interface CourseView {
   km: number;
   dPlus: number;
   dMinus: number;
+  terrain?: number;
+  climate?: number;
   hasSplits?: boolean;
   pointsEnabled?: boolean;
   rows: RaceResultRow[];
@@ -58,8 +60,8 @@ export default function ResultadosCarrera({ courses }: { courses: CourseView[] }
               setVisible(25);
             }}
             className={`px-3.5 py-2 rounded-lg text-xs font-bold cursor-pointer transition-all ${c.id === course.id
-                ? "bg-[#10A49B] text-white shadow-sm"
-                : "text-stone-600 hover:bg-white"
+              ? "bg-[#10A49B] text-white shadow-sm"
+              : "text-stone-600 hover:bg-white"
               }`}
           >
             {c.label}
@@ -69,7 +71,7 @@ export default function ResultadosCarrera({ courses }: { courses: CourseView[] }
 
       {/* Course Info Banner */}
       <div className="px-4 sm:px-6 pt-4 text-xs text-stone-500 flex flex-wrap items-center justify-between gap-x-5 gap-y-2">
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5">
           <span>
             <strong className="text-stone-700">{course.km}</strong> km
           </span>
@@ -81,6 +83,12 @@ export default function ResultadosCarrera({ courses }: { courses: CourseView[] }
           </span>
           <span>
             <strong className="text-stone-700">{course.rows.length}</strong> finalistas
+          </span>
+          <span className="inline-flex items-center gap-1 bg-amber-50 text-amber-800 border border-amber-200/80 px-2 py-0.5 rounded text-[11px] font-bold">
+            Terreno: <span className="font-mono">{course.terrain ?? 3}/5</span>
+          </span>
+          <span className="inline-flex items-center gap-1 bg-sky-50 text-sky-800 border border-sky-200/80 px-2 py-0.5 rounded text-[11px] font-bold">
+            Clima: <span className="font-mono">{course.climate ?? 3}/5</span>
           </span>
         </div>
         {course.hasSplits && (
@@ -172,7 +180,7 @@ export default function ResultadosCarrera({ courses }: { courses: CourseView[] }
                     </span>
                     <CountryFlag code={r.countryCode} />
                     <Link
-                      href={`/corredores/${runnerSlug(r.name)}`}
+                      href={`/corredores/${r.canonicalSlug || runnerSlug(r.name)}`}
                       className="font-black text-sm text-stone-900 hover:text-[#10A49B] transition-colors"
                     >
                       {r.name}
@@ -272,7 +280,7 @@ export default function ResultadosCarrera({ courses }: { courses: CourseView[] }
                     <div className="flex items-center gap-2">
                       <CountryFlag code={r.countryCode} />
                       <Link
-                        href={`/corredores/${runnerSlug(r.name)}`}
+                        href={`/corredores/${r.canonicalSlug || runnerSlug(r.name)}`}
                         className="hover:text-[#10A49B] transition-colors"
                       >
                         {r.name}

@@ -852,7 +852,7 @@ export default function SimuladorMTR() {
                 Volver
               </button>
               <button onClick={handleExportImage} disabled={exporting} className="flex-[2] bg-[#10A49B] hover:bg-teal-600 text-white font-black py-3 rounded-xl shadow transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-50">
-                {exporting ? 'Generando archivo PNG...' : '📥 Guardar Imagen'}
+                {exporting ? 'Generando archivo PNG...' : 'Guardar Imagen'}
               </button>
             </div>
           </div>

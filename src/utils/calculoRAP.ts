@@ -103,14 +103,14 @@ export function validarRAP(result: RAPResult): void {
   if (result.rapSegPorKm < 150 && result.rapSegPorKm > 0) {
     const min = Math.floor(result.rapSegPorKm / 60);
     result.warnings.push(
-      `⚠ El RAP calculado es ${min}:XX/km, más rápido que el récord mundial. Verifica que distancia, desnivel y tiempo sean correctos.`
+      `El RAP calculado es ${min}:XX/km, más rápido que el récord mundial. Verifica que distancia, desnivel y tiempo sean correctos.`
     );
   }
 
   // Validación 2: Kilómetro Vertical / Límite de Minetti
   if (result.gradePct > 30) {
     result.infos.push(
-      "ℹ Este gradiente promedio (>30%) sugiere un Kilómetro Vertical extremo. El modelo Minetti opera en su límite — el RAP es referencial."
+      "Este gradiente promedio (>30%) sugiere un Kilómetro Vertical extremo. El modelo Minetti opera en su límite — el RAP es referencial."
     );
   }
 

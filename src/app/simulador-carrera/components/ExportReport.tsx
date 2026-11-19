@@ -441,10 +441,10 @@ export default function ExportReport(props: Props) {
                         <div key={i} style={{ padding: '6px 0', borderBottom: i < segmentDetails.length - 1 ? '1px solid #f5f5f4' : 'none' }}>
                           <div style={{ fontSize: '10px', fontWeight: 800, color: '#1c1917', marginBottom: '3px' }}>{seg.from} - {seg.to}</div>
                           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', fontFamily: 'monospace', color: '#78716c' }}>
-                            <span>📏 {seg.km} km</span>
+                            <span>{seg.km} km</span>
                             <span style={{ color: '#16a34a', fontWeight: 700 }}>+{seg.dPlus}m</span>
                             <span style={{ color: '#dc2626', fontWeight: 700 }}>-{seg.dMinus}m</span>
-                            <span style={{ color: '#6366f1', fontWeight: 700 }}>⏱ {seg.timeStr}</span>
+                            <span style={{ color: '#6366f1', fontWeight: 700 }}>{seg.timeStr}</span>
                           </div>
                         </div>
                       ))}
@@ -703,7 +703,7 @@ export default function ExportReport(props: Props) {
                 disabled={exporting}
                 className="flex-[2] bg-[#10A49B] hover:bg-teal-600 text-white font-black py-3 rounded-xl shadow transition-all text-xs uppercase tracking-wider flex items-center justify-center gap-2 disabled:opacity-50"
               >
-                {exporting ? 'Generando archivo PNG...' : '📥 Guardar Imagen'}
+                {exporting ? 'Generando archivo PNG...' : 'Guardar Imagen'}
               </button>
             </div>
           </div>
