@@ -340,7 +340,7 @@ export function getCourseRows(race: RaceData, courseId: string): RaceResultRow[]
       canonicalName: canonical.canonicalName,
       canonicalSlug: canonical.canonicalSlug,
       countryCode: countryCode(r.country),
-      gender: r.sex === "F" ? "M" : "H",
+      gender: (r.sex === "F" ? "M" : "H") as "H" | "M",
       ageCategory: r.ageCategory,
       time: r.time,
       score: scoreResult(course, r.time),
