@@ -21,7 +21,8 @@ export default function Home() {
       </div>
 
       <main className="w-full max-w-5xl space-y-6">
-        {/* Acceso a la nueva herramienta GPX */}
+        {/* Acceso a la nueva herramienta GPX - Oculto temporalmente */}
+        {/*
         <div className="flex justify-end px-1 max-w-lg mx-auto">
           <Link
             href="/simulador-carrera"
@@ -34,6 +35,7 @@ export default function Home() {
             <span className="text-[8px] text-stone-400">→</span>
           </Link>
         </div>
+        */}
 
         <RankingPuntosAndes />
 

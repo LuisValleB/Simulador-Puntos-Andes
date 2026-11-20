@@ -99,17 +99,61 @@ export default function RankingPuntosAndes() {
   }, [nationalityFilter]);
 
   const regionTitle = selectedCountry ? selectedCountry.name : "Sudamérica";
+  const isAllSudamerica = nationalityFilter === "ALL";
 
-  // Top 3 Women & Top 3 Men for the selected discipline and country
-  const top3Women = useMemo(
-    () => countryFilteredRunners.filter((r) => r.gender === "M").slice(0, 3),
+  // Country view pagination & continuous display state
+  const [womenPage, setWomenPage] = useState<number>(1);
+  const [menPage, setMenPage] = useState<number>(1);
+  const [womenAccumulate, setWomenAccumulate] = useState<number>(10);
+  const [menAccumulate, setMenAccumulate] = useState<number>(10);
+  const [womenMode, setWomenMode] = useState<"paged" | "accumulated">("paged");
+  const [menMode, setMenMode] = useState<"paged" | "accumulated">("paged");
+
+  const resetCountryPagination = () => {
+    setWomenPage(1);
+    setMenPage(1);
+    setWomenAccumulate(10);
+    setMenAccumulate(10);
+    setWomenMode("paged");
+    setMenMode("paged");
+  };
+
+  // All Women & Men for current country & discipline
+  const allCountryWomen = useMemo(
+    () => countryFilteredRunners.filter((r) => r.gender === "M"),
     [countryFilteredRunners]
   );
 
-  const top3Men = useMemo(
-    () => countryFilteredRunners.filter((r) => r.gender === "H").slice(0, 3),
+  const allCountryMen = useMemo(
+    () => countryFilteredRunners.filter((r) => r.gender === "H"),
     [countryFilteredRunners]
   );
+
+  const totalWomenPages = Math.max(1, Math.ceil(allCountryWomen.length / 10));
+  const totalMenPages = Math.max(1, Math.ceil(allCountryMen.length / 10));
+
+  // Displayed runners in Part 1 (Top 3 for Sudamérica, or Top 10 / paginated / continuous for country)
+  const displayedWomen = useMemo(() => {
+    if (isAllSudamerica) {
+      return allCountryWomen.slice(0, 3);
+    }
+    if (womenMode === "accumulated") {
+      return allCountryWomen.slice(0, womenAccumulate);
+    }
+    const start = (womenPage - 1) * 10;
+    return allCountryWomen.slice(start, start + 10);
+  }, [allCountryWomen, isAllSudamerica, womenMode, womenAccumulate, womenPage]);
+
+  const displayedMen = useMemo(() => {
+    if (isAllSudamerica) {
+      return allCountryMen.slice(0, 3);
+    }
+    if (menMode === "accumulated") {
+      return allCountryMen.slice(0, menAccumulate);
+    }
+    const start = (menPage - 1) * 10;
+    return allCountryMen.slice(start, start + 10);
+  }, [allCountryMen, isAllSudamerica, menMode, menAccumulate, menPage]);
 
   // Available age categories in the current discipline
   const availableAgeCategories = useMemo(() => {
@@ -150,12 +194,14 @@ export default function RankingPuntosAndes() {
     setAgeFilter("ALL");
     setSearchQuery("");
     setVisibleCount(10);
+    resetCountryPagination();
   };
 
   const handleDisciplineChange = (disc: RankingDiscipline) => {
     setSelectedDiscipline(disc);
     setAgeFilter("ALL");
     setVisibleCount(10);
+    resetCountryPagination();
   };
 
   return (
@@ -202,6 +248,7 @@ export default function RankingPuntosAndes() {
                 onClick={() => {
                   setNationalityFilter(p.code);
                   setVisibleCount(10);
+                  resetCountryPagination();
                 }}
                 className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border shadow-2xs ${
                   isSelected
@@ -221,6 +268,7 @@ export default function RankingPuntosAndes() {
             onClick={() => {
               setNationalityFilter("ALL");
               setVisibleCount(10);
+              resetCountryPagination();
             }}
             className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 border shadow-2xs ${
               nationalityFilter === "ALL"
@@ -259,11 +307,11 @@ export default function RankingPuntosAndes() {
           </Link>
         </div>
 
-        {/* ==================== PART 1: TOP 3 ==================== */}
+        {/* ==================== PART 1: TOP 3 / TOP 10 ==================== */}
         <div className="px-4 sm:px-8 pt-8 pb-10 border-b border-stone-200">
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-black text-stone-900 tracking-tight">
-              Top 3 {regionTitle}
+              {isAllSudamerica ? "Top 3 Sudamérica" : `Top 10 ${regionTitle}`}
             </h2>
             <div className="mt-3 flex items-center justify-center gap-1.5">
               <span className="text-[11px] font-bold uppercase tracking-widest text-stone-500">
@@ -288,10 +336,11 @@ export default function RankingPuntosAndes() {
                     key={d.id}
                     type="button"
                     onClick={() => handleDisciplineChange(d.id)}
-                    className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${isActive
+                    className={`px-3.5 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                      isActive
                         ? "bg-[#10A49B] text-white shadow-sm"
                         : "text-stone-600 hover:text-stone-900 hover:bg-white/60"
-                      }`}
+                    }`}
                   >
                     {d.label}
                   </button>
@@ -305,8 +354,8 @@ export default function RankingPuntosAndes() {
             {DISCIPLINES.find((d) => d.id === selectedDiscipline)?.desc}
           </p>
 
-          {/* Top 3 Cards Grid (MUJER / HOMBRE) */}
-          {top3Women.length === 0 && top3Men.length === 0 ? (
+          {/* Ranking Cards Grid (MUJER / HOMBRE) */}
+          {displayedWomen.length === 0 && displayedMen.length === 0 ? (
             <div className="mt-8 max-w-xl mx-auto text-center py-10 px-6 bg-stone-50 rounded-2xl border border-dashed border-stone-300">
               <p className="text-sm font-bold text-stone-700">
                 Sin resultados registrados para {regionTitle} en la categoría {selectedDiscipline}
@@ -318,141 +367,309 @@ export default function RankingPuntosAndes() {
           ) : (
             <div className="mt-7 grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
               {/* Card MUJER */}
-              <div className="bg-white rounded-2xl border border-stone-200/90 shadow-sm p-3.5 sm:p-6">
-                <div className="pb-3 mb-2 border-b border-stone-100 flex justify-between items-center">
-                  <h3 className="text-xs font-black uppercase tracking-widest text-stone-800">
-                    MUJER
-                  </h3>
-                  <span className="text-[10px] font-bold text-stone-400 uppercase">
-                    {selectedDiscipline} • {regionTitle}
-                  </span>
+              <div className="bg-white rounded-2xl border border-stone-200/90 shadow-sm p-3.5 sm:p-6 flex flex-col justify-between">
+                <div>
+                  <div className="pb-3 mb-2 border-b border-stone-100 flex justify-between items-center">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-stone-800">
+                      MUJER
+                    </h3>
+                    <span className="text-[10px] font-bold text-stone-400 uppercase">
+                      {isAllSudamerica ? "Top 3" : "Top 10"} • {selectedDiscipline} • {regionTitle}
+                    </span>
+                  </div>
+
+                  {displayedWomen.length === 0 ? (
+                    <p className="text-xs text-stone-400 py-8 text-center">
+                      Sin clasificadas de {regionTitle} en esta categoría.
+                    </p>
+                  ) : (
+                    <div className="divide-y divide-stone-100">
+                      {displayedWomen.map((runner, idx) => {
+                        const { first, last } = formatRunnerName(runner.name);
+                        const rankNumber = isAllSudamerica
+                          ? idx + 1
+                          : womenMode === "accumulated"
+                          ? idx + 1
+                          : (womenPage - 1) * 10 + idx + 1;
+                        return (
+                          <div
+                            key={runner.id}
+                            className="py-3 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-3"
+                          >
+                            <Link
+                              href={`/corredores?slug=${runnerSlug(runner.name)}`}
+                              className="group flex items-center gap-2.5 sm:gap-3.5 min-w-0 hover:opacity-95 flex-1 overflow-hidden"
+                            >
+                              <span className="w-5 sm:w-6 text-base sm:text-lg font-black italic text-stone-900 tabular-nums text-center flex-shrink-0">
+                                {rankNumber}
+                              </span>
+                              <div
+                                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-black text-xs sm:text-sm flex-shrink-0 border-2 shadow-sm group-hover:scale-105 transition-transform"
+                                style={{
+                                  backgroundColor: `${getPuntosAndesCategory(runner.score, runner.gender).bg}22`,
+                                  borderColor: getPuntosAndesCategory(runner.score, runner.gender).bg,
+                                  color: "#1c1917",
+                                }}
+                              >
+                                {getInitials(runner.name)}
+                              </div>
+                              <div className="min-w-0 flex-1 overflow-hidden">
+                                <p className="text-xs sm:text-sm text-stone-800 truncate leading-snug group-hover:text-[#10A49B] transition-colors">
+                                  <span className="font-medium">{first}</span>{" "}
+                                  <span className="font-black tracking-tight">{last}</span>
+                                </p>
+                                <div className="flex items-center gap-1 sm:gap-1.5 mt-0.5 whitespace-nowrap overflow-hidden">
+                                  <CountryFlag code={runner.countryCode} className="w-3.5 h-3.5 flex-shrink-0" />
+                                  <span className="text-[11px] font-bold text-stone-600 flex-shrink-0">
+                                    {runner.countryCode}
+                                  </span>
+                                  <span className="text-[10px] text-stone-400 truncate">
+                                    • {runner.distance}
+                                  </span>
+                                  <span className="text-[10px] text-stone-400 hidden sm:inline flex-shrink-0">
+                                    ({runner.time})
+                                  </span>
+                                </div>
+                              </div>
+                            </Link>
+                            <div className="flex-shrink-0 self-center">
+                              <ScoreBadge score={runner.score} gender={runner.gender} />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
 
-                {top3Women.length === 0 ? (
-                  <p className="text-xs text-stone-400 py-8 text-center">
-                    Sin clasificadas de {regionTitle} en esta categoría.
-                  </p>
-                ) : (
-                  <div className="divide-y divide-stone-100">
-                    {top3Women.map((runner, idx) => {
-                      const { first, last } = formatRunnerName(runner.name);
-                      return (
-                        <div
-                          key={runner.id}
-                          className="py-3 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-3"
-                        >
-                          <Link
-                            href={`/corredores?slug=${runnerSlug(runner.name)}`}
-                            className="group flex items-center gap-2.5 sm:gap-3.5 min-w-0 hover:opacity-95 flex-1 overflow-hidden"
+                {/* Controles de paginación y mostrar más (para ranking de país) */}
+                {!isAllSudamerica && allCountryWomen.length > 10 && (
+                  <div className="pt-3.5 mt-4 border-t border-stone-100 flex flex-col gap-2.5">
+                    {womenMode === "paged" ? (
+                      <>
+                        <div className="flex items-center justify-between gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setWomenPage((p) => Math.max(1, p - 1))}
+                            disabled={womenPage === 1}
+                            className="px-3 py-1.5 rounded-lg text-xs font-bold border border-stone-200 text-stone-700 hover:bg-stone-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
                           >
-                            <span className="w-4 sm:w-5 text-lg sm:text-xl font-black italic text-stone-900 tabular-nums text-center flex-shrink-0">
-                              {idx + 1}
-                            </span>
-                            <div
-                              className="w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center font-black text-xs sm:text-sm flex-shrink-0 border-2 shadow-sm group-hover:scale-105 transition-transform"
-                              style={{
-                                backgroundColor: `${getPuntosAndesCategory(runner.score, runner.gender).bg}22`,
-                                borderColor: getPuntosAndesCategory(runner.score, runner.gender).bg,
-                                color: "#1c1917",
+                            ← Anterior
+                          </button>
+                          <span className="text-[11px] font-semibold text-stone-500 text-center">
+                            Pág. {womenPage} de {totalWomenPages}{" "}
+                            <span className="text-stone-400">({allCountryWomen.length} corredoras)</span>
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => setWomenPage((p) => Math.min(totalWomenPages, p + 1))}
+                            disabled={womenPage === totalWomenPages}
+                            className="px-3 py-1.5 rounded-lg text-xs font-bold border border-stone-200 text-stone-700 hover:bg-stone-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
+                          >
+                            Siguiente página →
+                          </button>
+                        </div>
+                        <div className="flex justify-center">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setWomenMode("accumulated");
+                              setWomenAccumulate(Math.min(allCountryWomen.length, womenPage * 10 + 10));
+                            }}
+                            className="text-[11px] font-bold text-[#10A49B] hover:text-teal-700 hover:underline transition-colors py-0.5 cursor-pointer"
+                          >
+                            Mostrar más corredoras en lista continua
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+                          <span className="text-[11px] font-semibold text-stone-500">
+                            Mostrando {displayedWomen.length} de {allCountryWomen.length} corredoras
+                          </span>
+                          <div className="flex items-center gap-2">
+                            {womenAccumulate < allCountryWomen.length && (
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setWomenAccumulate((prev) =>
+                                    Math.min(allCountryWomen.length, prev + 10)
+                                  )
+                                }
+                                className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#10A49B] text-white hover:bg-teal-700 transition-colors shadow-2xs cursor-pointer"
+                              >
+                                Mostrar más (+10)
+                              </button>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setWomenMode("paged");
+                                setWomenPage(Math.max(1, Math.ceil(displayedWomen.length / 10)));
                               }}
+                              className="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-colors cursor-pointer"
                             >
-                              {getInitials(runner.name)}
-                            </div>
-                            <div className="min-w-0 flex-1 overflow-hidden">
-                              <p className="text-xs sm:text-sm text-stone-800 truncate leading-snug group-hover:text-[#10A49B] transition-colors">
-                                <span className="font-medium">{first}</span>{" "}
-                                <span className="font-black tracking-tight">{last}</span>
-                              </p>
-                              <div className="flex items-center gap-1 sm:gap-1.5 mt-0.5 whitespace-nowrap overflow-hidden">
-                                <CountryFlag code={runner.countryCode} className="w-3.5 h-3.5 flex-shrink-0" />
-                                <span className="text-[11px] font-bold text-stone-600 flex-shrink-0">
-                                  {runner.countryCode}
-                                </span>
-                                <span className="text-[10px] text-stone-400 truncate">
-                                  • {runner.distance}
-                                </span>
-                                <span className="text-[10px] text-stone-400 hidden sm:inline flex-shrink-0">
-                                  ({runner.time})
-                                </span>
-                              </div>
-                            </div>
-                          </Link>
-                          <div className="flex-shrink-0 self-center">
-                            <ScoreBadge score={runner.score} gender={runner.gender} />
+                              Modo paginado (10 por pág.)
+                            </button>
                           </div>
                         </div>
-                      );
-                    })}
+                      </>
+                    )}
                   </div>
                 )}
               </div>
 
               {/* Card HOMBRE */}
-              <div className="bg-white rounded-2xl border border-stone-200/90 shadow-sm p-3.5 sm:p-6">
-                <div className="pb-3 mb-2 border-b border-stone-100 flex justify-between items-center">
-                  <h3 className="text-xs font-black uppercase tracking-widest text-stone-800">
-                    HOMBRE
-                  </h3>
-                  <span className="text-[10px] font-bold text-stone-400 uppercase">
-                    {selectedDiscipline} • {regionTitle}
-                  </span>
+              <div className="bg-white rounded-2xl border border-stone-200/90 shadow-sm p-3.5 sm:p-6 flex flex-col justify-between">
+                <div>
+                  <div className="pb-3 mb-2 border-b border-stone-100 flex justify-between items-center">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-stone-800">
+                      HOMBRE
+                    </h3>
+                    <span className="text-[10px] font-bold text-stone-400 uppercase">
+                      {isAllSudamerica ? "Top 3" : "Top 10"} • {selectedDiscipline} • {regionTitle}
+                    </span>
+                  </div>
+
+                  {displayedMen.length === 0 ? (
+                    <p className="text-xs text-stone-400 py-8 text-center">
+                      Sin clasificados de {regionTitle} en esta categoría.
+                    </p>
+                  ) : (
+                    <div className="divide-y divide-stone-100">
+                      {displayedMen.map((runner, idx) => {
+                        const { first, last } = formatRunnerName(runner.name);
+                        const rankNumber = isAllSudamerica
+                          ? idx + 1
+                          : menMode === "accumulated"
+                          ? idx + 1
+                          : (menPage - 1) * 10 + idx + 1;
+                        return (
+                          <div
+                            key={runner.id}
+                            className="py-3 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-3"
+                          >
+                            <Link
+                              href={`/corredores?slug=${runnerSlug(runner.name)}`}
+                              className="group flex items-center gap-2.5 sm:gap-3.5 min-w-0 hover:opacity-95 flex-1 overflow-hidden"
+                            >
+                              <span className="w-5 sm:w-6 text-base sm:text-lg font-black italic text-stone-900 tabular-nums text-center flex-shrink-0">
+                                {rankNumber}
+                              </span>
+                              <div
+                                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-black text-xs sm:text-sm flex-shrink-0 border-2 shadow-sm group-hover:scale-105 transition-transform"
+                                style={{
+                                  backgroundColor: `${getPuntosAndesCategory(runner.score, runner.gender).bg}22`,
+                                  borderColor: getPuntosAndesCategory(runner.score, runner.gender).bg,
+                                  color: "#1c1917",
+                                }}
+                              >
+                                {getInitials(runner.name)}
+                              </div>
+                              <div className="min-w-0 flex-1 overflow-hidden">
+                                <p className="text-xs sm:text-sm text-stone-800 truncate leading-snug group-hover:text-[#10A49B] transition-colors">
+                                  <span className="font-medium">{first}</span>{" "}
+                                  <span className="font-black tracking-tight">{last}</span>
+                                </p>
+                                <div className="flex items-center gap-1 sm:gap-1.5 mt-0.5 whitespace-nowrap overflow-hidden">
+                                  <CountryFlag code={runner.countryCode} className="w-3.5 h-3.5 flex-shrink-0" />
+                                  <span className="text-[11px] font-bold text-stone-600 flex-shrink-0">
+                                    {runner.countryCode}
+                                  </span>
+                                  <span className="text-[10px] text-stone-400 truncate">
+                                    • {runner.distance}
+                                  </span>
+                                  <span className="text-[10px] text-stone-400 hidden sm:inline flex-shrink-0">
+                                    ({runner.time})
+                                  </span>
+                                </div>
+                              </div>
+                            </Link>
+                            <div className="flex-shrink-0 self-center">
+                              <ScoreBadge score={runner.score} gender={runner.gender} />
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
 
-                {top3Men.length === 0 ? (
-                  <p className="text-xs text-stone-400 py-8 text-center">
-                    Sin clasificados de {regionTitle} en esta categoría.
-                  </p>
-                ) : (
-                  <div className="divide-y divide-stone-100">
-                    {top3Men.map((runner, idx) => {
-                      const { first, last } = formatRunnerName(runner.name);
-                      return (
-                        <div
-                          key={runner.id}
-                          className="py-3 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-3"
-                        >
-                          <Link
-                            href={`/corredores?slug=${runnerSlug(runner.name)}`}
-                            className="group flex items-center gap-2.5 sm:gap-3.5 min-w-0 hover:opacity-95 flex-1 overflow-hidden"
+                {/* Controles de paginación y mostrar más (para ranking de país) */}
+                {!isAllSudamerica && allCountryMen.length > 10 && (
+                  <div className="pt-3.5 mt-4 border-t border-stone-100 flex flex-col gap-2.5">
+                    {menMode === "paged" ? (
+                      <>
+                        <div className="flex items-center justify-between gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setMenPage((p) => Math.max(1, p - 1))}
+                            disabled={menPage === 1}
+                            className="px-3 py-1.5 rounded-lg text-xs font-bold border border-stone-200 text-stone-700 hover:bg-stone-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
                           >
-                            <span className="w-4 sm:w-5 text-lg sm:text-xl font-black italic text-stone-900 tabular-nums text-center flex-shrink-0">
-                              {idx + 1}
-                            </span>
-                            <div
-                              className="w-9 h-9 sm:w-11 sm:h-11 rounded-full flex items-center justify-center font-black text-xs sm:text-sm flex-shrink-0 border-2 shadow-sm group-hover:scale-105 transition-transform"
-                              style={{
-                                backgroundColor: `${getPuntosAndesCategory(runner.score, runner.gender).bg}22`,
-                                borderColor: getPuntosAndesCategory(runner.score, runner.gender).bg,
-                                color: "#1c1917",
+                            ← Anterior
+                          </button>
+                          <span className="text-[11px] font-semibold text-stone-500 text-center">
+                            Pág. {menPage} de {totalMenPages}{" "}
+                            <span className="text-stone-400">({allCountryMen.length} corredores)</span>
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => setMenPage((p) => Math.min(totalMenPages, p + 1))}
+                            disabled={menPage === totalMenPages}
+                            className="px-3 py-1.5 rounded-lg text-xs font-bold border border-stone-200 text-stone-700 hover:bg-stone-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all cursor-pointer"
+                          >
+                            Siguiente página →
+                          </button>
+                        </div>
+                        <div className="flex justify-center">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setMenMode("accumulated");
+                              setMenAccumulate(Math.min(allCountryMen.length, menPage * 10 + 10));
+                            }}
+                            className="text-[11px] font-bold text-[#10A49B] hover:text-teal-700 hover:underline transition-colors py-0.5 cursor-pointer"
+                          >
+                            Mostrar más corredores en lista continua
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="flex flex-col sm:flex-row items-center justify-between gap-2">
+                          <span className="text-[11px] font-semibold text-stone-500">
+                            Mostrando {displayedMen.length} de {allCountryMen.length} corredores
+                          </span>
+                          <div className="flex items-center gap-2">
+                            {menAccumulate < allCountryMen.length && (
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  setMenAccumulate((prev) =>
+                                    Math.min(allCountryMen.length, prev + 10)
+                                  )
+                                }
+                                className="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#10A49B] text-white hover:bg-teal-700 transition-colors shadow-2xs cursor-pointer"
+                              >
+                                Mostrar más (+10)
+                              </button>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setMenMode("paged");
+                                setMenPage(Math.max(1, Math.ceil(displayedMen.length / 10)));
                               }}
+                              className="px-2.5 py-1.5 rounded-lg text-xs font-semibold text-stone-600 hover:text-stone-900 hover:bg-stone-100 transition-colors cursor-pointer"
                             >
-                              {getInitials(runner.name)}
-                            </div>
-                            <div className="min-w-0 flex-1 overflow-hidden">
-                              <p className="text-xs sm:text-sm text-stone-800 truncate leading-snug group-hover:text-[#10A49B] transition-colors">
-                                <span className="font-medium">{first}</span>{" "}
-                                <span className="font-black tracking-tight">{last}</span>
-                              </p>
-                              <div className="flex items-center gap-1 sm:gap-1.5 mt-0.5 whitespace-nowrap overflow-hidden">
-                                <CountryFlag code={runner.countryCode} className="w-3.5 h-3.5 flex-shrink-0" />
-                                <span className="text-[11px] font-bold text-stone-600 flex-shrink-0">
-                                  {runner.countryCode}
-                                </span>
-                                <span className="text-[10px] text-stone-400 truncate">
-                                  • {runner.distance}
-                                </span>
-                                <span className="text-[10px] text-stone-400 hidden sm:inline flex-shrink-0">
-                                  ({runner.time})
-                                </span>
-                              </div>
-                            </div>
-                          </Link>
-                          <div className="flex-shrink-0 self-center">
-                            <ScoreBadge score={runner.score} gender={runner.gender} />
+                              Modo paginado (10 por pág.)
+                            </button>
                           </div>
                         </div>
-                      );
-                    })}
+                      </>
+                    )}
                   </div>
                 )}
               </div>
