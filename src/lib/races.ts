@@ -311,8 +311,14 @@ export function getRace(slug: string): RaceData | undefined {
   return RACES_RAW.find((r) => r.slug === slug);
 }
 
+const COURSE_ROWS_CACHE = new Map<string, RaceResultRow[]>();
+
 /** Resultados de una prueba, ordenados por tiempo, con posición (empates comparten puesto) y puntos. */
 export function getCourseRows(race: RaceData, courseId: string): RaceResultRow[] {
+  const cacheKey = `${race.slug}:${courseId}`;
+  const cached = COURSE_ROWS_CACHE.get(cacheKey);
+  if (cached) return cached;
+
   const course = race.courses.find((c) => c.id === courseId);
   if (!course) return [];
   const rows = race.results
@@ -323,7 +329,7 @@ export function getCourseRows(race: RaceData, courseId: string): RaceResultRow[]
 
   let lastTotal = -1;
   let lastPos = 0;
-  return rows.map(({ r, t }, i) => {
+  const resultRows = rows.map(({ r, t }, i) => {
     const position = t === lastTotal ? lastPos : i + 1;
     lastTotal = t;
     lastPos = position;
@@ -343,6 +349,9 @@ export function getCourseRows(race: RaceData, courseId: string): RaceResultRow[]
       splits: r.splits,
     };
   });
+
+  COURSE_ROWS_CACHE.set(cacheKey, resultRows);
+  return resultRows;
 }
 
 /** Todos los resultados de todas las carreras cargadas, ya puntuados. */
@@ -445,103 +454,112 @@ export function getAllRunnerSlugs(): string[] {
   return Array.from(set);
 }
 
-export function getRunnerProfile(slug: string): RunnerProfile | null {
-  const canonical = resolveRunnerBySlug(slug);
-  if (!canonical) return null;
-  const targetSlug = canonical.canonicalSlug;
+interface HistoryCollector {
+  canonical: CanonicalRunner;
+  primeCountry: string;
+  primeAgeCategory: string;
+  history: RunnerRaceHistoryItem[];
+  validScores: number[];
+  totalKm: number;
+  totalDPlus: number;
+}
 
-  const matchedResults: {
-    race: RaceData;
-    course: CourseConfig;
-    raw: RaceResultRaw;
-    rowPos?: number;
-  }[] = [];
+const RUNNER_PROFILES_BY_SLUG = new Map<string, RunnerProfile>();
+
+function initProfiles(): void {
+  if (RUNNER_PROFILES_BY_SLUG.size > 0) return;
+
+  const collectors = new Map<string, HistoryCollector>();
 
   for (const race of RACES_RAW) {
     for (const course of race.courses) {
       const rows = getCourseRows(race, course.id);
       for (const row of rows) {
-        if (row.canonicalSlug === targetSlug) {
-          const raw = race.results.find(
-            (r) => r.course === course.id && getCanonicalRunner(r.name, r.sex).canonicalSlug === targetSlug
-          );
-          if (raw) {
-            matchedResults.push({ race, course, raw, rowPos: row.position });
-          }
+        const canonical = getCanonicalRunner(row.name, row.gender === "M" ? "F" : "M");
+        const cSlug = canonical.canonicalSlug;
+
+        let col = collectors.get(cSlug);
+        if (!col) {
+          col = {
+            canonical,
+            primeCountry: row.countryCode,
+            primeAgeCategory: row.ageCategory,
+            history: [],
+            validScores: [],
+            totalKm: 0,
+            totalDPlus: 0,
+          };
+          collectors.set(cSlug, col);
         }
+
+        const isPoints = course.pointsEnabled !== false;
+        let score = isPoints ? row.score : 0;
+        if (course.hasSplits && row.splits) {
+          if (row.splits.k21?.score) col.validScores.push(row.splits.k21.score);
+          if (row.splits.k42?.score) col.validScores.push(row.splits.k42.score);
+          score = Math.max(row.splits.k21?.score ?? 0, row.splits.k42?.score ?? 0);
+        } else if (score > 0) {
+          col.validScores.push(score);
+        }
+
+        col.totalKm += course.km;
+        col.totalDPlus += course.dPlus;
+
+        col.history.push({
+          id: `${race.slug}-${course.id}-${row.name}`,
+          raceSlug: race.slug,
+          raceName: race.name,
+          raceDate: race.date,
+          raceLocation: race.location,
+          raceCountryCode: getRaceCountryCode(race),
+          courseId: course.id,
+          courseLabel: course.label,
+          discipline: course.discipline,
+          time: row.time,
+          score,
+          pointsEnabled: isPoints || !!course.hasSplits,
+          hasSplits: course.hasSplits,
+          splits: row.splits,
+          km: course.km,
+          dPlus: course.dPlus,
+          terrain: course.terrain,
+          climate: course.climate,
+          position: row.position,
+        });
       }
     }
   }
 
-  if (matchedResults.length === 0) return null;
+  for (const [cSlug, col] of collectors.entries()) {
+    col.history.sort((a, b) => b.raceDate.localeCompare(a.raceDate));
+    const bestScore = col.validScores.length > 0 ? Math.max(...col.validScores) : 0;
+    const avgScore =
+      col.validScores.length > 0
+        ? Math.round(col.validScores.reduce((acc, v) => acc + v, 0) / col.validScores.length)
+        : 0;
 
-  const prime = matchedResults[0];
-  const name = canonical.canonicalName;
-  const gender: "H" | "M" = canonical.gender;
-  const countries = matchedResults.map((m) => countryCode(m.raw.country)).filter((c) => c && c !== "CHI");
-  const cCode = countries[0] || countryCode(prime.raw.country) || "CHI";
+    const profile: RunnerProfile = {
+      slug: cSlug,
+      name: col.canonical.canonicalName,
+      country: col.primeCountry,
+      countryCode: col.primeCountry,
+      gender: col.canonical.gender,
+      ageCategory: col.primeAgeCategory,
+      bestScore,
+      avgScore,
+      totalRaces: col.history.length,
+      totalKm: Math.round(col.totalKm * 10) / 10,
+      totalDPlus: Math.round(col.totalDPlus),
+      history: col.history,
+    };
 
-  const history: RunnerRaceHistoryItem[] = [];
-  const validScores: number[] = [];
-  let totalKm = 0;
-  let totalDPlus = 0;
-
-  for (const m of matchedResults) {
-    const { race, course, raw, rowPos } = m;
-    const isPoints = course.pointsEnabled !== false;
-    let score = isPoints ? scoreResult(course, raw.time) : 0;
-
-    if (course.hasSplits && raw.splits) {
-      if (raw.splits.k21?.score) validScores.push(raw.splits.k21.score);
-      if (raw.splits.k42?.score) validScores.push(raw.splits.k42.score);
-      score = Math.max(raw.splits.k21?.score ?? 0, raw.splits.k42?.score ?? 0);
-    } else if (score > 0) {
-      validScores.push(score);
-    }
-
-    totalKm += course.km;
-    totalDPlus += course.dPlus;
-
-    history.push({
-      id: `${race.slug}-${course.id}-${raw.name}`,
-      raceSlug: race.slug,
-      raceName: race.name,
-      raceDate: race.date,
-      raceLocation: race.location,
-      raceCountryCode: getRaceCountryCode(race),
-      courseId: course.id,
-      courseLabel: course.label,
-      discipline: course.discipline,
-      time: raw.time,
-      score,
-      pointsEnabled: isPoints || !!course.hasSplits,
-      hasSplits: course.hasSplits,
-      splits: raw.splits,
-      km: course.km,
-      dPlus: course.dPlus,
-      terrain: course.terrain,
-      climate: course.climate,
-      position: rowPos,
-    });
+    RUNNER_PROFILES_BY_SLUG.set(cSlug, profile);
   }
+}
 
-  history.sort((a, b) => b.raceDate.localeCompare(a.raceDate));
-
-  const bestScore = validScores.length > 0 ? Math.max(...validScores) : 0;
-  const avgScore = validScores.length > 0 ? Math.round(validScores.reduce((acc, v) => acc + v, 0) / validScores.length) : 0;
-
-  return {
-    slug: canonical.canonicalSlug,
-    name,
-    country: prime.raw.country,
-    countryCode: cCode,
-    gender,
-    ageCategory: prime.raw.ageCategory,
-    bestScore,
-    avgScore,
-    totalRaces: history.length,
-    totalKm: Math.round(totalKm * 10) / 10,
-    totalDPlus: Math.round(totalDPlus),
-    history,
-  };
+export function getRunnerProfile(slug: string): RunnerProfile | null {
+  initProfiles();
+  const canonical = resolveRunnerBySlug(slug);
+  if (!canonical) return null;
+  return RUNNER_PROFILES_BY_SLUG.get(canonical.canonicalSlug) ?? null;
 }
