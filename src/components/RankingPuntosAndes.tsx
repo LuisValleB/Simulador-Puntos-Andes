@@ -59,7 +59,7 @@ function getInitials(fullName: string) {
 export default function RankingPuntosAndes() {
   const [selectedDiscipline, setSelectedDiscipline] = useState<RankingDiscipline>("General");
   const [genderFilter, setGenderFilter] = useState<"ALL" | "M" | "H">("ALL");
-  const [nationalityFilter, setNationalityFilter] = useState<string>("ALL");
+  const [nationalityFilter, setNationalityFilter] = useState<string | null>(null);
   const [ageFilter, setAgeFilter] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [visibleCount, setVisibleCount] = useState<number>(10);
@@ -89,6 +89,7 @@ export default function RankingPuntosAndes() {
 
   // Corredores filtrados por país para el Top 3 y la clasificación general
   const countryFilteredRunners = useMemo(() => {
+    if (!nationalityFilter) return [];
     if (nationalityFilter === "ALL") return disciplineRunners;
     return disciplineRunners.filter((r) => r.countryCode === nationalityFilter);
   }, [disciplineRunners, nationalityFilter]);
@@ -171,7 +172,11 @@ export default function RankingPuntosAndes() {
             </h2>
           </div>
           <div className="flex items-center gap-2">
-            {nationalityFilter === "ALL" ? (
+            {!nationalityFilter ? (
+              <span className="text-xs font-semibold text-stone-400">
+                Ningún país seleccionado
+              </span>
+            ) : nationalityFilter === "ALL" ? (
               <span className="inline-flex items-center gap-1.5 bg-teal-50 border border-teal-200/80 text-[#10A49B] px-3 py-1 rounded-full text-xs font-bold shadow-2xs">
                 <span className="w-2 h-2 rounded-full bg-[#10A49B]" />
                 Top Sudamérica
@@ -185,26 +190,9 @@ export default function RankingPuntosAndes() {
           </div>
         </div>
 
-        {/* Banderas de Sudamérica + Botón TOP SUDAMÉRICA */}
+        {/* Banderas de Sudamérica + Botón TOP SUDAMÉRICA al final */}
         <div className="mt-5 flex flex-wrap items-center gap-2 sm:gap-2.5">
-          {/* Opción TOP SUDAMÉRICA */}
-          <button
-            type="button"
-            onClick={() => {
-              setNationalityFilter("ALL");
-              setVisibleCount(10);
-            }}
-            className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 border shadow-2xs ${
-              nationalityFilter === "ALL"
-                ? "bg-[#10A49B] text-white border-[#10A49B] shadow-sm ring-2 ring-[#10A49B]/30"
-                : "bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100 hover:border-stone-300"
-            }`}
-          >
-            <span className={`w-2 h-2 rounded-full ${nationalityFilter === "ALL" ? "bg-white" : "bg-[#10A49B]"}`} />
-            <span>TOP SUDAMÉRICA</span>
-          </button>
-
-          {/* Banderas de cada país */}
+          {/* Banderas de cada país primero */}
           {PAISES_SUDAMERICA.map((p) => {
             const isSelected = nationalityFilter === p.code;
             return (
@@ -226,11 +214,38 @@ export default function RankingPuntosAndes() {
               </button>
             );
           })}
+
+          {/* Opción TOP SUDAMÉRICA de las últimas */}
+          <button
+            type="button"
+            onClick={() => {
+              setNationalityFilter("ALL");
+              setVisibleCount(10);
+            }}
+            className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 border shadow-2xs ${
+              nationalityFilter === "ALL"
+                ? "bg-[#10A49B] text-white border-[#10A49B] shadow-sm ring-2 ring-[#10A49B]/30"
+                : "bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100 hover:border-stone-300"
+            }`}
+          >
+            <span className={`w-2 h-2 rounded-full ${nationalityFilter === "ALL" ? "bg-white" : "bg-[#10A49B]"}`} />
+            <span>TOP SUDAMÉRICA</span>
+          </button>
         </div>
+
+        {/* Mensaje de espera si no ha seleccionado país */}
+        {!nationalityFilter && (
+          <div className="mt-6 p-6 bg-stone-50 rounded-xl border border-dashed border-stone-200 text-center">
+            <p className="text-xs font-bold text-stone-600">
+              Selecciona tu país para consultar el ranking nacional o elige TOP SUDAMÉRICA para la clasificación continental.
+            </p>
+          </div>
+        )}
       </div>
 
-      {/* Main Ranking Container Card */}
-      <div className="bg-white rounded-2xl shadow-xl border border-stone-200 overflow-hidden">
+      {/* Main Ranking Container Card: solo se muestra tras seleccionar país o Top Sudamérica */}
+      {nationalityFilter && (
+        <div className="bg-white rounded-2xl shadow-xl border border-stone-200 overflow-hidden">
         {/* Top Metadata Bar */}
         <div className="flex flex-col sm:flex-row justify-between items-center px-6 py-3 bg-stone-50 border-b border-stone-200 gap-2">
           <div className="flex items-center gap-2">
@@ -445,8 +460,9 @@ export default function RankingPuntosAndes() {
           )}
         </div>
 
-        {/* ==================== PART 2: CLASIFICACIÓN OFICIAL TOP 10 SUDAMÉRICA ==================== */}
-        <div className="px-4 sm:px-8 py-9 bg-[#FDFBF7]/50">
+        {/* ==================== PART 2: CLASIFICACIÓN OFICIAL TOP 10 SUDAMÉRICA (Solo visible en Top Sudamérica) ==================== */}
+        {nationalityFilter === "ALL" && (
+          <div className="px-4 sm:px-8 py-9 bg-[#FDFBF7]/50">
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-xl sm:text-2xl font-black text-stone-900 tracking-tight">
               Clasificación oficial del Ranking Puntos Andes
@@ -721,7 +737,9 @@ export default function RankingPuntosAndes() {
             )}
           </div>
         </div>
+        )}
       </div>
+      )}
     </section>
   );
 }
