@@ -87,33 +87,44 @@ export default function RankingPuntosAndes() {
     return Array.from(bestByRunner.values()).sort((a, b) => b.score - a.score);
   }, [selectedDiscipline, season]);
 
-  // Top 3 Women & Top 3 Men for the selected discipline
+  // Corredores filtrados por país para el Top 3 y la clasificación general
+  const countryFilteredRunners = useMemo(() => {
+    if (nationalityFilter === "ALL") return disciplineRunners;
+    return disciplineRunners.filter((r) => r.countryCode === nationalityFilter);
+  }, [disciplineRunners, nationalityFilter]);
+
+  const selectedCountry = useMemo(() => {
+    return PAISES_SUDAMERICA.find((p) => p.code === nationalityFilter);
+  }, [nationalityFilter]);
+
+  const regionTitle = selectedCountry ? selectedCountry.name : "Sudamérica";
+
+  // Top 3 Women & Top 3 Men for the selected discipline and country
   const top3Women = useMemo(
-    () => disciplineRunners.filter((r) => r.gender === "M").slice(0, 3),
-    [disciplineRunners]
+    () => countryFilteredRunners.filter((r) => r.gender === "M").slice(0, 3),
+    [countryFilteredRunners]
   );
 
   const top3Men = useMemo(
-    () => disciplineRunners.filter((r) => r.gender === "H").slice(0, 3),
-    [disciplineRunners]
+    () => countryFilteredRunners.filter((r) => r.gender === "H").slice(0, 3),
+    [countryFilteredRunners]
   );
 
   // Available age categories in the current discipline
   const availableAgeCategories = useMemo(() => {
     const set = new Set<string>();
-    disciplineRunners.forEach((r) => {
+    countryFilteredRunners.forEach((r) => {
       if (r.ageCategory && r.ageCategory !== "Sin Categoria") {
         set.add(r.ageCategory);
       }
     });
     return Array.from(set).sort();
-  }, [disciplineRunners]);
+  }, [countryFilteredRunners]);
 
   // Filtered table runners for "Clasificación oficial del Ranking Puntos Andes"
   const tableRunners = useMemo(() => {
-    return disciplineRunners.filter((r) => {
+    return countryFilteredRunners.filter((r) => {
       if (genderFilter !== "ALL" && r.gender !== genderFilter) return false;
-      if (nationalityFilter !== "ALL" && r.countryCode !== nationalityFilter) return false;
       if (ageFilter !== "ALL" && r.ageCategory !== ageFilter) return false;
       if (
         searchQuery.trim() !== "" &&
@@ -123,7 +134,7 @@ export default function RankingPuntosAndes() {
       }
       return true;
     });
-  }, [disciplineRunners, genderFilter, nationalityFilter, ageFilter, searchQuery]);
+  }, [countryFilteredRunners, genderFilter, ageFilter, searchQuery]);
 
   const displayedRunners = useMemo(
     () => tableRunners.slice(0, visibleCount),
@@ -147,7 +158,77 @@ export default function RankingPuntosAndes() {
   };
 
   return (
-    <section className="w-full mt-12 space-y-10 font-sans">
+    <section className="w-full mt-8 space-y-6 font-sans">
+      {/* ==================== SELECTOR DE PAÍS / SUDAMÉRICA ==================== */}
+      <div className="bg-white rounded-2xl shadow-sm border border-stone-200/90 p-5 sm:p-7">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-stone-100">
+          <div>
+            <span className="text-[10px] font-black uppercase tracking-widest text-[#10A49B]">
+              Filtro Territorial
+            </span>
+            <h2 className="text-xl sm:text-2xl font-black text-stone-900 tracking-tight mt-0.5">
+              Selecciona tu país
+            </h2>
+          </div>
+          <div className="flex items-center gap-2">
+            {nationalityFilter === "ALL" ? (
+              <span className="inline-flex items-center gap-1.5 bg-teal-50 border border-teal-200/80 text-[#10A49B] px-3 py-1 rounded-full text-xs font-bold shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-[#10A49B]" />
+                Top Sudamérica
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-2 bg-stone-100 border border-stone-200 text-stone-800 px-3 py-1 rounded-full text-xs font-bold shadow-2xs">
+                <CountryFlag code={nationalityFilter} className="w-4 h-4 shadow-2xs" />
+                <span>Ranking {regionTitle}</span>
+              </span>
+            )}
+          </div>
+        </div>
+
+        {/* Banderas de Sudamérica + Botón TOP SUDAMÉRICA */}
+        <div className="mt-5 flex flex-wrap items-center gap-2 sm:gap-2.5">
+          {/* Opción TOP SUDAMÉRICA */}
+          <button
+            type="button"
+            onClick={() => {
+              setNationalityFilter("ALL");
+              setVisibleCount(10);
+            }}
+            className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-2 border shadow-2xs ${
+              nationalityFilter === "ALL"
+                ? "bg-[#10A49B] text-white border-[#10A49B] shadow-sm ring-2 ring-[#10A49B]/30"
+                : "bg-stone-50 text-stone-700 border-stone-200 hover:bg-stone-100 hover:border-stone-300"
+            }`}
+          >
+            <span className={`w-2 h-2 rounded-full ${nationalityFilter === "ALL" ? "bg-white" : "bg-[#10A49B]"}`} />
+            <span>TOP SUDAMÉRICA</span>
+          </button>
+
+          {/* Banderas de cada país */}
+          {PAISES_SUDAMERICA.map((p) => {
+            const isSelected = nationalityFilter === p.code;
+            return (
+              <button
+                key={p.code}
+                type="button"
+                onClick={() => {
+                  setNationalityFilter(p.code);
+                  setVisibleCount(10);
+                }}
+                className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-2 border shadow-2xs ${
+                  isSelected
+                    ? "bg-[#10A49B] text-white border-[#10A49B] shadow-sm ring-2 ring-[#10A49B]/30"
+                    : "bg-white text-stone-700 border-stone-200 hover:bg-stone-50 hover:border-stone-300"
+                }`}
+              >
+                <CountryFlag code={p.code} className="w-4.5 h-4.5 shadow-2xs" />
+                <span>{p.name}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Main Ranking Container Card */}
       <div className="bg-white rounded-2xl shadow-xl border border-stone-200 overflow-hidden">
         {/* Top Metadata Bar */}
@@ -155,7 +236,7 @@ export default function RankingPuntosAndes() {
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#10A49B]" />
             <span className="text-[11px] font-black uppercase tracking-widest text-stone-700">
-              Ranking Oficial Puntos Andes • Temporada 2026
+              Ranking Oficial Puntos Andes • {regionTitle} • Temporada 2026
             </span>
           </div>
           <Link href="/carreras" className="text-[11px] text-[#10A49B] font-bold hover:underline">
@@ -163,11 +244,11 @@ export default function RankingPuntosAndes() {
           </Link>
         </div>
 
-        {/* ==================== PART 1: TOP 3 SUDAMÉRICA ==================== */}
+        {/* ==================== PART 1: TOP 3 ==================== */}
         <div className="px-4 sm:px-8 pt-8 pb-10 border-b border-stone-200">
           <div className="text-center max-w-2xl mx-auto">
             <h2 className="text-2xl sm:text-3xl font-black text-stone-900 tracking-tight">
-              Top 3 Sudamérica
+              Top 3 {regionTitle}
             </h2>
             <div className="mt-3 flex items-center justify-center gap-1.5">
               <span className="text-[11px] font-bold uppercase tracking-widest text-stone-500">
@@ -213,12 +294,10 @@ export default function RankingPuntosAndes() {
           {top3Women.length === 0 && top3Men.length === 0 ? (
             <div className="mt-8 max-w-xl mx-auto text-center py-10 px-6 bg-stone-50 rounded-2xl border border-dashed border-stone-300">
               <p className="text-sm font-bold text-stone-700">
-                Sin resultados registrados aún en la categoría {selectedDiscipline}
+                Sin resultados registrados para {regionTitle} en la categoría {selectedDiscipline}
               </p>
               <p className="text-xs text-stone-500 mt-1">
-                Actualmente se encuentran cargados los resultados de{" "}
-                <strong>CMPC Frontera Trail 2026</strong> (General, U20, Classic Trail 15K y
-                Short Trail 40K). Próximamente se sumarán carreras de {selectedDiscipline}.
+                Prueba cambiando de modalidad o selecciona la opción TOP SUDAMÉRICA para ver la clasificación general.
               </p>
             </div>
           ) : (
@@ -230,13 +309,13 @@ export default function RankingPuntosAndes() {
                     MUJER
                   </h3>
                   <span className="text-[10px] font-bold text-stone-400 uppercase">
-                    {selectedDiscipline}
+                    {selectedDiscipline} • {regionTitle}
                   </span>
                 </div>
 
                 {top3Women.length === 0 ? (
                   <p className="text-xs text-stone-400 py-8 text-center">
-                    Sin clasificadas en esta categoría.
+                    Sin clasificadas de {regionTitle} en esta categoría.
                   </p>
                 ) : (
                   <div className="divide-y divide-stone-100">
@@ -300,13 +379,13 @@ export default function RankingPuntosAndes() {
                     HOMBRE
                   </h3>
                   <span className="text-[10px] font-bold text-stone-400 uppercase">
-                    {selectedDiscipline}
+                    {selectedDiscipline} • {regionTitle}
                   </span>
                 </div>
 
                 {top3Men.length === 0 ? (
                   <p className="text-xs text-stone-400 py-8 text-center">
-                    Sin clasificados en esta categoría.
+                    Sin clasificados de {regionTitle} en esta categoría.
                   </p>
                 ) : (
                   <div className="divide-y divide-stone-100">
