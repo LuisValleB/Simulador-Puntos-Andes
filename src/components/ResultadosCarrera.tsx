@@ -180,7 +180,7 @@ export default function ResultadosCarrera({ courses }: { courses: CourseView[] }
                     </span>
                     <CountryFlag code={r.countryCode} />
                     <Link
-                      href={`/corredores/${r.canonicalSlug || runnerSlug(r.name)}`}
+                      href={`/corredores?slug=${r.canonicalSlug || runnerSlug(r.name)}`}
                       className="font-black text-sm text-stone-900 hover:text-[#10A49B] transition-colors"
                     >
                       {r.name}
@@ -280,7 +280,7 @@ export default function ResultadosCarrera({ courses }: { courses: CourseView[] }
                     <div className="flex items-center gap-2">
                       <CountryFlag code={r.countryCode} />
                       <Link
-                        href={`/corredores/${r.canonicalSlug || runnerSlug(r.name)}`}
+                        href={`/corredores?slug=${r.canonicalSlug || runnerSlug(r.name)}`}
                         className="hover:text-[#10A49B] transition-colors"
                       >
                         {r.name}

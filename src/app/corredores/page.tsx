@@ -1,27 +1,10 @@
+"use client";
+
+import React, { Suspense, useMemo } from "react";
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import type { Metadata } from "next";
-import { getRunnerProfile, getAllRunnerSlugs } from "@/lib/races";
+import { useSearchParams } from "next/navigation";
+import { getRunnerProfile } from "@/lib/races";
 import { CountryFlag, ScoreBadge, getPuntosAndesCategory } from "@/components/CountryFlag";
-
-export function generateStaticParams() {
-  return getAllRunnerSlugs().map((slug) => ({ slug }));
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}): Promise<Metadata> {
-  const { slug } = await params;
-  const profile = getRunnerProfile(slug);
-  return {
-    title: profile ? `${profile.name} – Perfil y Resultados | Puntos Andes` : "Corredor | Puntos Andes",
-    description: profile
-      ? `Historial deportivo y puntaje Puntos Andes de ${profile.name} (${profile.countryCode}).`
-      : "Perfil de corredor en Puntos Andes",
-  };
-}
 
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/);
@@ -43,16 +26,42 @@ function formatRunnerName(fullName: string): { first: string; last: string } {
   return { first, last };
 }
 
-export default async function CorredorPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const profile = getRunnerProfile(slug);
+function CorredorContent() {
+  const searchParams = useSearchParams();
+  const slugParam = searchParams.get("slug") || searchParams.get("id") || "";
 
-  if (!profile) {
-    notFound();
+  // Support both query param (?slug=...) and client path fallback (/corredores/...)
+  const slug = useMemo(() => {
+    if (slugParam) return slugParam;
+    if (typeof window !== "undefined") {
+      const pathParts = window.location.pathname.split("/").filter(Boolean);
+      if (pathParts[0] === "corredores" && pathParts[1]) {
+        return pathParts[1];
+      }
+    }
+    return "";
+  }, [slugParam]);
+
+  const profile = useMemo(() => {
+    if (!slug) return null;
+    return getRunnerProfile(slug);
+  }, [slug]);
+
+  if (!slug || !profile) {
+    return (
+      <div className="min-h-screen bg-[#FDFBF7] text-stone-800 font-sans flex flex-col items-center justify-center p-6 text-center">
+        <h1 className="text-2xl font-black text-stone-900 mb-2">Corredor no encontrado</h1>
+        <p className="text-sm text-stone-500 mb-6">
+          No se encontró el registro para el atleta solicitado en el circuito Puntos Andes.
+        </p>
+        <Link
+          href="/"
+          className="bg-[#10A49B] text-white font-bold px-5 py-2.5 rounded-xl shadow hover:bg-teal-600 transition-colors text-xs uppercase tracking-wider"
+        >
+          ← Volver al Ranking Oficial
+        </Link>
+      </div>
+    );
   }
 
   const { first, last } = formatRunnerName(profile.name);
@@ -340,5 +349,19 @@ export default async function CorredorPage({
         © {new Date().getFullYear()} Puntos Andes. Sistema Oficial de Rendimiento Sudamericano.
       </footer>
     </div>
+  );
+}
+
+export default function CorredorPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#FDFBF7] flex items-center justify-center">
+          <p className="text-sm font-bold text-stone-400 animate-pulse">Cargando perfil...</p>
+        </div>
+      }
+    >
+      <CorredorContent />
+    </Suspense>
   );
 }

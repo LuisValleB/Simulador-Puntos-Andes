@@ -248,7 +248,7 @@ export default function RankingPuntosAndes() {
                           className="py-3 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-3"
                         >
                           <Link
-                            href={`/corredores/${runnerSlug(runner.name)}`}
+                            href={`/corredores?slug=${runnerSlug(runner.name)}`}
                             className="group flex items-center gap-2.5 sm:gap-3.5 min-w-0 hover:opacity-95 flex-1 overflow-hidden"
                           >
                             <span className="w-4 sm:w-5 text-lg sm:text-xl font-black italic text-stone-900 tabular-nums text-center flex-shrink-0">
@@ -318,7 +318,7 @@ export default function RankingPuntosAndes() {
                           className="py-3 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-3"
                         >
                           <Link
-                            href={`/corredores/${runnerSlug(runner.name)}`}
+                            href={`/corredores?slug=${runnerSlug(runner.name)}`}
                             className="group flex items-center gap-2.5 sm:gap-3.5 min-w-0 hover:opacity-95 flex-1 overflow-hidden"
                           >
                             <span className="w-4 sm:w-5 text-lg sm:text-xl font-black italic text-stone-900 tabular-nums text-center flex-shrink-0">
@@ -553,7 +553,7 @@ export default function RankingPuntosAndes() {
                           <td className="py-3.5 px-4">
                             <div className="flex items-center gap-3">
                               <Link
-                                href={`/corredores/${runnerSlug(runner.name)}`}
+                                href={`/corredores?slug=${runnerSlug(runner.name)}`}
                                 className="w-9 h-9 rounded-full flex items-center justify-center font-black text-xs flex-shrink-0 border hover:scale-105 transition-transform"
                                 style={{
                                   backgroundColor: `${cat.bg}22`,
@@ -565,7 +565,7 @@ export default function RankingPuntosAndes() {
                               </Link>
                               <div>
                                 <Link
-                                  href={`/corredores/${runnerSlug(runner.name)}`}
+                                  href={`/corredores?slug=${runnerSlug(runner.name)}`}
                                   className="text-stone-800 leading-tight hover:text-[#10A49B] transition-colors inline-block"
                                 >
                                   <span className="font-medium">{first}</span>{" "}
